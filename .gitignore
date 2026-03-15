@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 .gitignore
+/migrations
 
 # dependencies
 /node_modules
@@ -43,3 +44,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+prisma/migrations/migration_lock.toml
+prisma/migrations/20260315063814_init/migration.sql
+prisma/migrations/20260315071333_init/migration.sql
+.gitignore
