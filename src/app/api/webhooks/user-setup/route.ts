@@ -4,9 +4,13 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: NextRequest) {
     const body = await request.json()
     const data = body.data
+    // console.log(data)
     try {
+        console.log(body.type)
         switch (body.type) {
             case "user.created":
+                console.log("CREATING USER")
+
                 await prisma.user.create({
                     data: {
                         userId: data.id,
@@ -15,9 +19,11 @@ export async function POST(request: NextRequest) {
                         avatar: data.profile_image_url,
 
                         username: data.first_name,
-                        email: data.email_addresses[0].email_address,
+                        email: data.email_addresses[0]?.email_address || '',
                     },
                 });
+
+                console.log("CREATED USER")
 
                 return NextResponse.json('User Successfully Created', { status: 200 });
 
@@ -46,8 +52,10 @@ export async function POST(request: NextRequest) {
                 return NextResponse.json('User Successfully Deleted', { status: 200 });
         };
     } catch (error) {
-        return NextResponse.json('Failed to create user' + error, { status: 200 });
+        console.error(error)
+        return NextResponse.json('Failed to create user' + error, { status: 500 });
     };
 
+    console.log("CREATED USER")
     return NextResponse.json({ message: "Success", status: 200 });
 };
