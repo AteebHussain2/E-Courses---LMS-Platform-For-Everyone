@@ -14,8 +14,8 @@ model User {
   avatar    String?
 
   email       String  @unique
-  username    String? @unique
-  phonenumber Int?    @unique
+  username    String?
+  phonenumber Int?
 
   isHidden Boolean @default(true)
   alias    String?
@@ -23,5 +23,6 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([username, alias])
+  @@unique([userId, username])
+  @@unique([userId, phonenumber])
 }

@@ -283,20 +283,21 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   userId?: string
   email?: string
-  username?: string
-  phonenumber?: number
-  username_alias?: Prisma.UserUsernameAliasCompoundUniqueInput
+  userId_username?: Prisma.UserUserIdUsernameCompoundUniqueInput
+  userId_phonenumber?: Prisma.UserUserIdPhonenumberCompoundUniqueInput
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
+  username?: Prisma.StringNullableFilter<"User"> | string | null
+  phonenumber?: Prisma.IntNullableFilter<"User"> | number | null
   isHidden?: Prisma.BoolFilter<"User"> | boolean
   alias?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-}, "userId" | "userId" | "email" | "username" | "phonenumber" | "username_alias">
+}, "userId" | "userId" | "email" | "userId_username" | "userId_phonenumber">
 
 export type UserOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
@@ -432,9 +433,14 @@ export type UserUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type UserUsernameAliasCompoundUniqueInput = {
+export type UserUserIdUsernameCompoundUniqueInput = {
+  userId: string
   username: string
-  alias: string
+}
+
+export type UserUserIdPhonenumberCompoundUniqueInput = {
+  userId: string
+  phonenumber: number
 }
 
 export type UserCountOrderByAggregateInput = {
