@@ -22,7 +22,4 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@unique([userId, username])
-  @@unique([userId, phonenumber])
 }
