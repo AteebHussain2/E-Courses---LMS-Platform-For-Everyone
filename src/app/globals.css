@@ -7,8 +7,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-plus-jakarta-sans);
+  --font-body: var(--font-dm-sans);
+  --font-chat: var(--font-inder);
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-dm-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -23,8 +26,12 @@
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
+  --color-input-focus: var(--input-focus);
   --color-input: var(--input);
   --color-border: var(--border);
+  --color-border-focus: var(--border-focus);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -37,7 +44,10 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
+  --color-card-hover: var(--card-hover);
   --color-card: var(--card);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -83,37 +93,61 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --background: oklch(17.63% 0.014 258.36);
+  --foreground: oklch(96.83% 0.007 247.90);
+  --glass-bg: oklch(100.00% 0.000 0 / 6%);
+  --glass-border: oklch(100.00% 0.000 0 / 9%);
+  --card: oklch(21.01% 0.032 264.66);
+  --card-hover: oklch(25.46% 0.040 266.94);
+  --card-foreground: oklch(96.83% 0.007 247.90);
+  --tooltip: oklch(29.60% 0.048 259.50);
+  --popover: oklch(29.60% 0.048 259.50);
+  --popover-foreground: oklch(96.83% 0.007 247.90);
+  --primary: oklch(50.50% 0.212 262.89);
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --secondary: oklch(71.07% 0.035 256.79);
+  --secondary-foreground: oklch(96.83% 0.007 247.90);
+  --muted: oklch(44.55% 0.037 257.28);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: oklch(71.37% 0.143 254.62);
+  --accent-foreground: oklch(96.83% 0.007 247.90);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(27.81% 0.030 256.85);
+  --border-subtle: oklch(24.34% 0.038 261.69);
+  --border-strong: oklch(36.22% 0.045 253.88);
+  --border-focus: oklch(50.50% 0.212 262.89);
+  --input: oklch(20.01% 0.028 262.33);
+  --input-focus: oklch(23.03% 0.036 260.65);
+  --ring: oklch(50.50% 0.212 262.89);
   --chart-1: oklch(0.809 0.105 251.813);
   --chart-2: oklch(0.623 0.214 259.815);
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar: oklch(17.21% 0.032 268.88);
+  --sidebar-foreground: oklch(96.83% 0.007 247.90);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-primary-foreground: oklch(96.83% 0.007 247.90);
+  --sidebar-accent: oklch(100.00% 0.000 0 / 6%);
+  --sidebar-accent-foreground: oklch(96.83% 0.007 247.90);
+  --sidebar-border: oklch(27.81% 0.030 256.85);
+  --sidebar-ring: oklch(50.50% 0.212 262.89);
+}
+
+.heading {
+  font-family: var(--font-plus-jakarta-sans);
+}
+
+.body {
+  font-family: var(--font-dm-sans);
+}
+
+.chat {
+  font-family: var(--font-inder);
+}
+
+.mono {
+  font-family: var(--font-dm-mono);
 }
 
 /* @layer base {

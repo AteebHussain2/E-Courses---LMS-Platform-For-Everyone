@@ -12,14 +12,86 @@ model User {
   firstName String
   lastName  String?
   avatar    String?
+  email     String  @unique
 
-  email       String  @unique
-  username    String?
-  phonenumber Int?
+  userInfo         UserInfo?
+  communityInvites CommunityInvite[]
+  communities      CommunityMember[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model UserInfo {
+  userId      String @id @unique
+  username    String @unique
+  phonenumber String @unique
 
   isHidden Boolean @default(true)
   alias    String?
 
+  user User @relation(fields: [userId], references: [userId], onDelete: NoAction)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Community {
+  id   String  @id @unique @default(cuid())
+  name String
+  slug String  @unique
+  logo String?
+
+  communityMembers CommunityMember[]
+  communityInvites CommunityInvite[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model CommunityMember {
+  id          String @id @unique @default(cuid())
+  userId      String
+  communityId String
+
+  role Role @default(STUDENT)
+
+  community Community @relation(fields: [communityId], references: [id], onDelete: NoAction)
+  user      User      @relation(fields: [userId], references: [userId], onDelete: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, communityId])
+  @@index([userId])
+  @@index([communityId])
+}
+
+model CommunityInvite {
+  id          String @id @unique @default(cuid())
+  communityId String
+  inviterId   String
+
+  limit Int @default(10)
+  joins Int @default(0)
+
+  community Community @relation(fields: [communityId], references: [id], onDelete: NoAction)
+  inviter   User      @relation(fields: [inviterId], references: [userId], onDelete: NoAction)
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([communityId])
+  @@index([inviterId])
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MODERATOR
+  INSTRUCTOR
+  STUDENT
 }
