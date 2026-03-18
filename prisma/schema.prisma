@@ -38,10 +38,13 @@ model UserInfo {
 }
 
 model Community {
-  id   String  @id @unique @default(cuid())
+  id   String @id @unique @default(cuid())
+  slug String @unique
   name String
-  slug String  @unique
-  logo String?
+
+  logo        String?
+  description String?
+  slogan      String?
 
   communityMembers CommunityMember[]
   communityInvites CommunityInvite[]

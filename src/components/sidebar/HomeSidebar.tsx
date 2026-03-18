@@ -3,19 +3,32 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenu, SidebarMenuAction, SidebarMenuButton, SidebarMenuItem, SidebarRail } from "../ui/sidebar";
 import { LogIn, LucideIcon, User2 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
-import { getRoutes } from "@/lib/route";
 import { cn, getUrl } from "@/lib/utils";
-import Link from "next/link";
+import { getRoutes } from "@/lib/route";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 
-const HomeSidebar = ({ slug, name }: { slug: string, name: string }) => {
+interface Props {
+    slug: string,
+    name: string,
+    logo: string | null
+}
+
+const HomeSidebar = ({ slug, name, logo }: Props) => {
     const routes = getRoutes(slug);
     const path = usePathname();
 
     return (
         <Sidebar collapsible="icon" className="border-none! py-6 px-2.5 gap-4.5 font-heading">
-            <SidebarHeader>
+            <SidebarHeader className="flex! flex-row! items-center gap-0!">
+                {logo && <Image
+                    width={28}
+                    height={28}
+                    alt={name}
+                    src={logo}
+                    className="ml-3 rounded-xs"
+                />}
                 <h1 className="pl-3 font-semibold text-2xl text-foreground">
                     {name}
                 </h1>

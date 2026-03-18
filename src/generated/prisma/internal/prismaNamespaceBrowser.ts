@@ -103,9 +103,11 @@ export type UserInfoScalarFieldEnum = (typeof UserInfoScalarFieldEnum)[keyof typ
 
 export const CommunityScalarFieldEnum = {
   id: 'id',
-  name: 'name',
   slug: 'slug',
+  name: 'name',
   logo: 'logo',
+  description: 'description',
+  slogan: 'slogan',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
