@@ -4,9 +4,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { SidebarItem, SidebarUserItem } from "./SidebarItem";
 import { Role } from "@/generated/prisma/enums";
 import { usePathname } from "next/navigation";
-import { getRoutes } from "@/lib/routes";
+import { ownerRoutes } from "@/lib/routes";
 import Image from "next/image";
-import { RouteType } from "@/lib/types";
 
 interface Props {
     slug: string,
@@ -16,11 +15,11 @@ interface Props {
 }
 
 const AdminSidebar = ({ slug, name, logo, role }: Props) => {
-    const routes = getRoutes(slug, role);
+    const routes = ownerRoutes(slug);
     const path = usePathname();
 
     return (
-        <Sidebar collapsible="icon" className="border-none! pt-6! px-2.5! gap-4.5! font-heading">
+        <Sidebar collapsible="icon" className="border-none! pt-4! px-1! gap-4.5! font-heading">
             <SidebarHeader className="flex! flex-row! items-center gap-0!">
                 {logo && <Image
                     width={28}
@@ -36,24 +35,53 @@ const AdminSidebar = ({ slug, name, logo, role }: Props) => {
 
             <SidebarContent className="p-0! gap-4.5!">
                 {routes.map(route => (
-                    route.type === RouteType.GROUP ? (
-                        <SidebarGroup key={route.label} className="px-2! py-0! gap-1!">
-                            <SidebarGroupLabel className="pl-3 pt-3.5 font-extrabold text-[0.625rem] text-muted">
-                                {route.label}
-                            </SidebarGroupLabel>
-                            <SidebarGroupContent>
-                                <SidebarMenu className="gap-2!">
-                                    {route.routes?.map(item => (
-                                        <SidebarItem key={item.href} route={item} path={path} />
-                                    ))}
-                                </SidebarMenu>
-                            </SidebarGroupContent>
-                        </SidebarGroup>
-                    ) : route.type === RouteType.COLLAPSIBLE ? (
-                        <></>
-                    ) : (
-                        <></>
-                    )
+                    <SidebarGroup key={route.label} className="px-2! py-0! gap-1!">
+                        <SidebarGroupLabel className="pl-6! pt-3.5! font-bold text-[0.65rem] text-muted">
+                            {route.label}
+                        </SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <SidebarMenu className="gap-2!">
+                                {route && route.routes?.map(item =>
+                                    <SidebarItem key={item.href} route={item} path={path} />
+                                )}
+                                {/* {route.type === RouteType.COLLAPSIBLE && route.routes?.map((item, index) => {
+                                    const initialOpenAccordions = useMemo(() => {
+                                        let active: string = "";
+                                        if (item?.subRoutes?.length !== 0 && item.subRoutes?.some(child => child.href === path)) {
+                                            active = route.label;
+                                        }
+                                        return active;
+                                    }, [path]);
+
+                                    const [activeAccordion, setActiveAccordion] = useState<string>(initialOpenAccordions);
+
+                                    const getActiveAccordionName = () => {
+                                        if (item?.subRoutes?.length !== 0 && item.subRoutes?.some(child => child.href === path)) {
+                                            return route.label;
+                                        }
+                                        return null;
+                                    };
+
+                                    useEffect(() => {
+                                        const name = getActiveAccordionName();
+                                        setActiveAccordion(name!);
+                                    }, [path]);
+
+                                    return (
+                                        <Accordion
+                                            key={index}
+                                            type="single"
+                                            defaultValue={activeAccordion}
+                                            className="py-0! gap-1!"
+                                        >
+                                            <SidebarCollapsibleItem key={index} activeAccordion={activeAccordion} route={item} path={path} />
+                                        </Accordion>
+                                    )
+                                }
+                                )} */}
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
                 ))}
             </SidebarContent>
 

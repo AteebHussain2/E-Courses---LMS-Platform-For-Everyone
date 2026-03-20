@@ -21,17 +21,20 @@ const studentRoutes = (slug: string) => [
             {
                 href: `/${slug}/home`,
                 label: 'Home',
-                icon: Home
+                icon: Home,
+                subRoutes: []
             },
             {
                 href: `/${slug}/courses`,
                 label: 'Courses',
-                icon: BookOpen
+                icon: BookOpen,
+                subRoutes: []
             },
             {
                 href: `/${slug}/sessions`,
                 label: 'Sessions',
-                icon: Video
+                icon: Video,
+                subRoutes: []
             },
         ],
     },
@@ -42,17 +45,20 @@ const studentRoutes = (slug: string) => [
             {
                 href: `/${slug}/dashboard`,
                 label: 'Dashboard',
-                icon: LayoutDashboard
+                icon: LayoutDashboard,
+                subRoutes: []
             },
             {
                 href: `/${slug}/library`,
                 label: 'My Library',
-                icon: Library
+                icon: Library,
+                subRoutes: []
             },
             {
                 href: `/${slug}/community/general`,
                 label: 'Community',
-                icon: MessageSquareMore
+                icon: MessageSquareMore,
+                subRoutes: []
             },
         ],
     },
@@ -63,18 +69,20 @@ const studentRoutes = (slug: string) => [
             {
                 href: `/${slug}/ai`,
                 label: 'AI Tutor',
-                icon: Sparkles
+                icon: Sparkles,
+                subRoutes: []
             },
             {
                 href: `/${slug}/analytics`,
                 label: 'Admin',
-                icon: Lock
+                icon: Lock,
+                subRoutes: []
             },
         ],
     },
 ];
 
-const ownerRoutes = (slug: string) => {
+export const ownerRoutes = (slug: string) => {
     return [
         {
             type: RouteType.GROUP,
@@ -83,38 +91,71 @@ const ownerRoutes = (slug: string) => {
                 {
                     href: `/${slug}/home`,
                     label: 'Home',
-                    icon: Home
+                    icon: Home,
+                    subRoutes: []
                 },
                 {
                     href: `/${slug}/community/general`,
                     label: 'Community',
-                    icon: MessageSquareMore
+                    icon: MessageSquareMore,
+                    subRoutes: []
                 },
                 {
-                    href: `/${slug}/analytics`,
+                    href: `/${slug}/admin/analytics`,
                     label: 'Analytics',
-                    icon: LayoutDashboard
+                    icon: LayoutDashboard,
+                    subRoutes: []
                 },
             ],
         },
         {
-            type: RouteType.GROUP,
+            type: RouteType.COLLAPSIBLE,
             label: 'CONTENT',
             routes: [
                 {
-                    href: `/${slug}/courses`,
+                    href: `/${slug}/admin/courses`,
                     label: 'Courses',
-                    icon: BookOpen
+                    icon: BookOpen,
+                    subRoutes: [
+                        {
+                            href: `/${slug}/admin/courses`,
+                            label: 'View Courses'
+                        },
+                        {
+                            href: `/${slug}/admin/courses/add`,
+                            label: 'New Course'
+                        }
+                    ]
                 },
                 {
-                    href: `/${slug}/sessions`,
+                    href: `/${slug}/admin/sessions`,
                     label: 'Sessions',
-                    icon: Video
+                    icon: Video,
+                    subRoutes: [
+                        {
+                            href: `/${slug}/admin/sessions`,
+                            label: 'View Sessions'
+                        },
+                        {
+                            href: `/${slug}/admin/sessions/add`,
+                            label: 'New Session'
+                        }
+                    ]
                 },
                 {
-                    href: `/${slug}/posts`,
+                    href: `/${slug}/admin/posts`,
                     label: 'Posts',
-                    icon: IdCard
+                    icon: IdCard,
+                    subRoutes: [
+                        {
+                            href: `/${slug}/posts`,
+                            label: 'View Posts'
+                        },
+                        {
+                            href: `/${slug}/posts/add`,
+                            label: 'Add Post'
+                        },
+                    ],
                 },
             ]
         },
@@ -123,14 +164,16 @@ const ownerRoutes = (slug: string) => {
             label: 'MEMBERS',
             routes: [
                 {
-                    href: `/${slug}/students`,
+                    href: `/${slug}/admin/students`,
                     label: 'Students',
-                    icon: GraduationCap
+                    icon: GraduationCap,
+                    subRoutes: []
                 },
                 {
-                    href: `/${slug}/team`,
+                    href: `/${slug}/admin/team`,
                     label: 'Team',
-                    icon: Users2
+                    icon: Users2,
+                    subRoutes: []
                 },
             ],
         },
@@ -139,14 +182,16 @@ const ownerRoutes = (slug: string) => {
             label: 'TOOLS',
             routes: [
                 {
-                    href: `/${slug}/invites`,
+                    href: `/${slug}/admin/invites`,
                     label: 'Invites',
-                    icon: UserPlus2
+                    icon: UserPlus2,
+                    subRoutes: []
                 },
                 {
-                    href: `/${slug}/settings`,
+                    href: `/${slug}/admin/settings`,
                     label: 'Settings',
-                    icon: Settings
+                    icon: Settings,
+                    subRoutes: []
                 },
             ],
         },
