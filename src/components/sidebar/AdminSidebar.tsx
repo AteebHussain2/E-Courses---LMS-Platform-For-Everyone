@@ -4,7 +4,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupConte
 import { SidebarItem, SidebarUserItem } from "./SidebarItem";
 import { Role } from "@/generated/prisma/enums";
 import { usePathname } from "next/navigation";
-import { ownerRoutes } from "@/lib/routes";
+import { getRoutes } from "@/lib/routes";
 import Image from "next/image";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const AdminSidebar = ({ slug, name, logo, role }: Props) => {
-    const routes = ownerRoutes(slug);
+    const routes = getRoutes(slug, role);
     const path = usePathname();
 
     return (

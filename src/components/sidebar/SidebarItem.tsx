@@ -18,7 +18,6 @@ export const SidebarItem = ({ route, path }: {
     path: string,
 }) => {
     const isActiveRoute = (route: string) => {
-        console.log(path.split('/')[3], route.split('/')[3])
         if (path.split('/')[3] == route.split('/')[3])
             return true;
         return false;
