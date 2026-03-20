@@ -8,15 +8,18 @@ datasource db {
 }
 
 model User {
-  userId    String  @id @unique
+  userId    String  @id
   firstName String
   lastName  String?
   avatar    String?
   email     String  @unique
 
-  userInfo         UserInfo?
-  communityInvites CommunityInvite[]
-  communities      CommunityMember[]
+  userInfo          UserInfo?
+  communityInvites  CommunityInvite[]
+  communities       CommunityMember[]
+  watchProgresses   WatchProgress[]
+  enrollments       Enrollment[]
+  lessonCompletions LessonCompletion[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -24,21 +27,21 @@ model User {
 }
 
 model UserInfo {
-  userId      String @id @unique
+  userId      String @id
   username    String @unique
   phonenumber String @unique
 
   isHidden Boolean @default(true)
-  alias    String?
+  alias    String
 
-  user User @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Community {
-  id   String @id @unique @default(cuid())
+  id   String @id @default(cuid())
   slug String @unique
   name String
 
@@ -48,6 +51,8 @@ model Community {
 
   communityMembers CommunityMember[]
   communityInvites CommunityInvite[]
+  courses          Course[]
+  sessions         Session[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -55,14 +60,14 @@ model Community {
 }
 
 model CommunityMember {
-  id          String @id @unique @default(cuid())
+  id          String @id @default(cuid())
   userId      String
   communityId String
 
   role Role @default(STUDENT)
 
-  community Community @relation(fields: [communityId], references: [id], onDelete: NoAction)
-  user      User      @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,22 +78,208 @@ model CommunityMember {
 }
 
 model CommunityInvite {
-  id          String @id @unique @default(cuid())
+  id          String  @id @default(cuid())
+  token       String  @unique @default(nanoid())
   communityId String
-  inviterId   String
+  inviterId   String?
 
-  limit Int @default(10)
-  joins Int @default(0)
+  limit Int? @default(10)
+  joins Int  @default(0)
 
-  community Community @relation(fields: [communityId], references: [id], onDelete: NoAction)
-  inviter   User      @relation(fields: [inviterId], references: [userId], onDelete: NoAction)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  inviter   User?     @relation(fields: [inviterId], references: [userId], onDelete: SetNull)
 
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@index([communityId])
   @@index([inviterId])
+}
+
+model Course {
+  id          String  @id @default(cuid())
+  slug        String
+  title       String
+  description String?
+  isActive    Boolean @default(false)
+
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Restrict)
+
+  modules Module[]
+
+  deletedAt   DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments Enrollment[]
+
+  @@unique([slug, communityId])
+}
+
+model Module {
+  id    String @id @default(cuid())
+  title String
+  slug  String
+  index Float
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessons Lesson[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([slug, courseId])
+  @@unique([courseId, index])
+}
+
+model Lesson {
+  id    String     @id @default(cuid())
+  slug  String
+  title String
+  index Float
+  type  LessonType
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  sessionId String?  @unique
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+  video Video?
+
+  deletedAt         DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  lessonCompletions LessonCompletion[]
+
+  @@unique([moduleId, index])
+  @@unique([moduleId, slug])
+  @@index([moduleId])
+}
+
+model Session {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  scheduledAt  DateTime
+  duration     Int?
+  platformLink String?
+  status       SessionStatus @default(UPCOMING)
+
+  lesson Lesson?
+
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  recording Recording?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([communityId])
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+model Video {
+  id          String  @id @default(cuid())
+  description String?
+  videoUrl    String?
+  fileKey     String?
+  duration    Int?
+
+  lessonId String @unique
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  watchProgress WatchProgress[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Recording {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  videoUrl    String? // YouTube
+  fileKey     String? // B2 Upload
+  duration    Int?
+  chapters    Json?
+
+  sessionId String  @unique
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  watchProgress WatchProgress[]
+
+  deletedAt   DateTime?
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model WatchProgress {
+  id      String @id @default(cuid())
+  percent Int    @default(0)
+
+  completedAt   DateTime?
+  lastWatchedAt DateTime  @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  videoId String?
+  video   Video?  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  recordingId String?
+  recording   Recording? @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, videoId])
+  @@unique([userId, recordingId])
+  @@index([userId])
+}
+
+model LessonCompletion {
+  id          String   @id @default(cuid())
+  completedAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+model Enrollment {
+  id          String    @id @default(cuid())
+  enrolledAt  DateTime  @default(now())
+  completedAt DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
 }
 
 enum Role {
@@ -97,4 +288,16 @@ enum Role {
   MODERATOR
   INSTRUCTOR
   STUDENT
+}
+
+enum SessionStatus {
+  UPCOMING
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum LessonType {
+  VIDEO
+  SESSION
 }

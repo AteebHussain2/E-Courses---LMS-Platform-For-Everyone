@@ -216,6 +216,8 @@ export type CommunityWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Community"> | Date | string
   communityMembers?: Prisma.CommunityMemberListRelationFilter
   communityInvites?: Prisma.CommunityInviteListRelationFilter
+  courses?: Prisma.CourseListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
 }
 
 export type CommunityOrderByWithRelationInput = {
@@ -230,6 +232,8 @@ export type CommunityOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   communityMembers?: Prisma.CommunityMemberOrderByRelationAggregateInput
   communityInvites?: Prisma.CommunityInviteOrderByRelationAggregateInput
+  courses?: Prisma.CourseOrderByRelationAggregateInput
+  sessions?: Prisma.SessionOrderByRelationAggregateInput
 }
 
 export type CommunityWhereUniqueInput = Prisma.AtLeast<{
@@ -247,7 +251,9 @@ export type CommunityWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Community"> | Date | string
   communityMembers?: Prisma.CommunityMemberListRelationFilter
   communityInvites?: Prisma.CommunityInviteListRelationFilter
-}, "id" | "id" | "slug">
+  courses?: Prisma.CourseListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
+}, "id" | "slug">
 
 export type CommunityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -291,6 +297,8 @@ export type CommunityCreateInput = {
   updatedAt?: Date | string
   communityMembers?: Prisma.CommunityMemberCreateNestedManyWithoutCommunityInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityUncheckedCreateInput = {
@@ -305,6 +313,8 @@ export type CommunityUncheckedCreateInput = {
   updatedAt?: Date | string
   communityMembers?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityUpdateInput = {
@@ -319,6 +329,8 @@ export type CommunityUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityMembers?: Prisma.CommunityMemberUpdateManyWithoutCommunityNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutCommunityNestedInput
 }
 
 export type CommunityUncheckedUpdateInput = {
@@ -333,6 +345,8 @@ export type CommunityUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityMembers?: Prisma.CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutCommunityNestedInput
 }
 
 export type CommunityCreateManyInput = {
@@ -440,6 +454,34 @@ export type CommunityUpdateOneRequiredWithoutCommunityInvitesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CommunityUpdateToOneWithWhereWithoutCommunityInvitesInput, Prisma.CommunityUpdateWithoutCommunityInvitesInput>, Prisma.CommunityUncheckedUpdateWithoutCommunityInvitesInput>
 }
 
+export type CommunityCreateNestedOneWithoutCoursesInput = {
+  create?: Prisma.XOR<Prisma.CommunityCreateWithoutCoursesInput, Prisma.CommunityUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.CommunityCreateOrConnectWithoutCoursesInput
+  connect?: Prisma.CommunityWhereUniqueInput
+}
+
+export type CommunityUpdateOneRequiredWithoutCoursesNestedInput = {
+  create?: Prisma.XOR<Prisma.CommunityCreateWithoutCoursesInput, Prisma.CommunityUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.CommunityCreateOrConnectWithoutCoursesInput
+  upsert?: Prisma.CommunityUpsertWithoutCoursesInput
+  connect?: Prisma.CommunityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommunityUpdateToOneWithWhereWithoutCoursesInput, Prisma.CommunityUpdateWithoutCoursesInput>, Prisma.CommunityUncheckedUpdateWithoutCoursesInput>
+}
+
+export type CommunityCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.CommunityCreateWithoutSessionsInput, Prisma.CommunityUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.CommunityCreateOrConnectWithoutSessionsInput
+  connect?: Prisma.CommunityWhereUniqueInput
+}
+
+export type CommunityUpdateOneRequiredWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.CommunityCreateWithoutSessionsInput, Prisma.CommunityUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.CommunityCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.CommunityUpsertWithoutSessionsInput
+  connect?: Prisma.CommunityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommunityUpdateToOneWithWhereWithoutSessionsInput, Prisma.CommunityUpdateWithoutSessionsInput>, Prisma.CommunityUncheckedUpdateWithoutSessionsInput>
+}
+
 export type CommunityCreateWithoutCommunityMembersInput = {
   id?: string
   slug: string
@@ -451,6 +493,8 @@ export type CommunityCreateWithoutCommunityMembersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityUncheckedCreateWithoutCommunityMembersInput = {
@@ -464,6 +508,8 @@ export type CommunityUncheckedCreateWithoutCommunityMembersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityCreateOrConnectWithoutCommunityMembersInput = {
@@ -493,6 +539,8 @@ export type CommunityUpdateWithoutCommunityMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutCommunityNestedInput
 }
 
 export type CommunityUncheckedUpdateWithoutCommunityMembersInput = {
@@ -506,6 +554,8 @@ export type CommunityUncheckedUpdateWithoutCommunityMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutCommunityNestedInput
 }
 
 export type CommunityCreateWithoutCommunityInvitesInput = {
@@ -519,6 +569,8 @@ export type CommunityCreateWithoutCommunityInvitesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   communityMembers?: Prisma.CommunityMemberCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityUncheckedCreateWithoutCommunityInvitesInput = {
@@ -532,6 +584,8 @@ export type CommunityUncheckedCreateWithoutCommunityInvitesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   communityMembers?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutCommunityInput
 }
 
 export type CommunityCreateOrConnectWithoutCommunityInvitesInput = {
@@ -561,6 +615,8 @@ export type CommunityUpdateWithoutCommunityInvitesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityMembers?: Prisma.CommunityMemberUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutCommunityNestedInput
 }
 
 export type CommunityUncheckedUpdateWithoutCommunityInvitesInput = {
@@ -574,6 +630,160 @@ export type CommunityUncheckedUpdateWithoutCommunityInvitesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityMembers?: Prisma.CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutCommunityNestedInput
+}
+
+export type CommunityCreateWithoutCoursesInput = {
+  id?: string
+  slug: string
+  name: string
+  logo?: string | null
+  description?: string | null
+  slogan?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  communityMembers?: Prisma.CommunityMemberCreateNestedManyWithoutCommunityInput
+  communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutCommunityInput
+}
+
+export type CommunityUncheckedCreateWithoutCoursesInput = {
+  id?: string
+  slug: string
+  name: string
+  logo?: string | null
+  description?: string | null
+  slogan?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  communityMembers?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+  communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutCommunityInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutCommunityInput
+}
+
+export type CommunityCreateOrConnectWithoutCoursesInput = {
+  where: Prisma.CommunityWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommunityCreateWithoutCoursesInput, Prisma.CommunityUncheckedCreateWithoutCoursesInput>
+}
+
+export type CommunityUpsertWithoutCoursesInput = {
+  update: Prisma.XOR<Prisma.CommunityUpdateWithoutCoursesInput, Prisma.CommunityUncheckedUpdateWithoutCoursesInput>
+  create: Prisma.XOR<Prisma.CommunityCreateWithoutCoursesInput, Prisma.CommunityUncheckedCreateWithoutCoursesInput>
+  where?: Prisma.CommunityWhereInput
+}
+
+export type CommunityUpdateToOneWithWhereWithoutCoursesInput = {
+  where?: Prisma.CommunityWhereInput
+  data: Prisma.XOR<Prisma.CommunityUpdateWithoutCoursesInput, Prisma.CommunityUncheckedUpdateWithoutCoursesInput>
+}
+
+export type CommunityUpdateWithoutCoursesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  communityMembers?: Prisma.CommunityMemberUpdateManyWithoutCommunityNestedInput
+  communityInvites?: Prisma.CommunityInviteUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutCommunityNestedInput
+}
+
+export type CommunityUncheckedUpdateWithoutCoursesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  communityMembers?: Prisma.CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+  communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutCommunityNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutCommunityNestedInput
+}
+
+export type CommunityCreateWithoutSessionsInput = {
+  id?: string
+  slug: string
+  name: string
+  logo?: string | null
+  description?: string | null
+  slogan?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  communityMembers?: Prisma.CommunityMemberCreateNestedManyWithoutCommunityInput
+  communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseCreateNestedManyWithoutCommunityInput
+}
+
+export type CommunityUncheckedCreateWithoutSessionsInput = {
+  id?: string
+  slug: string
+  name: string
+  logo?: string | null
+  description?: string | null
+  slogan?: string | null
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  communityMembers?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+  communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutCommunityInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutCommunityInput
+}
+
+export type CommunityCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.CommunityWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommunityCreateWithoutSessionsInput, Prisma.CommunityUncheckedCreateWithoutSessionsInput>
+}
+
+export type CommunityUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.CommunityUpdateWithoutSessionsInput, Prisma.CommunityUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.CommunityCreateWithoutSessionsInput, Prisma.CommunityUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.CommunityWhereInput
+}
+
+export type CommunityUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.CommunityWhereInput
+  data: Prisma.XOR<Prisma.CommunityUpdateWithoutSessionsInput, Prisma.CommunityUncheckedUpdateWithoutSessionsInput>
+}
+
+export type CommunityUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  communityMembers?: Prisma.CommunityMemberUpdateManyWithoutCommunityNestedInput
+  communityInvites?: Prisma.CommunityInviteUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutCommunityNestedInput
+}
+
+export type CommunityUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  communityMembers?: Prisma.CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+  communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutCommunityNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutCommunityNestedInput
 }
 
 
@@ -584,11 +794,15 @@ export type CommunityUncheckedUpdateWithoutCommunityInvitesInput = {
 export type CommunityCountOutputType = {
   communityMembers: number
   communityInvites: number
+  courses: number
+  sessions: number
 }
 
 export type CommunityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   communityMembers?: boolean | CommunityCountOutputTypeCountCommunityMembersArgs
   communityInvites?: boolean | CommunityCountOutputTypeCountCommunityInvitesArgs
+  courses?: boolean | CommunityCountOutputTypeCountCoursesArgs
+  sessions?: boolean | CommunityCountOutputTypeCountSessionsArgs
 }
 
 /**
@@ -615,6 +829,20 @@ export type CommunityCountOutputTypeCountCommunityInvitesArgs<ExtArgs extends ru
   where?: Prisma.CommunityInviteWhereInput
 }
 
+/**
+ * CommunityCountOutputType without action
+ */
+export type CommunityCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CourseWhereInput
+}
+
+/**
+ * CommunityCountOutputType without action
+ */
+export type CommunityCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionWhereInput
+}
+
 
 export type CommunitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -628,6 +856,8 @@ export type CommunitySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
   communityMembers?: boolean | Prisma.Community$communityMembersArgs<ExtArgs>
   communityInvites?: boolean | Prisma.Community$communityInvitesArgs<ExtArgs>
+  courses?: boolean | Prisma.Community$coursesArgs<ExtArgs>
+  sessions?: boolean | Prisma.Community$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CommunityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["community"]>
 
@@ -671,6 +901,8 @@ export type CommunityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CommunityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   communityMembers?: boolean | Prisma.Community$communityMembersArgs<ExtArgs>
   communityInvites?: boolean | Prisma.Community$communityInvitesArgs<ExtArgs>
+  courses?: boolean | Prisma.Community$coursesArgs<ExtArgs>
+  sessions?: boolean | Prisma.Community$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.CommunityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CommunityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -681,6 +913,8 @@ export type $CommunityPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     communityMembers: Prisma.$CommunityMemberPayload<ExtArgs>[]
     communityInvites: Prisma.$CommunityInvitePayload<ExtArgs>[]
+    courses: Prisma.$CoursePayload<ExtArgs>[]
+    sessions: Prisma.$SessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1088,6 +1322,8 @@ export interface Prisma__CommunityClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   communityMembers<T extends Prisma.Community$communityMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Community$communityMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   communityInvites<T extends Prisma.Community$communityInvitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Community$communityInvitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  courses<T extends Prisma.Community$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Community$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.Community$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Community$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1564,6 +1800,54 @@ export type Community$communityInvitesArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.CommunityInviteScalarFieldEnum | Prisma.CommunityInviteScalarFieldEnum[]
+}
+
+/**
+ * Community.courses
+ */
+export type Community$coursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Course
+   */
+  select?: Prisma.CourseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Course
+   */
+  omit?: Prisma.CourseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CourseInclude<ExtArgs> | null
+  where?: Prisma.CourseWhereInput
+  orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[]
+  cursor?: Prisma.CourseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
+}
+
+/**
+ * Community.sessions
+ */
+export type Community$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Session
+   */
+  select?: Prisma.SessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Session
+   */
+  omit?: Prisma.SessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionInclude<ExtArgs> | null
+  where?: Prisma.SessionWhereInput
+  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
+  cursor?: Prisma.SessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
 }
 
 /**

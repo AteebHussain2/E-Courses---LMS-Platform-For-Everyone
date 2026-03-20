@@ -164,7 +164,7 @@ export type UserInfoGroupByOutputType = {
   username: string
   phonenumber: string
   isHidden: boolean
-  alias: string | null
+  alias: string
   createdAt: Date
   updatedAt: Date
   _count: UserInfoCountAggregateOutputType | null
@@ -195,7 +195,7 @@ export type UserInfoWhereInput = {
   username?: Prisma.StringFilter<"UserInfo"> | string
   phonenumber?: Prisma.StringFilter<"UserInfo"> | string
   isHidden?: Prisma.BoolFilter<"UserInfo"> | boolean
-  alias?: Prisma.StringNullableFilter<"UserInfo"> | string | null
+  alias?: Prisma.StringFilter<"UserInfo"> | string
   createdAt?: Prisma.DateTimeFilter<"UserInfo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserInfo"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -206,7 +206,7 @@ export type UserInfoOrderByWithRelationInput = {
   username?: Prisma.SortOrder
   phonenumber?: Prisma.SortOrder
   isHidden?: Prisma.SortOrder
-  alias?: Prisma.SortOrderInput | Prisma.SortOrder
+  alias?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -220,18 +220,18 @@ export type UserInfoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserInfoWhereInput[]
   NOT?: Prisma.UserInfoWhereInput | Prisma.UserInfoWhereInput[]
   isHidden?: Prisma.BoolFilter<"UserInfo"> | boolean
-  alias?: Prisma.StringNullableFilter<"UserInfo"> | string | null
+  alias?: Prisma.StringFilter<"UserInfo"> | string
   createdAt?: Prisma.DateTimeFilter<"UserInfo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserInfo"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "userId" | "userId" | "username" | "phonenumber">
+}, "userId" | "username" | "phonenumber">
 
 export type UserInfoOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
   phonenumber?: Prisma.SortOrder
   isHidden?: Prisma.SortOrder
-  alias?: Prisma.SortOrderInput | Prisma.SortOrder
+  alias?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserInfoCountOrderByAggregateInput
@@ -247,7 +247,7 @@ export type UserInfoScalarWhereWithAggregatesInput = {
   username?: Prisma.StringWithAggregatesFilter<"UserInfo"> | string
   phonenumber?: Prisma.StringWithAggregatesFilter<"UserInfo"> | string
   isHidden?: Prisma.BoolWithAggregatesFilter<"UserInfo"> | boolean
-  alias?: Prisma.StringNullableWithAggregatesFilter<"UserInfo"> | string | null
+  alias?: Prisma.StringWithAggregatesFilter<"UserInfo"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserInfo"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserInfo"> | Date | string
 }
@@ -256,7 +256,7 @@ export type UserInfoCreateInput = {
   username: string
   phonenumber: string
   isHidden?: boolean
-  alias?: string | null
+  alias: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserInfoInput
@@ -267,7 +267,7 @@ export type UserInfoUncheckedCreateInput = {
   username: string
   phonenumber: string
   isHidden?: boolean
-  alias?: string | null
+  alias: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -276,7 +276,7 @@ export type UserInfoUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserInfoNestedInput
@@ -287,7 +287,7 @@ export type UserInfoUncheckedUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,7 +297,7 @@ export type UserInfoCreateManyInput = {
   username: string
   phonenumber: string
   isHidden?: boolean
-  alias?: string | null
+  alias: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -306,7 +306,7 @@ export type UserInfoUpdateManyMutationInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -316,7 +316,7 @@ export type UserInfoUncheckedUpdateManyInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -396,7 +396,7 @@ export type UserInfoCreateWithoutUserInput = {
   username: string
   phonenumber: string
   isHidden?: boolean
-  alias?: string | null
+  alias: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -405,7 +405,7 @@ export type UserInfoUncheckedCreateWithoutUserInput = {
   username: string
   phonenumber: string
   isHidden?: boolean
-  alias?: string | null
+  alias: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -430,7 +430,7 @@ export type UserInfoUpdateWithoutUserInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -439,7 +439,7 @@ export type UserInfoUncheckedUpdateWithoutUserInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   phonenumber?: Prisma.StringFieldUpdateOperationsInput | string
   isHidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  alias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alias?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -510,7 +510,7 @@ export type $UserInfoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     username: string
     phonenumber: string
     isHidden: boolean
-    alias: string | null
+    alias: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["userInfo"]>

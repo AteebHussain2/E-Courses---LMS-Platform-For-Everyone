@@ -38,6 +38,7 @@ export type CommunityInviteSumAggregateOutputType = {
 
 export type CommunityInviteMinAggregateOutputType = {
   id: string | null
+  token: string | null
   communityId: string | null
   inviterId: string | null
   limit: number | null
@@ -49,6 +50,7 @@ export type CommunityInviteMinAggregateOutputType = {
 
 export type CommunityInviteMaxAggregateOutputType = {
   id: string | null
+  token: string | null
   communityId: string | null
   inviterId: string | null
   limit: number | null
@@ -60,6 +62,7 @@ export type CommunityInviteMaxAggregateOutputType = {
 
 export type CommunityInviteCountAggregateOutputType = {
   id: number
+  token: number
   communityId: number
   inviterId: number
   limit: number
@@ -83,6 +86,7 @@ export type CommunityInviteSumAggregateInputType = {
 
 export type CommunityInviteMinAggregateInputType = {
   id?: true
+  token?: true
   communityId?: true
   inviterId?: true
   limit?: true
@@ -94,6 +98,7 @@ export type CommunityInviteMinAggregateInputType = {
 
 export type CommunityInviteMaxAggregateInputType = {
   id?: true
+  token?: true
   communityId?: true
   inviterId?: true
   limit?: true
@@ -105,6 +110,7 @@ export type CommunityInviteMaxAggregateInputType = {
 
 export type CommunityInviteCountAggregateInputType = {
   id?: true
+  token?: true
   communityId?: true
   inviterId?: true
   limit?: true
@@ -203,11 +209,12 @@ export type CommunityInviteGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type CommunityInviteGroupByOutputType = {
   id: string
+  token: string
   communityId: string
-  inviterId: string
-  limit: number
+  inviterId: string | null
+  limit: number | null
   joins: number
-  expiresAt: Date
+  expiresAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: CommunityInviteCountAggregateOutputType | null
@@ -237,24 +244,26 @@ export type CommunityInviteWhereInput = {
   OR?: Prisma.CommunityInviteWhereInput[]
   NOT?: Prisma.CommunityInviteWhereInput | Prisma.CommunityInviteWhereInput[]
   id?: Prisma.StringFilter<"CommunityInvite"> | string
+  token?: Prisma.StringFilter<"CommunityInvite"> | string
   communityId?: Prisma.StringFilter<"CommunityInvite"> | string
-  inviterId?: Prisma.StringFilter<"CommunityInvite"> | string
-  limit?: Prisma.IntFilter<"CommunityInvite"> | number
+  inviterId?: Prisma.StringNullableFilter<"CommunityInvite"> | string | null
+  limit?: Prisma.IntNullableFilter<"CommunityInvite"> | number | null
   joins?: Prisma.IntFilter<"CommunityInvite"> | number
-  expiresAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
+  expiresAt?: Prisma.DateTimeNullableFilter<"CommunityInvite"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
   community?: Prisma.XOR<Prisma.CommunityScalarRelationFilter, Prisma.CommunityWhereInput>
-  inviter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  inviter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type CommunityInviteOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  token?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
-  inviterId?: Prisma.SortOrder
-  limit?: Prisma.SortOrder
+  inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  limit?: Prisma.SortOrderInput | Prisma.SortOrder
   joins?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   community?: Prisma.CommunityOrderByWithRelationInput
@@ -263,27 +272,29 @@ export type CommunityInviteOrderByWithRelationInput = {
 
 export type CommunityInviteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  token?: string
   AND?: Prisma.CommunityInviteWhereInput | Prisma.CommunityInviteWhereInput[]
   OR?: Prisma.CommunityInviteWhereInput[]
   NOT?: Prisma.CommunityInviteWhereInput | Prisma.CommunityInviteWhereInput[]
   communityId?: Prisma.StringFilter<"CommunityInvite"> | string
-  inviterId?: Prisma.StringFilter<"CommunityInvite"> | string
-  limit?: Prisma.IntFilter<"CommunityInvite"> | number
+  inviterId?: Prisma.StringNullableFilter<"CommunityInvite"> | string | null
+  limit?: Prisma.IntNullableFilter<"CommunityInvite"> | number | null
   joins?: Prisma.IntFilter<"CommunityInvite"> | number
-  expiresAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
+  expiresAt?: Prisma.DateTimeNullableFilter<"CommunityInvite"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
   community?: Prisma.XOR<Prisma.CommunityScalarRelationFilter, Prisma.CommunityWhereInput>
-  inviter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "id">
+  inviter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+}, "id" | "token">
 
 export type CommunityInviteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  token?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
-  inviterId?: Prisma.SortOrder
-  limit?: Prisma.SortOrder
+  inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  limit?: Prisma.SortOrderInput | Prisma.SortOrder
   joins?: Prisma.SortOrder
-  expiresAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CommunityInviteCountOrderByAggregateInput
@@ -298,86 +309,94 @@ export type CommunityInviteScalarWhereWithAggregatesInput = {
   OR?: Prisma.CommunityInviteScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CommunityInviteScalarWhereWithAggregatesInput | Prisma.CommunityInviteScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CommunityInvite"> | string
+  token?: Prisma.StringWithAggregatesFilter<"CommunityInvite"> | string
   communityId?: Prisma.StringWithAggregatesFilter<"CommunityInvite"> | string
-  inviterId?: Prisma.StringWithAggregatesFilter<"CommunityInvite"> | string
-  limit?: Prisma.IntWithAggregatesFilter<"CommunityInvite"> | number
+  inviterId?: Prisma.StringNullableWithAggregatesFilter<"CommunityInvite"> | string | null
+  limit?: Prisma.IntNullableWithAggregatesFilter<"CommunityInvite"> | number | null
   joins?: Prisma.IntWithAggregatesFilter<"CommunityInvite"> | number
-  expiresAt?: Prisma.DateTimeWithAggregatesFilter<"CommunityInvite"> | Date | string
+  expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CommunityInvite"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CommunityInvite"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CommunityInvite"> | Date | string
 }
 
 export type CommunityInviteCreateInput = {
   id?: string
-  limit?: number
+  token?: string
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   community: Prisma.CommunityCreateNestedOneWithoutCommunityInvitesInput
-  inviter: Prisma.UserCreateNestedOneWithoutCommunityInvitesInput
+  inviter?: Prisma.UserCreateNestedOneWithoutCommunityInvitesInput
 }
 
 export type CommunityInviteUncheckedCreateInput = {
   id?: string
+  token?: string
   communityId: string
-  inviterId: string
-  limit?: number
+  inviterId?: string | null
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CommunityInviteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   community?: Prisma.CommunityUpdateOneRequiredWithoutCommunityInvitesNestedInput
-  inviter?: Prisma.UserUpdateOneRequiredWithoutCommunityInvitesNestedInput
+  inviter?: Prisma.UserUpdateOneWithoutCommunityInvitesNestedInput
 }
 
 export type CommunityInviteUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
-  inviterId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommunityInviteCreateManyInput = {
   id?: string
+  token?: string
   communityId: string
-  inviterId: string
-  limit?: number
+  inviterId?: string | null
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CommunityInviteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommunityInviteUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
-  inviterId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -394,6 +413,7 @@ export type CommunityInviteOrderByRelationAggregateInput = {
 
 export type CommunityInviteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  token?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   limit?: Prisma.SortOrder
@@ -410,6 +430,7 @@ export type CommunityInviteAvgOrderByAggregateInput = {
 
 export type CommunityInviteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  token?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   limit?: Prisma.SortOrder
@@ -421,6 +442,7 @@ export type CommunityInviteMaxOrderByAggregateInput = {
 
 export type CommunityInviteMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  token?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   limit?: Prisma.SortOrder
@@ -519,6 +541,14 @@ export type CommunityInviteUncheckedUpdateManyWithoutCommunityNestedInput = {
   deleteMany?: Prisma.CommunityInviteScalarWhereInput | Prisma.CommunityInviteScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -529,9 +559,10 @@ export type IntFieldUpdateOperationsInput = {
 
 export type CommunityInviteCreateWithoutInviterInput = {
   id?: string
-  limit?: number
+  token?: string
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   community: Prisma.CommunityCreateNestedOneWithoutCommunityInvitesInput
@@ -539,10 +570,11 @@ export type CommunityInviteCreateWithoutInviterInput = {
 
 export type CommunityInviteUncheckedCreateWithoutInviterInput = {
   id?: string
+  token?: string
   communityId: string
-  limit?: number
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -578,31 +610,34 @@ export type CommunityInviteScalarWhereInput = {
   OR?: Prisma.CommunityInviteScalarWhereInput[]
   NOT?: Prisma.CommunityInviteScalarWhereInput | Prisma.CommunityInviteScalarWhereInput[]
   id?: Prisma.StringFilter<"CommunityInvite"> | string
+  token?: Prisma.StringFilter<"CommunityInvite"> | string
   communityId?: Prisma.StringFilter<"CommunityInvite"> | string
-  inviterId?: Prisma.StringFilter<"CommunityInvite"> | string
-  limit?: Prisma.IntFilter<"CommunityInvite"> | number
+  inviterId?: Prisma.StringNullableFilter<"CommunityInvite"> | string | null
+  limit?: Prisma.IntNullableFilter<"CommunityInvite"> | number | null
   joins?: Prisma.IntFilter<"CommunityInvite"> | number
-  expiresAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
+  expiresAt?: Prisma.DateTimeNullableFilter<"CommunityInvite"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CommunityInvite"> | Date | string
 }
 
 export type CommunityInviteCreateWithoutCommunityInput = {
   id?: string
-  limit?: number
+  token?: string
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  inviter: Prisma.UserCreateNestedOneWithoutCommunityInvitesInput
+  inviter?: Prisma.UserCreateNestedOneWithoutCommunityInvitesInput
 }
 
 export type CommunityInviteUncheckedCreateWithoutCommunityInput = {
   id?: string
-  inviterId: string
-  limit?: number
+  token?: string
+  inviterId?: string | null
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -635,19 +670,21 @@ export type CommunityInviteUpdateManyWithWhereWithoutCommunityInput = {
 
 export type CommunityInviteCreateManyInviterInput = {
   id?: string
+  token?: string
   communityId: string
-  limit?: number
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CommunityInviteUpdateWithoutInviterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   community?: Prisma.CommunityUpdateOneRequiredWithoutCommunityInvitesNestedInput
@@ -655,60 +692,66 @@ export type CommunityInviteUpdateWithoutInviterInput = {
 
 export type CommunityInviteUncheckedUpdateWithoutInviterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommunityInviteUncheckedUpdateManyWithoutInviterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommunityInviteCreateManyCommunityInput = {
   id?: string
-  inviterId: string
-  limit?: number
+  token?: string
+  inviterId?: string | null
+  limit?: number | null
   joins?: number
-  expiresAt: Date | string
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type CommunityInviteUpdateWithoutCommunityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  inviter?: Prisma.UserUpdateOneRequiredWithoutCommunityInvitesNestedInput
+  inviter?: Prisma.UserUpdateOneWithoutCommunityInvitesNestedInput
 }
 
 export type CommunityInviteUncheckedUpdateWithoutCommunityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inviterId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommunityInviteUncheckedUpdateManyWithoutCommunityInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inviterId?: Prisma.StringFieldUpdateOperationsInput | string
-  limit?: Prisma.IntFieldUpdateOperationsInput | number
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  limit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   joins?: Prisma.IntFieldUpdateOperationsInput | number
-  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -717,6 +760,7 @@ export type CommunityInviteUncheckedUpdateManyWithoutCommunityInput = {
 
 export type CommunityInviteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  token?: boolean
   communityId?: boolean
   inviterId?: boolean
   limit?: boolean
@@ -725,11 +769,12 @@ export type CommunityInviteSelect<ExtArgs extends runtime.Types.Extensions.Inter
   createdAt?: boolean
   updatedAt?: boolean
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }, ExtArgs["result"]["communityInvite"]>
 
 export type CommunityInviteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  token?: boolean
   communityId?: boolean
   inviterId?: boolean
   limit?: boolean
@@ -738,11 +783,12 @@ export type CommunityInviteSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   createdAt?: boolean
   updatedAt?: boolean
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }, ExtArgs["result"]["communityInvite"]>
 
 export type CommunityInviteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  token?: boolean
   communityId?: boolean
   inviterId?: boolean
   limit?: boolean
@@ -751,11 +797,12 @@ export type CommunityInviteSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   createdAt?: boolean
   updatedAt?: boolean
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }, ExtArgs["result"]["communityInvite"]>
 
 export type CommunityInviteSelectScalar = {
   id?: boolean
+  token?: boolean
   communityId?: boolean
   inviterId?: boolean
   limit?: boolean
@@ -765,33 +812,34 @@ export type CommunityInviteSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CommunityInviteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "communityId" | "inviterId" | "limit" | "joins" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["communityInvite"]>
+export type CommunityInviteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "token" | "communityId" | "inviterId" | "limit" | "joins" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["communityInvite"]>
 export type CommunityInviteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }
 export type CommunityInviteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }
 export type CommunityInviteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
-  inviter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  inviter?: boolean | Prisma.CommunityInvite$inviterArgs<ExtArgs>
 }
 
 export type $CommunityInvitePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CommunityInvite"
   objects: {
     community: Prisma.$CommunityPayload<ExtArgs>
-    inviter: Prisma.$UserPayload<ExtArgs>
+    inviter: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    token: string
     communityId: string
-    inviterId: string
-    limit: number
+    inviterId: string | null
+    limit: number | null
     joins: number
-    expiresAt: Date
+    expiresAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["communityInvite"]>
@@ -1189,7 +1237,7 @@ readonly fields: CommunityInviteFieldRefs;
 export interface Prisma__CommunityInviteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   community<T extends Prisma.CommunityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommunityDefaultArgs<ExtArgs>>): Prisma.Prisma__CommunityClient<runtime.Types.Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  inviter<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  inviter<T extends Prisma.CommunityInvite$inviterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommunityInvite$inviterArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1220,6 +1268,7 @@ export interface Prisma__CommunityInviteClient<T, Null = never, ExtArgs extends 
  */
 export interface CommunityInviteFieldRefs {
   readonly id: Prisma.FieldRef<"CommunityInvite", 'String'>
+  readonly token: Prisma.FieldRef<"CommunityInvite", 'String'>
   readonly communityId: Prisma.FieldRef<"CommunityInvite", 'String'>
   readonly inviterId: Prisma.FieldRef<"CommunityInvite", 'String'>
   readonly limit: Prisma.FieldRef<"CommunityInvite", 'Int'>
@@ -1625,6 +1674,25 @@ export type CommunityInviteDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many CommunityInvites to delete.
    */
   limit?: number
+}
+
+/**
+ * CommunityInvite.inviter
+ */
+export type CommunityInvite$inviterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

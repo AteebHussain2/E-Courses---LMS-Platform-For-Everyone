@@ -66,3 +66,48 @@ export type CommunityMember = Prisma.CommunityMemberModel
  * 
  */
 export type CommunityInvite = Prisma.CommunityInviteModel
+/**
+ * Model Course
+ * 
+ */
+export type Course = Prisma.CourseModel
+/**
+ * Model Module
+ * 
+ */
+export type Module = Prisma.ModuleModel
+/**
+ * Model Lesson
+ * 
+ */
+export type Lesson = Prisma.LessonModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model Video
+ * 
+ */
+export type Video = Prisma.VideoModel
+/**
+ * Model Recording
+ * 
+ */
+export type Recording = Prisma.RecordingModel
+/**
+ * Model WatchProgress
+ * 
+ */
+export type WatchProgress = Prisma.WatchProgressModel
+/**
+ * Model LessonCompletion
+ * 
+ */
+export type LessonCompletion = Prisma.LessonCompletionModel
+/**
+ * Model Enrollment
+ * 
+ */
+export type Enrollment = Prisma.EnrollmentModel

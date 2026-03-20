@@ -18,3 +18,21 @@ export const Role = {
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const SessionStatus = {
+  UPCOMING: 'UPCOMING',
+  LIVE: 'LIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type SessionStatus = (typeof SessionStatus)[keyof typeof SessionStatus]
+
+
+export const LessonType = {
+  VIDEO: 'VIDEO',
+  SESSION: 'SESSION'
+} as const
+
+export type LessonType = (typeof LessonType)[keyof typeof LessonType]

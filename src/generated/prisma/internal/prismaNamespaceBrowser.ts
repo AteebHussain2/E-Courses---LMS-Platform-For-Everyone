@@ -55,7 +55,16 @@ export const ModelName = {
   UserInfo: 'UserInfo',
   Community: 'Community',
   CommunityMember: 'CommunityMember',
-  CommunityInvite: 'CommunityInvite'
+  CommunityInvite: 'CommunityInvite',
+  Course: 'Course',
+  Module: 'Module',
+  Lesson: 'Lesson',
+  Session: 'Session',
+  Video: 'Video',
+  Recording: 'Recording',
+  WatchProgress: 'WatchProgress',
+  LessonCompletion: 'LessonCompletion',
+  Enrollment: 'Enrollment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -130,6 +139,7 @@ export type CommunityMemberScalarFieldEnum = (typeof CommunityMemberScalarFieldE
 
 export const CommunityInviteScalarFieldEnum = {
   id: 'id',
+  token: 'token',
   communityId: 'communityId',
   inviterId: 'inviterId',
   limit: 'limit',
@@ -142,12 +152,154 @@ export const CommunityInviteScalarFieldEnum = {
 export type CommunityInviteScalarFieldEnum = (typeof CommunityInviteScalarFieldEnum)[keyof typeof CommunityInviteScalarFieldEnum]
 
 
+export const CourseScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  isActive: 'isActive',
+  communityId: 'communityId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+export const ModuleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  index: 'index',
+  courseId: 'courseId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ModuleScalarFieldEnum = (typeof ModuleScalarFieldEnum)[keyof typeof ModuleScalarFieldEnum]
+
+
+export const LessonScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  index: 'index',
+  type: 'type',
+  moduleId: 'moduleId',
+  sessionId: 'sessionId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
+
+
+export const SessionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  scheduledAt: 'scheduledAt',
+  duration: 'duration',
+  platformLink: 'platformLink',
+  status: 'status',
+  communityId: 'communityId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const VideoScalarFieldEnum = {
+  id: 'id',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  fileKey: 'fileKey',
+  duration: 'duration',
+  lessonId: 'lessonId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VideoScalarFieldEnum = (typeof VideoScalarFieldEnum)[keyof typeof VideoScalarFieldEnum]
+
+
+export const RecordingScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  fileKey: 'fileKey',
+  duration: 'duration',
+  chapters: 'chapters',
+  sessionId: 'sessionId',
+  deletedAt: 'deletedAt',
+  processedAt: 'processedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecordingScalarFieldEnum = (typeof RecordingScalarFieldEnum)[keyof typeof RecordingScalarFieldEnum]
+
+
+export const WatchProgressScalarFieldEnum = {
+  id: 'id',
+  percent: 'percent',
+  completedAt: 'completedAt',
+  lastWatchedAt: 'lastWatchedAt',
+  userId: 'userId',
+  videoId: 'videoId',
+  recordingId: 'recordingId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WatchProgressScalarFieldEnum = (typeof WatchProgressScalarFieldEnum)[keyof typeof WatchProgressScalarFieldEnum]
+
+
+export const LessonCompletionScalarFieldEnum = {
+  id: 'id',
+  completedAt: 'completedAt',
+  userId: 'userId',
+  lessonId: 'lessonId'
+} as const
+
+export type LessonCompletionScalarFieldEnum = (typeof LessonCompletionScalarFieldEnum)[keyof typeof LessonCompletionScalarFieldEnum]
+
+
+export const EnrollmentScalarFieldEnum = {
+  id: 'id',
+  enrolledAt: 'enrolledAt',
+  completedAt: 'completedAt',
+  userId: 'userId',
+  courseId: 'courseId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -164,4 +316,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

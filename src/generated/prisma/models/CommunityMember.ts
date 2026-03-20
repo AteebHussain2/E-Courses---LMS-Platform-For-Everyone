@@ -218,7 +218,7 @@ export type CommunityMemberWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"CommunityMember"> | Date | string
   community?: Prisma.XOR<Prisma.CommunityScalarRelationFilter, Prisma.CommunityWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "id" | "userId_communityId">
+}, "id" | "userId_communityId">
 
 export type CommunityMemberOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
