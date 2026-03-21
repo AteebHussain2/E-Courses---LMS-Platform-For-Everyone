@@ -102,6 +102,7 @@ model Course {
   slug        String
   title       String
   description String?
+  imageUrl    String
   isActive    Boolean @default(false)
 
   communityId String
