@@ -1,7 +1,7 @@
 const AnalyticsPage = () => {
     return (
         <div>
-            This is admin page
+            This is analytics page
         </div>
     )
 }

@@ -4,6 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { getCommunityAdminSEO } from "@/lib/seo";
 import { Role } from "@/generated/prisma/enums";
 import AdminSidebar from "@/components/sidebar/AdminSidebar";
+import AdminTopbar from "@/components/topbar/AdminTopbar";
+import CustomHeader from "@/components/ui/custom-header";
 
 type Props = {
     params: Promise<{ communitySlug: string }>;
@@ -41,9 +43,13 @@ export default async function RootLayout({ params, children }: Props) {
                 logo={seoData.community.logo}
                 role={seoData.community.communityMembers[0].role}
             />
-            <main className="overflow-y-auto bg-background w-full h-full border border-border rounded-t-[20px] mx-3">
-                {children}
-            </main>
+            <div className="relative overflow-y-auto bg-background w-full h-full border border-border rounded-t-[20px] mx-3">
+                <AdminTopbar />
+                <main className="px-10 py-4 space-y-3">
+                    <CustomHeader slug={seoData.community.slug} />
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }

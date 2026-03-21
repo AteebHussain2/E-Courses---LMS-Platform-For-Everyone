@@ -1,7 +1,7 @@
 const AdminCoursesPage = () => {
     return (
         <div>
-            this is admin courses page
+            This is courses page
         </div>
     )
 }

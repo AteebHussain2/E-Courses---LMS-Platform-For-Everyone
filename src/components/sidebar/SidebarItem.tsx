@@ -18,9 +18,10 @@ export const SidebarItem = ({ route, path }: {
     path: string,
 }) => {
     const isActiveRoute = (route: string) => {
-        if (path.split('/')[3] == route.split('/')[3])
-            return true;
-        return false;
+        if (path.split('/')[2] === 'admin')
+            return path.split('/')[3] === route.split('/')[3];
+        else
+            return path === route;
     };
 
     return (
