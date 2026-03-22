@@ -46,7 +46,10 @@ export default async function RootLayout({ params, children }: Props) {
             <div className="relative overflow-y-auto bg-background w-full h-full border border-border rounded-t-[20px] mx-3">
                 <AdminTopbar />
                 <main className="px-10 py-4 space-y-3">
-                    <CustomHeader slug={seoData.community.slug} />
+                    <CustomHeader
+                        slug={seoData.community.slug}
+                        role={seoData.community.communityMembers[0].role}
+                    />
                     {children}
                 </main>
             </div>

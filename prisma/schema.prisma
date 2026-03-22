@@ -17,6 +17,7 @@ model User {
   userInfo          UserInfo?
   communityInvites  CommunityInvite[]
   communities       CommunityMember[]
+  courses           Course[]
   watchProgresses   WatchProgress[]
   enrollments       Enrollment[]
   lessonCompletions LessonCompletion[]
@@ -108,12 +109,15 @@ model Course {
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Restrict)
 
-  modules Module[]
+  instructorId String?
+  instructor   User?   @relation(fields: [instructorId], references: [userId], onDelete: SetNull)
 
-  deletedAt   DateTime?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  modules     Module[]
   enrollments Enrollment[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@unique([slug, communityId])
 }

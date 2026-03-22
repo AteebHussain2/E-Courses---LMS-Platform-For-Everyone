@@ -9,7 +9,7 @@ export function getRoutes(slug: string, role?: Role) {
         case Role.OWNER:
             return ownerRoutes(slug);
         default:
-            return studentRoutes(slug);
+            return allRoutes(slug);
     }
 };
 
@@ -166,97 +166,103 @@ export const ownerRoutes = (slug: string) => [
     },
 ];
 
-export const allRoutes = (slug: string) => [
+const allRoutes = (slug: string) => [
     {
-        href: `/${slug}/home`,
-        label: 'Home',
-        icon: Home,
-    },
-    {
-        href: `/${slug}/dashboard`,
-        label: 'Dashboard',
-        icon: LayoutDashboard,
+        type: RouteType.GROUP,
+        label: 'ALL ROUTES',
+        routes: [
+            {
+                href: `/${slug}/home`,
+                label: 'Home',
+                icon: Home,
+            },
+            {
+                href: `/${slug}/dashboard`,
+                label: 'Dashboard',
+                icon: LayoutDashboard,
 
-    },
-    {
-        href: `/${slug}/library`,
-        label: 'My Library',
-        icon: Library,
+            },
+            {
+                href: `/${slug}/library`,
+                label: 'My Library',
+                icon: Library,
 
-    },
-    {
-        href: `/${slug}/community/general`,
-        label: 'Community',
-        icon: MessageSquareMore,
-    },
-    {
-        href: `/${slug}/admin/courses`,
-        label: 'Courses',
-        icon: BookOpen,
-    },
-    {
-        href: `/${slug}/admin/courses/add`,
-        label: 'Add Course',
-        icon: BookPlus,
-    },
-    {
-        href: `/${slug}/admin/sessions`,
-        label: 'Sessions',
-        icon: Video,
-    },
-    {
-        href: `/${slug}/admin/sessions/add`,
-        label: 'Add Session',
-        icon: Plus,
-    },
-    {
-        href: `/${slug}/admin/posts`,
-        label: 'Posts',
-        icon: IdCard,
-    },
-    {
-        href: `/${slug}/admin/posts/add`,
-        label: 'Add Post',
-        icon: Edit,
-    },
-    {
-        href: `/${slug}/admin/analytics`,
-        label: 'Analytics',
-        icon: LayoutDashboard,
-    },
-    {
-        href: `/${slug}/admin/courses`,
-        label: 'Courses',
-        icon: BookOpen,
-    },
-    {
-        href: `/${slug}/admin/sessions`,
-        label: 'Sessions',
-        icon: Video,
-    },
-    {
-        href: `/${slug}/admin/posts`,
-        label: 'Posts',
-        icon: IdCard,
-    },
-    {
-        href: `/${slug}/admin/students`,
-        label: 'Students',
-        icon: GraduationCap,
-    },
-    {
-        href: `/${slug}/admin/team`,
-        label: 'Team',
-        icon: Users2,
-    },
-    {
-        href: `/${slug}/admin/invites`,
-        label: 'Invites',
-        icon: UserPlus2,
-    },
-    {
-        href: `/${slug}/admin/settings`,
-        label: 'Settings',
-        icon: Settings,
-    },
+            },
+            {
+                href: `/${slug}/community/general`,
+                label: 'Community',
+                icon: MessageSquareMore,
+            },
+            {
+                href: `/${slug}/admin/courses`,
+                label: 'Courses',
+                icon: BookOpen,
+            },
+            {
+                href: `/${slug}/admin/courses/add`,
+                label: 'Add Course',
+                icon: BookPlus,
+            },
+            {
+                href: `/${slug}/admin/sessions`,
+                label: 'Sessions',
+                icon: Video,
+            },
+            {
+                href: `/${slug}/admin/sessions/add`,
+                label: 'Add Session',
+                icon: Plus,
+            },
+            {
+                href: `/${slug}/admin/posts`,
+                label: 'Posts',
+                icon: IdCard,
+            },
+            {
+                href: `/${slug}/admin/posts/add`,
+                label: 'Add Post',
+                icon: Edit,
+            },
+            {
+                href: `/${slug}/admin/analytics`,
+                label: 'Analytics',
+                icon: LayoutDashboard,
+            },
+            {
+                href: `/${slug}/admin/courses`,
+                label: 'Courses',
+                icon: BookOpen,
+            },
+            {
+                href: `/${slug}/admin/sessions`,
+                label: 'Sessions',
+                icon: Video,
+            },
+            {
+                href: `/${slug}/admin/posts`,
+                label: 'Posts',
+                icon: IdCard,
+            },
+            {
+                href: `/${slug}/admin/students`,
+                label: 'Students',
+                icon: GraduationCap,
+            },
+            {
+                href: `/${slug}/admin/team`,
+                label: 'Team',
+                icon: Users2,
+            },
+            {
+                href: `/${slug}/admin/invites`,
+                label: 'Invites',
+                icon: UserPlus2,
+            },
+            {
+                href: `/${slug}/admin/settings`,
+                label: 'Settings',
+                icon: Settings,
+            },
+        ]
+    }
 ];

@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 
 const AdminTopbar = () => {
     return (
-        <header className="bg-background flex items-center justify-between px-10 sticky top-0 left-0 right-0 w-full h-17.5 rounded-t-[20px]">
+        <header className="bg-background flex items-center justify-between px-10 z-50 sticky top-0 left-0 right-0 w-full h-17.5 rounded-t-[20px]">
             <InputGroup
                 className="rounded-[8px]! min-h-10.5 bg-glass-bg! gap-5! px-3! py-2! max-w-75 has-[[data-slot=input-group-control]:focus-visible]:border-border-focus has-[[data-slot=input-group-control]:focus-visible]:ring-0!"
             >

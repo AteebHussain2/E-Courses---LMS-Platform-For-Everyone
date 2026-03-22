@@ -1569,6 +1569,7 @@ export const CourseScalarFieldEnum = {
   imageUrl: 'imageUrl',
   isActive: 'isActive',
   communityId: 'communityId',
+  instructorId: 'instructorId',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -209,6 +209,7 @@ export type UserWhereInput = {
   userInfo?: Prisma.XOR<Prisma.UserInfoNullableScalarRelationFilter, Prisma.UserInfoWhereInput> | null
   communityInvites?: Prisma.CommunityInviteListRelationFilter
   communities?: Prisma.CommunityMemberListRelationFilter
+  courses?: Prisma.CourseListRelationFilter
   watchProgresses?: Prisma.WatchProgressListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
   lessonCompletions?: Prisma.LessonCompletionListRelationFilter
@@ -226,6 +227,7 @@ export type UserOrderByWithRelationInput = {
   userInfo?: Prisma.UserInfoOrderByWithRelationInput
   communityInvites?: Prisma.CommunityInviteOrderByRelationAggregateInput
   communities?: Prisma.CommunityMemberOrderByRelationAggregateInput
+  courses?: Prisma.CourseOrderByRelationAggregateInput
   watchProgresses?: Prisma.WatchProgressOrderByRelationAggregateInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
   lessonCompletions?: Prisma.LessonCompletionOrderByRelationAggregateInput
@@ -246,6 +248,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   userInfo?: Prisma.XOR<Prisma.UserInfoNullableScalarRelationFilter, Prisma.UserInfoWhereInput> | null
   communityInvites?: Prisma.CommunityInviteListRelationFilter
   communities?: Prisma.CommunityMemberListRelationFilter
+  courses?: Prisma.CourseListRelationFilter
   watchProgresses?: Prisma.WatchProgressListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
   lessonCompletions?: Prisma.LessonCompletionListRelationFilter
@@ -291,6 +294,7 @@ export type UserCreateInput = {
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
@@ -308,6 +312,7 @@ export type UserUncheckedCreateInput = {
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
@@ -325,6 +330,7 @@ export type UserUpdateInput = {
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
@@ -342,6 +348,7 @@ export type UserUncheckedUpdateInput = {
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
@@ -483,6 +490,22 @@ export type UserUpdateOneWithoutCommunityInvitesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommunityInvitesInput, Prisma.UserUpdateWithoutCommunityInvitesInput>, Prisma.UserUncheckedUpdateWithoutCommunityInvitesInput>
 }
 
+export type UserCreateNestedOneWithoutCoursesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoursesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCoursesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCoursesInput
+  upsert?: Prisma.UserUpsertWithoutCoursesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCoursesInput, Prisma.UserUpdateWithoutCoursesInput>, Prisma.UserUncheckedUpdateWithoutCoursesInput>
+}
+
 export type UserCreateNestedOneWithoutWatchProgressesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutWatchProgressesInput, Prisma.UserUncheckedCreateWithoutWatchProgressesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutWatchProgressesInput
@@ -536,6 +559,7 @@ export type UserCreateWithoutUserInfoInput = {
   updatedAt?: Date | string
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
@@ -552,6 +576,7 @@ export type UserUncheckedCreateWithoutUserInfoInput = {
   updatedAt?: Date | string
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
@@ -584,6 +609,7 @@ export type UserUpdateWithoutUserInfoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
@@ -600,6 +626,7 @@ export type UserUncheckedUpdateWithoutUserInfoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
@@ -616,6 +643,7 @@ export type UserCreateWithoutCommunitiesInput = {
   updatedAt?: Date | string
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
@@ -632,6 +660,7 @@ export type UserUncheckedCreateWithoutCommunitiesInput = {
   updatedAt?: Date | string
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
@@ -664,6 +693,7 @@ export type UserUpdateWithoutCommunitiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
@@ -680,6 +710,7 @@ export type UserUncheckedUpdateWithoutCommunitiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
@@ -696,6 +727,7 @@ export type UserCreateWithoutCommunityInvitesInput = {
   updatedAt?: Date | string
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
@@ -712,6 +744,7 @@ export type UserUncheckedCreateWithoutCommunityInvitesInput = {
   updatedAt?: Date | string
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
@@ -744,6 +777,7 @@ export type UserUpdateWithoutCommunityInvitesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
@@ -759,6 +793,91 @@ export type UserUncheckedUpdateWithoutCommunityInvitesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
+  communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
+  watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+  lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCoursesInput = {
+  userId: string
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  email: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
+  communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
+  communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+  lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCoursesInput = {
+  userId: string
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  email: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
+  communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
+  communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+  lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCoursesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
+}
+
+export type UserUpsertWithoutCoursesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCoursesInput, Prisma.UserUncheckedUpdateWithoutCoursesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCoursesInput, Prisma.UserUncheckedCreateWithoutCoursesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCoursesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCoursesInput, Prisma.UserUncheckedUpdateWithoutCoursesInput>
+}
+
+export type UserUpdateWithoutCoursesInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
+  communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
+  communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+  lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCoursesInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
+  communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
@@ -777,6 +896,7 @@ export type UserCreateWithoutWatchProgressesInput = {
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
 }
@@ -793,6 +913,7 @@ export type UserUncheckedCreateWithoutWatchProgressesInput = {
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -825,6 +946,7 @@ export type UserUpdateWithoutWatchProgressesInput = {
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
 }
@@ -841,6 +963,7 @@ export type UserUncheckedUpdateWithoutWatchProgressesInput = {
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -857,6 +980,7 @@ export type UserCreateWithoutLessonCompletionsInput = {
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
 }
@@ -873,6 +997,7 @@ export type UserUncheckedCreateWithoutLessonCompletionsInput = {
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
 }
@@ -905,6 +1030,7 @@ export type UserUpdateWithoutLessonCompletionsInput = {
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
 }
@@ -921,6 +1047,7 @@ export type UserUncheckedUpdateWithoutLessonCompletionsInput = {
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -937,6 +1064,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
 }
@@ -953,6 +1081,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
   communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
   communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
   watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -985,6 +1114,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
 }
@@ -1001,6 +1131,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
   communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
   communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
   watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -1013,6 +1144,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
 export type UserCountOutputType = {
   communityInvites: number
   communities: number
+  courses: number
   watchProgresses: number
   enrollments: number
   lessonCompletions: number
@@ -1021,6 +1153,7 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   communityInvites?: boolean | UserCountOutputTypeCountCommunityInvitesArgs
   communities?: boolean | UserCountOutputTypeCountCommunitiesArgs
+  courses?: boolean | UserCountOutputTypeCountCoursesArgs
   watchProgresses?: boolean | UserCountOutputTypeCountWatchProgressesArgs
   enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs
   lessonCompletions?: boolean | UserCountOutputTypeCountLessonCompletionsArgs
@@ -1048,6 +1181,13 @@ export type UserCountOutputTypeCountCommunityInvitesArgs<ExtArgs extends runtime
  */
 export type UserCountOutputTypeCountCommunitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommunityMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CourseWhereInput
 }
 
 /**
@@ -1084,6 +1224,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userInfo?: boolean | Prisma.User$userInfoArgs<ExtArgs>
   communityInvites?: boolean | Prisma.User$communityInvitesArgs<ExtArgs>
   communities?: boolean | Prisma.User$communitiesArgs<ExtArgs>
+  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   watchProgresses?: boolean | Prisma.User$watchProgressesArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   lessonCompletions?: boolean | Prisma.User$lessonCompletionsArgs<ExtArgs>
@@ -1128,6 +1269,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userInfo?: boolean | Prisma.User$userInfoArgs<ExtArgs>
   communityInvites?: boolean | Prisma.User$communityInvitesArgs<ExtArgs>
   communities?: boolean | Prisma.User$communitiesArgs<ExtArgs>
+  courses?: boolean | Prisma.User$coursesArgs<ExtArgs>
   watchProgresses?: boolean | Prisma.User$watchProgressesArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   lessonCompletions?: boolean | Prisma.User$lessonCompletionsArgs<ExtArgs>
@@ -1142,6 +1284,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userInfo: Prisma.$UserInfoPayload<ExtArgs> | null
     communityInvites: Prisma.$CommunityInvitePayload<ExtArgs>[]
     communities: Prisma.$CommunityMemberPayload<ExtArgs>[]
+    courses: Prisma.$CoursePayload<ExtArgs>[]
     watchProgresses: Prisma.$WatchProgressPayload<ExtArgs>[]
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
     lessonCompletions: Prisma.$LessonCompletionPayload<ExtArgs>[]
@@ -1552,6 +1695,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   userInfo<T extends Prisma.User$userInfoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userInfoArgs<ExtArgs>>): Prisma.Prisma__UserInfoClient<runtime.Types.Result.GetResult<Prisma.$UserInfoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   communityInvites<T extends Prisma.User$communityInvitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityInvitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   communities<T extends Prisma.User$communitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  courses<T extends Prisma.User$coursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   watchProgresses<T extends Prisma.User$watchProgressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$watchProgressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WatchProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   enrollments<T extends Prisma.User$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lessonCompletions<T extends Prisma.User$lessonCompletionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$lessonCompletionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2049,6 +2193,30 @@ export type User$communitiesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.CommunityMemberScalarFieldEnum | Prisma.CommunityMemberScalarFieldEnum[]
+}
+
+/**
+ * User.courses
+ */
+export type User$coursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Course
+   */
+  select?: Prisma.CourseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Course
+   */
+  omit?: Prisma.CourseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CourseInclude<ExtArgs> | null
+  where?: Prisma.CourseWhereInput
+  orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[]
+  cursor?: Prisma.CourseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[]
 }
 
 /**

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans, Plus_Jakarta_Sans, Inder, DM_Mono } from 'next/font/google';
 import AppProviders from "@/components/providers/app-providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "ECourses - Home",
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body className={`bg-sidebar ${dmSans.variable} ${inder.variable} ${plusJakartaSans.variable} ${dmMono.variable}`}>
         <AppProviders>
           {children}
+          <Toaster />
         </AppProviders>
       </body>
     </html >

@@ -26,7 +26,7 @@ const BreadcrumbHeader = () => {
                             <BreadcrumbSeparator className="pt-0.5" />
                             <BreadcrumbItem>
                                 <BreadcrumbLink
-                                    href={pathArray.slice(0, index - 1).join('/')}
+                                    href={pathArray.slice(0, index + 3).join('/')}
                                     className="hover:cursor-pointer capitalize"
                                 >
                                     {item}

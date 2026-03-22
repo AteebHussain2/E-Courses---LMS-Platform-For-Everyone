@@ -8,16 +8,16 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { FieldError } from "../ui/field";
 
-type FileUploadProps = {
-    invalid?: boolean
+type FileUploadProps = React.ComponentProps<"input"> & {
     title?: string
-    size?: 'lg' | 'sm' | 'default'
+    onFilesChange?: (files: File[]) => void
+    files?: File[]
+    // size?: 'lg' | 'sm' | 'default'
 }
 
-export default function FileUpload({ title, ...props }: React.ComponentProps<"input">) {
-    const [files, setFiles] = useState<File[]>([])
+export default function FileUpload({ onFilesChange, files = [], title, value, ...props }: FileUploadProps) {
     const fileInputRef = useRef<HTMLInputElement>(null)
-    const { "aria-invalid": invalid, "aria-errormessage": error, onChange, ref, ...rest } = props;
+    const { "aria-invalid": invalid, "aria-errormessage": error, ref, onChange, ...rest } = props;
 
     const mergedRef = React.useCallback((node: HTMLInputElement | null) => {
         (fileInputRef as React.RefObject<HTMLInputElement | null>).current = node;
@@ -30,13 +30,15 @@ export default function FileUpload({ title, ...props }: React.ComponentProps<"in
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setFiles(Array.from(e.target.files))
+            const incoming = Array.from(e.target.files)
+            onFilesChange?.(incoming)
         }
         props.onChange?.(e)
     }
 
     const handleDelete = (index: number) => {
-        setFiles((prev) => prev.filter((_, i) => i !== index))
+        const updated = files.filter((_, i) => i !== index)
+        onFilesChange?.(updated)
     }
 
     return (
@@ -115,7 +117,7 @@ export default function FileUpload({ title, ...props }: React.ComponentProps<"in
                     </ul>
                 )}
                 {invalid && (
-                    <FieldError errors={[{ message: error }]} />
+                    <FieldError errors={[{ message: error }]} className="mt-2! ml-1" />
                 )}
             </CardContent>
         </Card >

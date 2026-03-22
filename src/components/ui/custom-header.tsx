@@ -2,17 +2,19 @@
 
 import BreadcrumbHeader from './breadcrumb-header';
 import { Role } from '@/generated/prisma/enums';
-import { allRoutes } from '@/lib/routes';
 import { usePathname } from 'next/navigation';
+import { getRoutes } from '@/lib/routes';
 
-const CustomHeader = ({ header, slug }: { header?: string, slug: string }) => {
+const CustomHeader = ({ header, slug }: { header?: string, slug: string, role?: Role }) => {
     const path = usePathname();
-    const routes = allRoutes(slug)
+    const groups = getRoutes(slug)
 
     const getHeader = () => {
-        for (const route of routes) {
-            if (route.href === path)
-                return route.label
+        for (const group of groups) {
+            for (const route of group.routes) {
+                if (route.href === path)
+                    return route.label
+            }
         }
 
         return 'No Header Found'
