@@ -8,17 +8,18 @@ const PATTERNS = {
     communitySlug: /^[a-z0-9-]{1,55}$/,
 }
 
-export async function GET(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
     const authError = verifyApiRequest(req)
     if (authError) return authError
 
+    const { courseId } = await params;
     const communitySlug = req.nextUrl.searchParams.get('communitySlug')
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
     try {
         const course = await prisma.course.findFirst({
             where: {
-                id: params.courseId,
+                id: courseId,
                 community: { slug: communitySlug }
             }
         })
@@ -32,7 +33,7 @@ export async function GET(req: NextRequest, { params }: { params: { courseId: st
     }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
     const authError = verifyApiRequest(req)
     if (authError) return authError
 
