@@ -34,14 +34,13 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
     })
 
     const mutation = useMutation({
-        mutationFn: async () => {
-            const { imageUrls, errors } = await uploadToImageKit(files ?? []);
-            if (!imageUrls || errors.length !== 0) {
-                for (const error of errors)
-                    throw new Error(`Could not upload image: ${error.fileName}\nReason: ${error.error}`);
-            };
-            form.setValue("imageUrl", imageUrls[0]);
-            const values = form.getValues();
+        mutationFn: async (values: courseSchemaType) => {
+            if (files[0]) {
+                const { imageUrls, errors } = await uploadToImageKit(files ?? []);
+                if (!imageUrls || errors.length !== 0) throw new Error(`Could not upload image: ${errors[0].fileName}\nReason: ${errors[0].error}`);
+
+                values.imageUrl = imageUrls[0]
+            }
 
             isEditing
                 ? await updateCourseAction(values, courseId, communitySlug)  // edit
@@ -54,7 +53,7 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
         onError: (error) => toast.error(error.message)
     })
 
-    const onSubmit = () => mutation.mutate()
+    const onSubmit = (values: courseSchemaType) => mutation.mutate(values)
 
     return {
         form,

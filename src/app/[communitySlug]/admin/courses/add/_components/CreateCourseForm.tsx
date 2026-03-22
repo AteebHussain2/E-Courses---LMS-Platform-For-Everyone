@@ -1,3 +1,5 @@
+"use client"
+
 import CourseForm from "@/components/courses/CourseForm";
 import { useCourseForm } from "@/hooks/use-course-form";
 
@@ -15,6 +17,7 @@ const CreateCourseForm = ({ communitySlug }: EditCourseFormProps) => {
             </div>
 
             <CourseForm
+                className="col-span-2"
                 communitySlug={communitySlug}
                 {...courseForm}
             />

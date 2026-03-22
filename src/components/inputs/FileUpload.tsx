@@ -3,19 +3,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { UploadCloudIcon } from "lucide-react";
-import React, { useState, useRef } from "react";
+import { FieldError } from "../ui/field";
+import React, { useRef } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { FieldError } from "../ui/field";
 
 type FileUploadProps = React.ComponentProps<"input"> & {
     title?: string
     onFilesChange?: (files: File[]) => void
     files?: File[]
+    existingUrls?: string[],
     // size?: 'lg' | 'sm' | 'default'
 }
 
-export default function FileUpload({ onFilesChange, files = [], title, value, ...props }: FileUploadProps) {
+export default function FileUpload({ onFilesChange, files = [], title, existingUrls, value, ...props }: FileUploadProps) {
     const fileInputRef = useRef<HTMLInputElement>(null)
     const { "aria-invalid": invalid, "aria-errormessage": error, ref, onChange, ...rest } = props;
 
@@ -39,6 +40,10 @@ export default function FileUpload({ onFilesChange, files = [], title, value, ..
     const handleDelete = (index: number) => {
         const updated = files.filter((_, i) => i !== index)
         onFilesChange?.(updated)
+    }
+
+    const handleChange = () => {
+        fileInputRef.current?.click()
     }
 
     return (
@@ -77,9 +82,9 @@ export default function FileUpload({ onFilesChange, files = [], title, value, ..
                 </div>
 
                 {/* File Preview List */}
-                {files.length > 0 && (
+                {(files.length > 0 || (existingUrls && existingUrls?.length !== 0) && existingUrls[0].length !== 0) && (
                     <ul className="list-none mt-5 space-y-3">
-                        {files.map((file, index) => (
+                        {files.length !== 0 ? files.map((file, index) => (
                             <li
                                 key={index}
                                 className="border border-border rounded-xl overflow-hidden"
@@ -99,17 +104,53 @@ export default function FileUpload({ onFilesChange, files = [], title, value, ..
                                             <p className="text-sm font-medium text-white truncate max-w-45">
                                                 {file.name}
                                             </p>
-                                            <p className="text-xs text-text-muted">
+                                            <p className="text-xs text-muted">
                                                 {(file.size / 1024).toFixed(1)} KB
                                             </p>
                                         </div>
                                     </div>
                                     <Button
+                                        type="button"
                                         size="sm"
                                         className="bg-[#e96767]/10 hover:bg-destructive text-destructive hover:text-white text-xs rounded-[3px]"
                                         onClick={() => handleDelete(index)}
                                     >
                                         Delete
+                                    </Button>
+                                </div>
+                            </li>
+                        )) : existingUrls && existingUrls?.map((url, index) => (
+                            <li
+                                key={index}
+                                className="border border-border rounded-xl overflow-hidden"
+                            >
+                                <div className="flex items-center justify-between p-2 gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded bg-muted flex items-center justify-center overflow-hidden">
+                                            <Image
+                                                src={url}
+                                                alt={url}
+                                                width={48}
+                                                height={48}
+                                                className="object-cover rounded size-full"
+                                            />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-white truncate max-w-sm">
+                                                This is the current course image.
+                                            </p>
+                                            <p className="text-xs text-muted">
+                                                Drop or click to change image.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        className="bg-[#e96767]/10 hover:bg-destructive text-destructive hover:text-white text-xs rounded-[3px]"
+                                        onClick={handleChange}
+                                    >
+                                        Change
                                     </Button>
                                 </div>
                             </li>

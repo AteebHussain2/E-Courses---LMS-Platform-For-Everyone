@@ -37,6 +37,7 @@ const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, class
                                 files={files}
                                 onFilesChange={setFiles}
                                 aria-invalid={fieldState.invalid}
+                                existingUrls={isEditing ? [form.getValues('imageUrl')] : []}
                                 aria-errormessage={fieldState.error?.message}
                             />
                         </Field>
