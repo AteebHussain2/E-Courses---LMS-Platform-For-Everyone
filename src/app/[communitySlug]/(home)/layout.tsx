@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCommunitySEO } from "@/lib/seo";
 import HomeSidebar from "@/components/sidebar/HomeSidebar";
+import { Role } from "@/generated/prisma/enums";
 
 type Props = {
     params: Promise<{ communitySlug: string }>;
@@ -30,6 +31,7 @@ export default async function RootLayout({ params, children }: Props) {
                 slug={seoData.community.slug}
                 name={seoData.community.name}
                 logo={seoData.community.logo}
+                role={Role.STUDENT}
             />
             <main className="overflow-y-auto bg-background w-full h-full border border-border rounded-t-[20px] mx-3">
                 {children}

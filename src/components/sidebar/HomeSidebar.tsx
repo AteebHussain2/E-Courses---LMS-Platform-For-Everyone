@@ -2,6 +2,7 @@
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu } from "../ui/sidebar";
 import { SidebarItem, SidebarUserItem } from "./SidebarItem";
+import { Role } from "@/generated/prisma/enums";
 import { usePathname } from "next/navigation";
 import { getRoutes } from "@/lib/routes";
 import Image from "next/image";
@@ -9,11 +10,12 @@ import Image from "next/image";
 interface Props {
     slug: string,
     name: string,
-    logo: string | null
+    logo: string | null,
+    role?: Role,
 }
 
-const HomeSidebar = ({ slug, name, logo }: Props) => {
-    const routes = getRoutes(slug);
+const HomeSidebar = ({ slug, name, logo, role }: Props) => {
+    const routes = getRoutes(slug, role);
     const path = usePathname();
 
     return (

@@ -1,74 +1,29 @@
 "use client";
 
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { addCourseSchema, addCourseSchemaType } from "@/lib/validation/course";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import InstructorSelect from "@/components/inputs/InstructorSelect";
-import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
 import { Card, CardContent } from "@/components/ui/card";
 import FileUpload from "@/components/inputs/FileUpload";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod';
+import { courseSchemaType } from "@/lib/schemas/course";
+import { useCourseForm } from "@/hooks/use-course-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { createCourse } from "@/actions/courses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
+import { Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
-const CreateCourseForm = ({ communitySlug, className }: { communitySlug: string, className?: string }) => {
-    const router = useRouter()
-    const queryClient = useQueryClient()
-    const [files, setFiles] = useState<File[]>([])
+type CourseFormProps = {
+    communitySlug: string
+    className?: string
+} & ReturnType<typeof useCourseForm>
 
-    const form = useForm<addCourseSchemaType>({
-        resolver: zodResolver(addCourseSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            imageUrl: "",
-            isActive: false,
-            instructorId: ""
-        },
-        mode: "onChange",
-    })
-
-    const mutation = useMutation({
-        mutationFn: async () => {
-            const { imageUrls, errors } = await uploadToImageKit(files);
-            if (!imageUrls || errors.length !== 0) {
-                for (const error of errors)
-                    throw new Error(`Could not upload image: ${error.fileName}\nReason: ${error.error}`);
-            };
-
-            form.setValue("imageUrl", imageUrls[0]);
-
-            const data = await createCourse(form.getValues(), communitySlug)
-
-            return { data, communitySlug }
-        },
-        onSuccess: ({ data, communitySlug }) => {
-            toast.success("Course created!");
-            queryClient.invalidateQueries({ queryKey: [communitySlug, `${data.isActive ? 'active-courses' : 'all-courses'}`] });
-            router.push(`/${communitySlug}/admin/courses`);
-        },
-        onError: (error) => {
-            toast.error(error.message)
-        }
-    })
-
-    const onSubmit = async () => {
-        mutation.mutate();
-    }
-
+const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, className, files, setFiles, onCancel }: CourseFormProps) => {
     return (
         <form
-            id="create-course-form"
+            id={isEditing ? "edit-course-form" : "create-course-form"}
             className={cn("space-y-5", className)}
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
         >
             <FieldGroup>
                 <Controller
@@ -187,21 +142,18 @@ const CreateCourseForm = ({ communitySlug, className }: { communitySlug: string,
             >
                 <Button
                     type="submit"
-                    form="create-course-form"
+                    form={isEditing ? "edit-course-form" : "create-course-form"}
                     className="text-foreground! cursor-pointer w-34 h-10"
-                    disabled={mutation.isPending}
+                    disabled={isLoading}
                 >
-                    {mutation.isPending ? "Creating..." : "Create Course"}
+                    {isLoading ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : "Create Course")}
                 </Button>
                 <Button
                     type="button"
                     variant="destructive"
                     className="cursor-pointer w-34 h-10!"
-                    onClick={() => {
-                        form.reset()
-                        router.push(`/${communitySlug}/admin/courses`)
-                    }}
-                    disabled={mutation.isPending}
+                    onClick={onCancel}
+                    disabled={isLoading}
                 >
                     Cancel
                 </Button>
@@ -210,4 +162,4 @@ const CreateCourseForm = ({ communitySlug, className }: { communitySlug: string,
     )
 }
 
-export default CreateCourseForm
+export default CourseForm

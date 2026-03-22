@@ -204,6 +204,11 @@ const allRoutes = (slug: string) => [
                 icon: BookPlus,
             },
             {
+                href: `/${slug}/admin/courses/edit`,
+                label: 'Edit Course',
+                icon: Edit,
+            },
+            {
                 href: `/${slug}/admin/sessions`,
                 label: 'Sessions',
                 icon: Video,
@@ -214,6 +219,11 @@ const allRoutes = (slug: string) => [
                 icon: Plus,
             },
             {
+                href: `/${slug}/admin/sessions/edit`,
+                label: 'Edit Session',
+                icon: Edit,
+            },
+            {
                 href: `/${slug}/admin/posts`,
                 label: 'Posts',
                 icon: IdCard,
@@ -221,27 +231,17 @@ const allRoutes = (slug: string) => [
             {
                 href: `/${slug}/admin/posts/add`,
                 label: 'Add Post',
+                icon: Plus,
+            },
+            {
+                href: `/${slug}/admin/posts/edit`,
+                label: 'Edit Post',
                 icon: Edit,
             },
             {
                 href: `/${slug}/admin/analytics`,
                 label: 'Analytics',
                 icon: LayoutDashboard,
-            },
-            {
-                href: `/${slug}/admin/courses`,
-                label: 'Courses',
-                icon: BookOpen,
-            },
-            {
-                href: `/${slug}/admin/sessions`,
-                label: 'Sessions',
-                icon: Video,
-            },
-            {
-                href: `/${slug}/admin/posts`,
-                label: 'Posts',
-                icon: IdCard,
             },
             {
                 href: `/${slug}/admin/students`,
