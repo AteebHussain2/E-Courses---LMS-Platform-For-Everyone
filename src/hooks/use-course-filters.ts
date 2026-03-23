@@ -1,4 +1,4 @@
-import { useQueryState, parseAsString, parseAsStringEnum } from "nuqs";
+import { useQueryState, parseAsString, parseAsStringEnum, parseAsInteger } from "nuqs";
 
 export type StatusFilter = 'all' | 'active' | 'inactive'
 export type TimeFilter = 'today' | 'week' | 'month' | 'year' | 'all'
@@ -21,19 +21,33 @@ export function useCourseFilters() {
         'instructorId',
         parseAsString.withDefault('')
     )
+    const [page, setPage] = useQueryState(
+        'page',
+        parseAsInteger.withDefault(1)
+    )
+
+    const handleSetStatus = (v: StatusFilter) => { setStatus(v); setPage(1) }
+    const handleSetTime = (v: TimeFilter) => { setTime(v); setPage(1) }
+    const handleSetSort = (v: SortFilter) => { setSort(v); setPage(1) }
+    const handleSetInstructorId = (v: string) => { setInstructorId(v); setPage(1) }
 
     const resetFilters = () => {
         setStatus('all')
         setTime('all')
         setSort('newest')
         setInstructorId('')
+        setPage(1)
     }
 
     const isFiltered = status !== 'all' || time !== 'all' || sort !== 'newest' || instructorId !== ''
 
     return {
-        filters: { status, time, sort, instructorId },
-        setStatus, setTime, setSort, setInstructorId,
+        filters: { status, time, sort, instructorId, page },
+        setStatus: handleSetStatus,
+        setTime: handleSetTime,
+        setSort: handleSetSort,
+        setInstructorId: handleSetInstructorId,
+        setPage,
         resetFilters,
         isFiltered
     }

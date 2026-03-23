@@ -64,7 +64,7 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                 onChange={setInstructorId}
                 placeholder="All Instructors"
                 includeUnassigned
-                className="w-48"
+                className="w-64 "
             />
 
             {/* Reset */}
