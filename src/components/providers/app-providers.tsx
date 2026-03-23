@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { ThemeProvider } from "./theme-provider";
 import { TooltipProvider } from "../ui/tooltip";
 import { SidebarProvider } from "../ui/sidebar";
@@ -20,12 +21,14 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
                 disableTransitionOnChange
             >
                 <SidebarProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <TooltipProvider>
-                            {children}
-                        </TooltipProvider>
-                        <ReactQueryDevtools initialIsOpen={false} />
-                    </QueryClientProvider>
+                    <NuqsAdapter>
+                        <QueryClientProvider client={queryClient}>
+                            <TooltipProvider>
+                                {children}
+                            </TooltipProvider>
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </QueryClientProvider>
+                    </NuqsAdapter>
                 </SidebarProvider>
             </ThemeProvider>
         </ClerkProvider>

@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`bg-sidebar ${dmSans.variable} ${inder.variable} ${plusJakartaSans.variable} ${dmMono.variable}`}>
+      <body className={`bg-sidebar ${dmSans.variable} ${inder.variable} ${plusJakartaSans.variable} ${dmMono.variable} font-body`}>
         <AppProviders>
           {children}
           <Toaster />

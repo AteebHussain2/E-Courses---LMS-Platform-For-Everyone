@@ -47,13 +47,16 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
                 : await createCourseAction(values, communitySlug);            // create
         },
         onSuccess: () => {
-            toast.success(isEditing ? "Course updated!" : "Course created!")
+            toast.success(isEditing ? "Course updated!" : "Course created!", { id: "course-create-edit" })
             router.push(`/${communitySlug}/admin/courses`)
         },
-        onError: (error) => toast.error(error.message)
+        onError: (error) => toast.error(error.message, { id: "course-create-edit" }),
     })
 
-    const onSubmit = (values: courseSchemaType) => mutation.mutate(values)
+    const onSubmit = (values: courseSchemaType) => {
+        toast.loading(isEditing ? "Saving course..." : "Creating course...", { id: "course-create-edit" })
+        mutation.mutate(values)
+    }
 
     return {
         form,

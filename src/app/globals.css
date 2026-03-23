@@ -28,6 +28,16 @@
   --color-ring: var(--ring);
   --color-input-focus: var(--input-focus);
   --color-input: var(--input);
+  --color-admin-bg: var(--admin-bg);
+  --color-admin-fg: var(--admin-fg);
+  --color-student-bg: var(--student-bg);
+  --color-student-fg: var(--student-fg);
+  --color-instructor-bg: var(--instructor-bg);
+  --color-instructor-fg: var(--instructor-fg);
+  --color-moderator-bg: var(--moderator-bg);
+  --color-moderator-fg: var(--moderator-fg);
+  --color-owner-bg: var(--owner-bg);
+  --color-owner-fg: var(--owner-fg);
   --color-border: var(--border);
   --color-border-focus: var(--border-focus);
   --color-border-subtle: var(--border-subtle);
@@ -132,6 +142,16 @@
   --sidebar-accent-foreground: oklch(96.83% 0.007 247.90);
   --sidebar-border: oklch(27.81% 0.030 256.85);
   --sidebar-ring: oklch(50.50% 0.212 262.89);
+  --admin-bg: oklch(54.13% 0.247 293.01 / 15%);
+  --student-bg: oklch(44.55% 0.037 257.28 / 15%);
+  --instructor-bg: oklch(50.50% 0.212 262.89 / 15%);
+  --moderator-bg: oklch(65.945% 0.1592 52.753 / 15%);
+  --owner-bg: oklch(56.813% 0.22126 28.121 / 15%);
+  --admin-fg: oklch(54.13% 0.247 293.01);
+  --student-fg: oklch(44.55% 0.037 257.28);
+  --instructor-fg: oklch(50.50% 0.212 262.89);
+  --moderator-fg: oklch(65.945% 0.1592 52.753);
+  --owner-fg: oklch(56.813% 0.22126 28.121);
 }
 
 .heading {
