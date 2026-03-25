@@ -2,18 +2,10 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getInstructors } from "@/actions/members";
-import { Role } from "@/generated/prisma/enums";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import CustomBadge from "../CustomBadge";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-
-type Instructor = {
-    id: string
-    name: string
-    avatar: string
-    role: Role
-}
+import Image from "next/image";
 
 type InstructorSelectProps = {
     communitySlug: string
@@ -34,24 +26,20 @@ export default function InstructorSelect({
     includeUnassigned = false,
     className
 }: InstructorSelectProps) {
-    const [instructors, setInstructors] = useState<Instructor[]>([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        getInstructors(communitySlug)
-            .then(setInstructors)
-            .catch(console.error)
-            .finally(() => setLoading(false))
-    }, [communitySlug])
+    const { data: instructors = [], isLoading } = useQuery({
+        queryKey: ['instructors', communitySlug],
+        queryFn: () => getInstructors(communitySlug),
+        staleTime: Infinity,
+    })
 
     return (
         <Select
             value={value}
             onValueChange={(v) => onChange(v === 'all' ? '' : v)}
-            disabled={disabled || loading}
+            disabled={disabled || isLoading}
         >
             <SelectTrigger className={cn("border-border!", className)}>
-                <SelectValue placeholder={loading ? "Loading..." : placeholder} />
+                <SelectValue placeholder={isLoading ? "Loading..." : placeholder} />
             </SelectTrigger>
             <SelectContent>
                 {includeUnassigned && (

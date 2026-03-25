@@ -2,14 +2,14 @@
 
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { useMutation } from '@tanstack/react-query';
-import { Edit2, Trash2 } from 'lucide-react';
+import { Edit2, Plus, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
 type ButtonProps = {
-    courseId: string,
+    courseId?: string,
     className?: string,
     side?: 'left' | 'top' | 'bottom' | 'right',
     slug?: string,
@@ -20,8 +20,9 @@ export const DeleteCourseButton = ({ courseId, className, side, disabled = false
     const mutation = useMutation({
         mutationFn: async (courseId: string) => console.log("TODO: ", courseId),
         onSuccess: () => toast.success("Deleted course successfully!"),
-        onError: () => toast.error("Something went wrong. Couldn't delete course."),
+        onError: () => toast.error("Something went wrong! Couldn't delete course."),
     })
+
     return (
         <Tooltip>
             <TooltipTrigger asChild>
@@ -29,8 +30,11 @@ export const DeleteCourseButton = ({ courseId, className, side, disabled = false
                     size='icon'
                     variant='destructive'
                     className={cn("cursor-pointer rounded-full p-0! transition-colors", className)}
-                    onClick={() => mutation.mutate(courseId)}
-                    disabled={disabled}
+                    onClick={() => {
+                        if (courseId) mutation.mutate(courseId)
+                        else toast.error('Something went wrong!')
+                    }}
+                    disabled={disabled || !courseId || mutation.isPending}
                 >
                     <Trash2 className="size-4" />
                 </Button>
@@ -73,6 +77,20 @@ export const ManageCourseButton = ({ courseId, className, disabled = false }: Bu
         >
             <Link href={!disabled ? `courses/${courseId}` : ''} className='w-full h-full items-center justify-center flex'>
                 Manage Course
+            </Link>
+        </Button>
+    )
+}
+
+export const AddCourseButton = ({ className, disabled = false }: ButtonProps) => {
+    return (
+        <Button
+            size='lg'
+            className={cn("w-full cursor-pointer rounded-full text-foreground hover:text-foreground", className)}
+            disabled={disabled}
+        >
+            <Link href="courses/add" className='w-full h-full items-center justify-center flex gap-2'>
+                <Plus /> Add Course
             </Link>
         </Button>
     )

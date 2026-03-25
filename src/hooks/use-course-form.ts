@@ -2,9 +2,9 @@
 
 import { createCourseAction, updateCourseAction } from "@/actions/courses";
 import { courseSchema, courseSchemaType } from "@/lib/schemas/course";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -19,6 +19,7 @@ type UseCourseFormProps = {
 
 export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCourseFormProps) {
     const [files, setFiles] = useState<File[]>([])
+    const queryClient = useQueryClient()
     const router = useRouter()
     const isEditing = !!courseId
 
@@ -48,6 +49,7 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
         },
         onSuccess: () => {
             toast.success(isEditing ? "Course updated!" : "Course created!", { id: "course-create-edit" })
+            queryClient.invalidateQueries({ queryKey: ['courses', communitySlug] })
             router.push(`/${communitySlug}/admin/courses`)
         },
         onError: (error) => toast.error(error.message, { id: "course-create-edit" }),

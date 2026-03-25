@@ -1,4 +1,4 @@
-import CoursesGrid from "@/components/courses/CoursesGrid";
+import CoursesPage from "@/components/courses/CoursesPage";
 
 type AdminCoursePageProps = {
     params: Promise<{
@@ -9,7 +9,7 @@ type AdminCoursePageProps = {
 const AdminCoursesPage = async ({ params }: AdminCoursePageProps) => {
     const communitySlug = (await params).communitySlug
 
-    return <CoursesGrid communitySlug={communitySlug} />
+    return <CoursesPage communitySlug={communitySlug} />
 }
 
 export default AdminCoursesPage

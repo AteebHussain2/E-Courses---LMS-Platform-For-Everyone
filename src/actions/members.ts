@@ -1,7 +1,15 @@
 "use server";
 
+import { Role } from "@/generated/prisma/enums";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";
+
+type Instructor = {
+    id: string
+    name: string
+    avatar: string
+    role: Role
+}
 
 export async function getInstructors(communitySlug: string) {
     const res = await fetch(getUrl(`/api/members/instructors?communitySlug=${communitySlug}`), {
@@ -11,7 +19,7 @@ export async function getInstructors(communitySlug: string) {
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || "Failed to fetch instructors")
 
-    return data.members
+    return data.members as Instructor[]
 }
 
 export async function getInstructorAction(userId: string) {
