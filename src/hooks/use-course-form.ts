@@ -47,9 +47,9 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
                 ? await updateCourseAction(values, courseId, communitySlug)  // edit
                 : await createCourseAction(values, communitySlug);            // create
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success(isEditing ? "Course updated!" : "Course created!", { id: "course-create-edit" })
-            queryClient.invalidateQueries({ queryKey: ['courses', communitySlug] })
+            await queryClient.invalidateQueries({ queryKey: ['courses', communitySlug] })
             router.push(`/${communitySlug}/admin/courses`)
         },
         onError: (error) => toast.error(error.message, { id: "course-create-edit" }),
