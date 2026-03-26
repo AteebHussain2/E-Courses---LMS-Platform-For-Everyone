@@ -101,15 +101,15 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                         <SlidersHorizontal className="size-4 text-text-muted" />
                     </Button>
                 </DialogTrigger>
-                <DialogHeader>
-                    <DialogTitle>
-                        Filters
-                    </DialogTitle>
-                    <DialogDescription>
-                        Use filters for efficient search across time, status etc.
-                    </DialogDescription>
-                </DialogHeader>
                 <DialogContent className="items-center gap-3 flex-wrap">
+                    <DialogHeader>
+                        <DialogTitle>
+                            Filters
+                        </DialogTitle>
+                        <DialogDescription>
+                            Use filters for efficient search across time, status etc.
+                        </DialogDescription>
+                    </DialogHeader>
                     <Select value={filters.status} onValueChange={(v) => setStatus(v as StatusFilter)}>
                         <SelectTrigger className="w-36 bg-input border-border">
                             <SelectValue placeholder="Status" />
@@ -160,18 +160,18 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                     />
 
                     {/* Reset */}
-                    {isFiltered && (
-                        <Button
-                            type="button"
-                            variant="ghost"
-                            className="gap-1.5 text-text-muted hover:text-text"
-                            onClick={resetFilters}
-                        >
-                            <X className="size-3.5" />
-                            Reset
-                        </Button>
-                    )}
                 </DialogContent>
+                {isFiltered && (
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        className="gap-1.5 text-text-muted hover:text-text"
+                        onClick={resetFilters}
+                    >
+                        <X className="size-3.5" />
+                        Reset
+                    </Button>
+                )}
             </Dialog>
         </div>
     )
