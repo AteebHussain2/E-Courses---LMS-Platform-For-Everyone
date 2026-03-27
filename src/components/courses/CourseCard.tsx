@@ -56,9 +56,9 @@ export const AdminCourseCard = ({ course }: { course: CourseWithInstructorAndCou
             </CardContent>
 
             <CardFooter className="flex flex-1 items-center gap-2">
-                <ManageCourseButton className="flex-1" courseId={course.id} slug={course.community?.slug} />
-                <EditCourseButton courseId={course.id} slug={course.community?.slug} />
-                <DeleteCourseButton courseId={course.id} slug={course.community?.slug} />
+                <ManageCourseButton className="flex-1" courseId={course.id} />
+                <EditCourseButton courseId={course.id} />
+                <DeleteCourseButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} />
             </CardFooter>
         </Card>
     )
@@ -113,8 +113,8 @@ export const PreviewCourseCard = ({ course }: { course: CourseWithInstructorAndC
             </CardContent>
 
             <CardFooter className="max-w-inherit flex items-center gap-2">
-                <ManageCourseButton className="flex-1" courseId={course.id} slug={course.community?.slug} disabled={true} />
-                <DeleteCourseButton courseId={course.id} slug={course.community?.slug} disabled={true} />
+                <ManageCourseButton className="flex-1" courseId={course.id} disabled={true} />
+                <DeleteCourseButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} disabled={true} />
             </CardFooter>
         </Card>
     )

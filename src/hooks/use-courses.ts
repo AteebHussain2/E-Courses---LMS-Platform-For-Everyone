@@ -5,6 +5,7 @@ export function useCourses(communitySlug: string, filters: CourseFilters) {
     return useQuery({
         queryFn: () => getCoursesAction(communitySlug, filters),
         queryKey: ['courses', communitySlug, filters],   // refetches when filter changes
-        staleTime: 1000 * 3600 * 5,
+        refetchOnReconnect: false,
+        staleTime: 1000 * 3600 * 1,
     })
 }

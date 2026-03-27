@@ -81,3 +81,22 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ co
         return NextResponse.json({ error: "Failed to update course" }, { status: 500 })
     }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
+    const authError = verifyApiRequest(req)
+    if (authError) return authError
+
+    const { courseId } = await params
+
+    try {
+        await prisma.course.update({
+            where: { id: courseId },
+            data: { deletedAt: new Date(), isActive: false },
+        })
+
+        return NextResponse.json({ success: true })
+    } catch (error) {
+        console.error("[COURSE_DELETE]", error)
+        return NextResponse.json({ error: "Failed to delete course" }, { status: 500 })
+    }
+}

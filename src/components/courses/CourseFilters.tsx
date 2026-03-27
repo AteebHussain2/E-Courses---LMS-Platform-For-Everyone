@@ -93,7 +93,7 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
             </div>
 
             <Dialog>
-                <DialogTrigger className="md:hidden">
+                <DialogTrigger className="md:hidden" asChild>
                     <Button
                         variant="outline"
                         className="border-border! cursor-pointer"

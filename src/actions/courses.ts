@@ -70,3 +70,15 @@ export async function getCoursesAction(communitySlug: string, filters: CourseFil
         hasMore: boolean
     }
 }
+
+export async function deleteCourseAction(courseId: string) {
+    const res = await fetch(getUrl(`/api/courses/${courseId}`), {
+        method: 'DELETE',
+        headers: apiHeaders
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to delete course")
+
+    return data
+}
