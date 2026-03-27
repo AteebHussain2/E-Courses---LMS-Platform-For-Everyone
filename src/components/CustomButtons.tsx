@@ -1,8 +1,9 @@
 "use client";
 
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { AlertTriangleIcon, Edit2, Plus, Trash2 } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
-import { Edit2, Plus, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -25,20 +26,48 @@ export const DeleteCourseButton = ({ courseId, className, side, disabled = false
 
     return (
         <Tooltip>
-            <TooltipTrigger asChild>
-                <Button
-                    size='icon'
-                    variant='destructive'
-                    className={cn("cursor-pointer rounded-full p-0! transition-colors", className)}
-                    onClick={() => {
-                        if (courseId) mutation.mutate(courseId)
-                        else toast.error('Something went wrong!')
-                    }}
-                    disabled={disabled || !courseId || mutation.isPending}
-                >
-                    <Trash2 className="size-4" />
-                </Button>
-            </TooltipTrigger>
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <TooltipTrigger asChild>
+                        <Button
+                            size='icon'
+                            variant='destructive'
+                            className={cn("cursor-pointer rounded-full p-0! transition-colors", className)}
+                        >
+                            <Trash2 className="size-4" />
+                        </Button>
+                    </TooltipTrigger>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader className='space-y-4'>
+                        <AlertDialogTitle className='flex items-center gap-3 text-destructive'>
+                            <AlertTriangleIcon />
+                            <h1>Dangerous Actions</h1>
+                        </AlertDialogTitle>
+
+                        <AlertDialogDescription>
+                            Are you sure you want to delete this course?<br />
+                            <span className='text-foreground'>Deleted courses can be recovered within 48 hours of deletion</span>.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter>
+                        <AlertDialogCancel className='cursor-pointer'>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            variant='destructive'
+                            className={cn("cursor-pointer")}
+                            disabled={disabled || mutation.isPending || !courseId}
+                            onClick={() => {
+                                if (courseId) mutation.mutate(courseId)
+                                else toast.error('Something went wrong!')
+                            }}
+                        >
+                            Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
             <TooltipContent side={side}>
                 <p>Delete Course</p>
             </TooltipContent>
