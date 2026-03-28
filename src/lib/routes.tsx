@@ -1,4 +1,4 @@
-import { BookOpen, BookPlus, Edit, GraduationCap, Home, IdCard, LayoutDashboard, Library, Lock, MessageSquareMore, Plus, Settings, Sparkles, User2, UserPlus2, Users2, Video } from "lucide-react";
+import { BookOpen, BookPlus, Edit, GraduationCap, Home, IdCard, LayoutDashboard, Library, Lock, MessageSquareMore, Plus, Settings, Settings2, Sparkles, User2, UserPlus2, Users2, Video } from "lucide-react";
 import { Role } from "@/generated/prisma/enums";
 import { RouteType } from "./types";
 
@@ -197,6 +197,11 @@ const allRoutes = (slug: string) => [
                 href: `/${slug}/admin/courses`,
                 label: 'Courses',
                 icon: BookOpen,
+            },
+            {
+                href: `/${slug}/admin/courses/manage`,
+                label: 'Manage Course',
+                icon: Settings2,
             },
             {
                 href: `/${slug}/admin/courses/add`,
