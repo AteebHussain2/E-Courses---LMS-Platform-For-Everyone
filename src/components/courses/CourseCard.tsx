@@ -64,7 +64,7 @@ export const AdminCourseCard = ({ course }: { course: CourseWithInstructorAndCou
     )
 }
 
-export const PreviewCourseCard = ({ course }: { course: CourseWithInstructorAndCount }) => {
+export const PreviewCourseCard = ({ course, showButtons = true }: { course: CourseWithInstructorAndCount, showButtons?: boolean }) => {
     return (
         <Card className="w-full h-fit p-0! pb-3! gap-4!">
             <CardHeader className="p-0!">
@@ -112,10 +112,10 @@ export const PreviewCourseCard = ({ course }: { course: CourseWithInstructorAndC
                 </div>
             </CardContent>
 
-            <CardFooter className="max-w-inherit flex items-center gap-2">
+            {showButtons && <CardFooter className="max-w-inherit flex items-center gap-2">
                 <ManageCourseButton className="flex-1" courseId={course.id} disabled={true} />
                 <DeleteCourseButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} disabled={true} />
-            </CardFooter>
+            </CardFooter>}
         </Card>
     )
 }

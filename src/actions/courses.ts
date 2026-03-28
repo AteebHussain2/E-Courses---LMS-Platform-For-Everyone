@@ -47,7 +47,7 @@ export async function getCourseAction(courseId: string, communitySlug: string) {
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || "Failed to fetch course")
 
-    return data.course
+    return data.course as CourseWithInstructorAndCount
 }
 
 export async function getCoursesAction(communitySlug: string, filters: CourseFilters, offset: number = 0) {

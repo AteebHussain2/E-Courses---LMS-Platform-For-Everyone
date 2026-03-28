@@ -1,6 +1,6 @@
+import CourseNotFound from "@/components/courses/CourseNotFound";
 import EditCourseForm from "./_components/EditCourseForm";
 import { getCourseAction } from "@/actions/courses";
-import { notFound } from "next/navigation";
 
 type EditCoursePageProps = {
     params: Promise<{
@@ -16,7 +16,12 @@ export default async function EditCoursePage({ params, searchParams }: EditCours
     const { courseId } = await searchParams
 
     const course = await getCourseAction(courseId, communitySlug).catch(() => null)
-    if (!course) return notFound()
+    if (!course) return <CourseNotFound
+        title="Course Not Found"
+        showSearch={false}
+        backUrl={`${communitySlug}/admin/courses`}
+        communitySlug={communitySlug}
+    />
 
     return (
         <EditCourseForm
@@ -27,7 +32,7 @@ export default async function EditCoursePage({ params, searchParams }: EditCours
                 description: course.description ?? '',
                 imageUrl: course.imageUrl ?? '',
                 isActive: course.isActive,
-                instructorId: course.instructorId ?? ''
+                instructorId: course.instructor?.userId ?? ''
             }}
         />
     )

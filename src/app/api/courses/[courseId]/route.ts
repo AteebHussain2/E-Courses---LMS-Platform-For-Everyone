@@ -21,6 +21,33 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cour
             where: {
                 id: courseId,
                 community: { slug: communitySlug }
+            },
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                description: true,
+                imageUrl: true,
+                isActive: true,
+                createdAt: true,
+                updatedAt: true,
+                instructor: {
+                    select: {
+                        userId: true,
+                        firstName: true,
+                        lastName: true,
+                        avatar: true,
+                    }
+                },
+                community: {
+                    select: {
+                        id: true,
+                        slug: true,
+                    },
+                },
+                _count: {
+                    select: { enrollments: true, modules: true }
+                }
             }
         })
 

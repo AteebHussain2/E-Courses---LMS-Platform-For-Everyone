@@ -16,6 +16,7 @@ type ButtonProps = {
     className?: string,
     side?: 'left' | 'top' | 'bottom' | 'right',
     disabled?: boolean,
+    toast?: boolean
 }
 
 type DeleteButtonProps = ButtonProps & {
@@ -25,6 +26,7 @@ type DeleteButtonProps = ButtonProps & {
 }
 
 type EditButtonProps = ButtonProps & {
+    text?: string
     courseId: string
 }
 
@@ -55,6 +57,7 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
                             size='icon'
                             variant='destructive'
                             className={cn("cursor-pointer rounded-full p-0! transition-colors", className)}
+                            disabled={disabled || mutation.isPending}
                         >
                             <Trash2 className="size-4" />
                         </Button>
@@ -115,7 +118,7 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
     )
 }
 
-export const EditCourseButton = ({ courseId, className, side, disabled = false }: EditButtonProps) => {
+export const EditCourseButton = ({ courseId, className, side, disabled = false, text }: EditButtonProps) => {
     return (
         <Tooltip>
             <TooltipTrigger asChild>
@@ -126,7 +129,7 @@ export const EditCourseButton = ({ courseId, className, side, disabled = false }
                     disabled={disabled}
                 >
                     <Link href={!disabled ? `courses/edit?courseId=${courseId}` : ''}>
-                        <Edit2 className="size-4" />
+                        <Edit2 className="size-4" />{text}
                     </Link>
                 </Button>
             </TooltipTrigger>

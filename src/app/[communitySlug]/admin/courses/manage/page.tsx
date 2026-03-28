@@ -1,6 +1,11 @@
-import CourseNotFound from "@/components/courses/CourseNotFound"
-import CreateLessonButton from "@/components/courses/CreateLesson"
-import { redirect } from "next/navigation"
+import CreateLessonButton from "@/components/courses/CreateLesson";
+import CourseNotFound from "@/components/courses/CourseNotFound";
+import { getCourseAction } from "@/actions/courses";
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import ManageCourse from "./_components/ManageCourse";
 
 type ManageCoursePageProps = {
     params: Promise<{
@@ -18,7 +23,7 @@ const ManageCoursePage = async ({ params, searchParams }: ManageCoursePageProps)
     if (!communitySlug) redirect('/');
     if (!courseId) redirect(`'${communitySlug}/admin/courses`);
 
-    const course: string[] | undefined = undefined;
+    const course = await getCourseAction(courseId, communitySlug).catch(() => null)
     if (!course) return <CourseNotFound
         title="Course Not Found"
         showSearch={false}
@@ -27,9 +32,24 @@ const ManageCoursePage = async ({ params, searchParams }: ManageCoursePageProps)
     />;
 
     return (
-        <div className="flex items-center justify-between">
-            <CreateLessonButton communitySlug={communitySlug} courseId={courseId} />
-        </div>
+        <>
+            <div className="flex items-center justify-between">
+                <Button
+                    variant='ghost'
+                    className='cursor-pointer bg-transparent text-sm'
+                    asChild
+                >
+                    <Link href={`/${communitySlug}/courses`} className="flex items-center gap-2 text-muted">
+                        <ArrowLeft />
+                        <span>Go Back to Courses</span>
+                    </Link>
+                </Button>
+
+                <CreateLessonButton communitySlug={communitySlug} courseId={courseId} />
+            </div>
+
+            <ManageCourse course={course} />
+        </>
     )
 }
 
