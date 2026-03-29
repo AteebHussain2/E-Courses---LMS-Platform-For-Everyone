@@ -1,12 +1,12 @@
 "use client"
 
-import { Video, Radio, Pencil, Trash2, GripVertical } from "lucide-react";
+import { Video, Radio, Pencil, GripVertical } from "lucide-react";
+import { DeleteLessonButton } from "@/components/CustomButtons";
 import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import { LessonInModule } from "@/lib/types";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import DeleteLessonButton from "@/components/CustomButtons";
 
 type Props = {
     lesson: LessonInModule

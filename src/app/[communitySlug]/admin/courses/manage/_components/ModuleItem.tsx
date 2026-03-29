@@ -14,6 +14,7 @@ import { CSS } from "@dnd-kit/utilities";
 import LessonItem from "./LessonItem";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { DeleteModuleButton } from "@/components/CustomButtons";
 
 type Props = {
     module: ModuleWithLessons
@@ -24,7 +25,7 @@ type Props = {
 }
 
 export default function ModuleItem({ module, index, courseId, communitySlug }: Props) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(index == 0)
     const [optimisticLessons, setOptimisticLessons] = useState(module.lessons)
     const [activeLesson, setActiveLesson] = useState<LessonInModule | null>(null)
 
@@ -120,14 +121,12 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
                     >
                         <Pencil className="size-3.5" />
                     </Button>
-                    <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        className="size-7 cursor-pointer text-secondary hover:text-destructive"
-                    >
-                        <Trash2 className="size-3.5" />
-                    </Button>
+                    <DeleteModuleButton
+                        moduleId={module.id}
+                        moduleSlug={module.slug}
+                        lessonCount={optimisticLessons.length}
+                        courseId={courseId}
+                    />
                 </div>
 
                 {/* Expand toggle — manual, not AccordionTrigger */}

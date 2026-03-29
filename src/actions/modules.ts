@@ -46,3 +46,15 @@ export async function reorderModulesAction(
 
     return data
 }
+
+export async function deleteModuleAction(moduleId: string) {
+    const res = await fetch(getUrl(`/api/modules/${moduleId}`), {
+        method: 'DELETE',
+        headers: apiHeaders
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to delete module")
+
+    return data
+}

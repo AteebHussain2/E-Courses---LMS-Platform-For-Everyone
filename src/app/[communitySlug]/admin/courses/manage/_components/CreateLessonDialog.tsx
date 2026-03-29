@@ -40,8 +40,8 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
         mutationFn: (values: FormValues) =>
             createLessonAction(values.title, values.type, moduleId, courseId, communitySlug),
         onSuccess: async () => {
-            toast.success("Lesson created!")
             await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
+            toast.success("Lesson created!")
             form.reset()
             setOpen(false)
         },
@@ -131,6 +131,7 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
                             type="button"
                             variant="outline"
                             className="cursor-pointer border-border bg-input"
+                            disabled={mutation.isPending}
                             onClick={() => { form.reset(); setOpen(false) }}
                         >
                             Cancel
