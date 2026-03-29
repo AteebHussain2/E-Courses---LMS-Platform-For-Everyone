@@ -4,6 +4,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { AlertTriangleIcon, Edit2, Plus, Trash2 } from 'lucide-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteLessonAction } from '@/actions/lessons';
 import { deleteCourseAction } from '@/actions/courses';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -34,6 +35,12 @@ type ManageButtonProps = ButtonProps & {
     courseId: string
 }
 
+type DeleteLessonButtonProps = ButtonProps & {
+    lessonId: string
+    lessonSlug: string
+    courseId: string
+}
+
 export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, className, side, disabled = false }: DeleteButtonProps) => {
     const [confirmation, setConfirmation] = useState('')
     const isConfirmed = confirmation === courseSlug
@@ -45,7 +52,7 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
             await queryClient.invalidateQueries({ queryKey: ['courses', communitySlug] })
             toast.success("Deleted course successfully!", { id: `course-delete-${courseId}` })
         },
-        onError: (error) => toast.error(error.message)
+        onError: (error) => toast.error(error.message, { id: `course-delete-${courseId}` })
     })
 
     return (
@@ -165,5 +172,106 @@ export const AddCourseButton = ({ className, disabled = false }: ButtonProps) =>
                 <Plus /> Add Course
             </Link>
         </Button>
+    )
+}
+
+export default function DeleteLessonButton({
+    lessonId,
+    lessonSlug,
+    courseId,
+    className,
+    disabled = false,
+    tooltip
+}: DeleteLessonButtonProps) {
+    const [confirmation, setConfirmation] = useState('')
+    const isConfirmed = confirmation === lessonSlug
+
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+        mutationFn: () => deleteLessonAction(lessonId),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
+            toast.success("Lesson deleted!", { id: `delete-lesson-${lessonId}` })
+        },
+        onError: (error) => toast.error(error.message, { id: `delete-lesson-${lessonId}` })
+    })
+
+    return (
+        <AlertDialog onOpenChange={(o) => { if (!o) setConfirmation('') }}>
+            {tooltip ? (
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <AlertDialogTrigger asChild>
+                            <Button
+                                type="button"
+                                size="icon"
+                                variant="ghost"
+                                disabled={disabled}
+                                className={cn("size-6 cursor-pointer text-secondary hover:text-destructive", className)}
+                            >
+                                <Trash2 className="size-3" />
+                            </Button>
+                        </AlertDialogTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Delete Lesson</p>
+                    </TooltipContent>
+                </Tooltip>
+            ) : (
+                <AlertDialogTrigger asChild>
+                    <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        disabled={disabled}
+                        className={cn("size-6 cursor-pointer text-secondary hover:text-destructive", className)}
+                    >
+                        <Trash2 className="size-3" />
+                    </Button>
+                </AlertDialogTrigger>
+            )}
+
+            <AlertDialogContent>
+                <AlertDialogHeader className="space-y-4">
+                    <AlertDialogTitle className="flex items-center gap-3 text-destructive">
+                        <Trash2 className="size-4" />
+                        Delete Lesson
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. All progress and completion data for this lesson will be permanently lost.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <div className="space-y-2">
+                    <p className="text-sm text-secondary">
+                        Type <span className="text-foreground font-medium">{lessonSlug}</span> to confirm:
+                    </p>
+                    <Input
+                        value={confirmation}
+                        onChange={(e) => setConfirmation(e.target.value)}
+                        placeholder={lessonSlug}
+                        className="bg-input border-border"
+                    />
+                </div>
+
+                <AlertDialogFooter>
+                    <AlertDialogCancel className="cursor-pointer">
+                        Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                        variant="destructive"
+                        className="cursor-pointer"
+                        disabled={!isConfirmed || mutation.isPending || disabled}
+                        onClick={() => {
+                            toast.loading("Deleting lesson...", { id: `delete-lesson-${lessonId}` })
+                            mutation.mutate()
+                        }}
+                    >
+                        {mutation.isPending ? "Deleting..." : "Delete Lesson"}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog >
     )
 }

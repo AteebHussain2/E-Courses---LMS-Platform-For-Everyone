@@ -6,6 +6,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { LessonInModule } from "@/lib/types";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+import DeleteLessonButton from "@/components/CustomButtons";
 
 type Props = {
     lesson: LessonInModule
@@ -26,7 +27,7 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
             ref={setNodeRef}
             style={style}
             className={cn(
-                "flex items-center gap-3 rounded-lg border border-border bg-background-secondary px-3 py-2.5 group transition-all",
+                "bg-card hover:bg-card-hover flex items-center gap-3 rounded-lg border border-border/60 px-3 py-2.5 group transition-all",
                 isDragging && "opacity-30 border-dashed"
             )}
         >
@@ -60,9 +61,12 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
                 <Button type="button" size="icon" variant="ghost" className="size-6 cursor-pointer">
                     <Pencil className="size-3 text-secondary" />
                 </Button>
-                <Button type="button" size="icon" variant="ghost" className="size-6 cursor-pointer hover:text-destructive">
-                    <Trash2 className="size-3 text-secondary" />
-                </Button>
+                <DeleteLessonButton
+                    lessonId={lesson.id}
+                    lessonSlug={lesson.slug}
+                    courseId={courseId}
+                    tooltip={false}
+                />
             </div>
 
             <span className={cn(

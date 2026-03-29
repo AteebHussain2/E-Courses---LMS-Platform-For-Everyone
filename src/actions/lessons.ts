@@ -39,3 +39,15 @@ export async function reorderLessonsAction(
 
     return data
 }
+
+export async function deleteLessonAction(lessonId: string) {
+    const res = await fetch(getUrl(`/api/lessons/${lessonId}`), {
+        method: 'DELETE',
+        headers: apiHeaders
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to delete lesson")
+
+    return data
+}
