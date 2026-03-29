@@ -50,3 +50,11 @@ export type ModuleWithLessons = Prisma.ModuleGetPayload<{
         }
     }
 }>
+
+export type LessonInModule = {
+    id: string
+    title: string
+    type: 'VIDEO' | 'SESSION'
+    index: number
+    slug: string
+}

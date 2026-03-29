@@ -21,3 +21,21 @@ export async function createLessonAction(
 
     return data.lesson
 }
+
+export async function reorderLessonsAction(
+    moduleId: string,
+    courseId: string,
+    communitySlug: string,
+    order: { id: string, index: number }[]
+) {
+    const res = await fetch(getUrl('/api/lessons/reorder'), {
+        method: 'PATCH',
+        headers: apiHeaders,
+        body: JSON.stringify({ moduleId, courseId, communitySlug, order })
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to reorder lessons")
+
+    return data
+}

@@ -1,14 +1,19 @@
 "use client"
 
-import { GripVertical, Pencil, Trash2, ChevronDown } from "lucide-react";
+import { closestCenter, DndContext, DragEndEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { GripVertical, Pencil, Trash2, ChevronDown, Video, Radio } from "lucide-react";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { LessonInModule, ModuleWithLessons } from "@/lib/types";
+import { reorderLessonsAction } from "@/actions/lessons";
 import CreateLessonDialog from "./CreateLessonDialog";
 import { Button } from "@/components/ui/button";
-import { ModuleWithLessons } from "@/lib/types";
-import { useSortable } from "@dnd-kit/sortable";
+import { useEffect, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import LessonItem from "./LessonItem";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
     module: ModuleWithLessons
@@ -19,28 +24,73 @@ type Props = {
 }
 
 export default function ModuleItem({ module, index, courseId, communitySlug }: Props) {
-    const [open, setOpen] = useState(index == 0)
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: module.id })
+    const [open, setOpen] = useState(false)
+    const [optimisticLessons, setOptimisticLessons] = useState(module.lessons)
+    const [activeLesson, setActiveLesson] = useState<LessonInModule | null>(null)
+
+    useEffect(() => setOptimisticLessons(module.lessons), [module.lessons])
+
+    const queryClient = useQueryClient()
+
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+        useSortable({ id: module.id })
 
     const style = { transform: CSS.Transform.toString(transform), transition }
+
+    const sensors = useSensors(useSensor(PointerSensor, {
+        activationConstraint: { distance: 8 }
+    }))
+
+    const reorderMutation = useMutation({
+        mutationFn: (lessons: LessonInModule[]) =>
+            reorderLessonsAction(
+                module.id,
+                courseId,
+                communitySlug,
+                lessons.map((l, i) => ({ id: l.id, index: i + 1 }))
+            ),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['modules', courseId] }),
+        onError: () => {
+            toast.error("Failed to reorder lessons")
+            setOptimisticLessons(module.lessons)  // revert
+        }
+    })
+
+    const handleDragStart = (event: DragStartEvent) => {
+        const lesson = optimisticLessons.find(l => l.id === event.active.id)
+        setActiveLesson(lesson ?? null)
+    }
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        setActiveLesson(null)
+        const { active, over } = event
+        if (!over || active.id === over.id) return
+
+        const oldIndex = optimisticLessons.findIndex(l => l.id === active.id)
+        const newIndex = optimisticLessons.findIndex(l => l.id === over.id)
+        const reordered = arrayMove(optimisticLessons, oldIndex, newIndex)
+
+        setOptimisticLessons(reordered)
+        reorderMutation.mutate(reordered)
+    }
 
     return (
         <div
             ref={setNodeRef}
             style={style}
             className={cn(
-                "rounded-xl border border-border bg-input transition-all duration-200",
+                "rounded-xl border border-border/40 bg-transparent transition-all duration-200 overflow-hidden",
                 isDragging && "opacity-30 border-dashed",
             )}
         >
             {/* Header Row — NOT inside AccordionTrigger */}
-            <div className="flex items-center gap-3 px-4 py-3.5">
+            <div className="flex items-center gap-3 px-4 py-3.5 bg-card">
 
                 {/* Drag Handle */}
                 <div
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab active:cursor-grabbing text-secondary/30 hover:text-secondary transition-colors touch-none shrink-0"
+                    className="cursor-grab active:cursor-grabbing text-secondary/80 hover:text-secondary transition-colors touch-none shrink-0"
                 >
                     <GripVertical className="size-4" />
                 </div>
@@ -97,22 +147,47 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
 
             {/* Expandable Lessons */}
             {open && (
-                <div className="px-4 pb-4 space-y-2 border-t border-border pt-3">
-                    {module.lessons.length === 0 ? (
-                        <p className="text-xs text-secondary/50 text-center py-3">
+                <div className="px-4 pb-4 border-t border-border/40 pt-3 space-y-2">
+                    {optimisticLessons.length === 0 ? (
+                        <p className="text-xs text-text-muted/50 text-center py-3">
                             No lessons yet
                         </p>
                     ) : (
-                        module.lessons.map((lesson, i) => (
-                            <LessonItem
-                                key={lesson.id}
-                                lesson={lesson}
-                                index={i}
-                                moduleId={module.id}
-                                courseId={courseId}
-                                communitySlug={communitySlug}
-                            />
-                        ))
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                        >
+                            <SortableContext
+                                items={optimisticLessons.map(l => l.id)}
+                                strategy={verticalListSortingStrategy}
+                            >
+                                <div className="space-y-2">
+                                    {optimisticLessons.map((lesson, index) => (
+                                        <LessonItem
+                                            key={lesson.id}
+                                            index={index}
+                                            lesson={lesson}
+                                            moduleId={module.id}
+                                            courseId={courseId}
+                                            communitySlug={communitySlug}
+                                        />
+                                    ))}
+                                </div>
+                            </SortableContext>
+
+                            {/* Lesson drag overlay */}
+                            <DragOverlay dropAnimation={{
+                                duration: 150,
+                                easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)'
+                            }}>
+                                {activeLesson && (
+                                    <DragOverlayLesson lesson={activeLesson} />
+                                )}
+                            </DragOverlay>
+                        </DndContext>
                     )}
 
                     <CreateLessonDialog
@@ -122,6 +197,29 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
                     />
                 </div>
             )}
+        </div>
+    )
+}
+
+function DragOverlayLesson({ lesson }: { lesson: LessonInModule }) {
+    return (
+        <div className="flex items-center gap-3 rounded-lg border border-primary/40 bg-background-secondary px-3 py-2.5 shadow-xl shadow-black/30 cursor-grabbing opacity-95">
+            <GripVertical className="size-3.5 text-primary/60 shrink-0" />
+            <div className={cn(
+                "size-6 rounded-md flex items-center justify-center shrink-0",
+                lesson.type === 'VIDEO' ? "bg-primary/10" : "bg-instructor-bg"
+            )}>
+                {lesson.type === 'VIDEO'
+                    ? <Video className="size-3 text-primary" />
+                    : <Radio className="size-3 text-instructor-fg" />
+                }
+            </div>
+            <span className="text-xs font-mono text-text-muted/50 shrink-0">
+                {String(lesson.index).padStart(2, '0')}
+            </span>
+            <span className="text-sm text-text truncate flex-1">
+                {lesson.title}
+            </span>
         </div>
     )
 }

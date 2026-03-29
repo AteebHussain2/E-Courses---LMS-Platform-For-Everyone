@@ -1,33 +1,43 @@
 "use client"
 
 import { Video, Radio, Pencil, Trash2, GripVertical } from "lucide-react";
-import { LessonType } from "@/generated/prisma/enums";
 import { Button } from "@/components/ui/button";
+import { useSortable } from "@dnd-kit/sortable";
+import { LessonInModule } from "@/lib/types";
+import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 
-type Lesson = {
-    id: string
-    title: string
-    type: LessonType
-    index: number
-}
-
 type Props = {
-    lesson: Lesson
-    index: number
+    lesson: LessonInModule
     moduleId: string
     courseId: string
     communitySlug: string
+    index: number
 }
 
-export default function LessonItem({ lesson, index, moduleId, courseId, communitySlug }: Props) {
+export default function LessonItem({ index, lesson, moduleId, courseId, communitySlug }: Props) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+        useSortable({ id: lesson.id })
+
+    const style = { transform: CSS.Transform.toString(transform), transition }
+
     return (
-        <div className="flex items-center gap-3 rounded-lg border border-border bg-background-secondary px-3 py-2.5 group">
+        <div
+            ref={setNodeRef}
+            style={style}
+            className={cn(
+                "flex items-center gap-3 rounded-lg border border-border bg-background-secondary px-3 py-2.5 group transition-all",
+                isDragging && "opacity-30 border-dashed"
+            )}
+        >
+            <div
+                {...attributes}
+                {...listeners}
+                className="cursor-grab active:cursor-grabbing text-secondary/80 hover:text-secondary transition-colors touch-none shrink-0"
+            >
+                <GripVertical className="size-3.5" />
+            </div>
 
-            {/* Drag handle */}
-            <GripVertical className="size-3.5 text-secondary/30 group-hover:text-secondary/60 cursor-grab shrink-0 transition-colors" />
-
-            {/* Type icon */}
             <div className={cn(
                 "size-6 rounded-md flex items-center justify-center shrink-0",
                 lesson.type === 'VIDEO' ? "bg-primary/10" : "bg-instructor-bg"
@@ -38,10 +48,10 @@ export default function LessonItem({ lesson, index, moduleId, courseId, communit
                 }
             </div>
 
-            {/* Index + Title */}
-            <span className="text-xs font-mono text-secondary/50 shrink-0">
+            <span className="text-xs font-mono text-secondary/50 shrink-0 tabular-nums">
                 {String(index + 1).padStart(2, '0')}
             </span>
+
             <span className="text-sm text-foreground truncate flex-1">
                 {lesson.title}
             </span>
@@ -63,7 +73,6 @@ export default function LessonItem({ lesson, index, moduleId, courseId, communit
             )}>
                 {lesson.type === 'VIDEO' ? 'Video' : 'Live'}
             </span>
-
         </div>
     )
 }
