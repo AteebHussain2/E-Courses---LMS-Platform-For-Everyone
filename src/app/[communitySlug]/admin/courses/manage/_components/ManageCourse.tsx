@@ -1,7 +1,7 @@
 import { PreviewCourseCard } from "@/components/courses/CourseCard";
 import { EditCourseButton } from "@/components/CustomButtons";
-import { buttonVariants } from "@/components/ui/button";
 import { CourseWithInstructorAndCount } from "@/lib/types";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type ManageCourseProps = {
@@ -17,7 +17,6 @@ const ManageCourse = ({ course }: ManageCourseProps) => {
                 <EditCourseButton
                     courseId={course.id}
                     text="Edit Course"
-                    toast={false}
                     className={cn("text-foreground! flex-1 w-full",
                         buttonVariants({ size: "default", variant: "default" })
                     )} />

@@ -35,3 +35,18 @@ export type CourseWithInstructorAndCount = Prisma.CourseGetPayload<{
         }
     }
 }>
+
+export type ModuleWithLessons = Prisma.ModuleGetPayload<{
+    include: {
+        lessons: {
+            select: {
+                id: true
+                title: true
+                type: true
+                index: true
+                slug: true
+            }
+            orderBy: { index: 'asc' }
+        }
+    }
+}>

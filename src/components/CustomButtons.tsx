@@ -16,7 +16,7 @@ type ButtonProps = {
     className?: string,
     side?: 'left' | 'top' | 'bottom' | 'right',
     disabled?: boolean,
-    toast?: boolean
+    tooltip?: boolean
 }
 
 type DeleteButtonProps = ButtonProps & {
@@ -118,9 +118,9 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
     )
 }
 
-export const EditCourseButton = ({ courseId, className, side, disabled = false, text }: EditButtonProps) => {
+export const EditCourseButton = ({ courseId, className, side, disabled = false, text, tooltip }: EditButtonProps) => {
     return (
-        <Tooltip>
+        <Tooltip disableHoverableContent={tooltip}>
             <TooltipTrigger asChild>
                 <Button
                     size='icon'
@@ -147,7 +147,7 @@ export const ManageCourseButton = ({ courseId, className, disabled = false }: Ma
             className={cn("w-full cursor-pointer rounded-full bg-[#0C1321] text-foreground hover:border-border hover:bg-[#0F1A2E] hover:text-foreground", className)}
             disabled={disabled}
         >
-            <Link href={!disabled ? `courses/${courseId}` : ''} className='w-full h-full items-center justify-center flex'>
+            <Link href={!disabled ? `courses/manage?courseId=${courseId}` : ''} className='w-full h-full items-center justify-center flex'>
                 Manage Course
             </Link>
         </Button>
