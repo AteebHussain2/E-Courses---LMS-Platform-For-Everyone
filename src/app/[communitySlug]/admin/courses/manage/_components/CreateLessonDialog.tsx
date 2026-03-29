@@ -122,7 +122,7 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
                     <div className="flex gap-3">
                         <Button
                             type="submit"
-                            className="flex-1 cursor-pointer"
+                            className="flex-1 cursor-pointer text-foreground"
                             disabled={mutation.isPending}
                         >
                             {mutation.isPending ? "Creating..." : "Create Lesson"}

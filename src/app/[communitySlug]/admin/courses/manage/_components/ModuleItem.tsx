@@ -1,28 +1,25 @@
 "use client"
 
-import { useSortable } from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import {
-    Accordion, AccordionContent,
-    AccordionItem
-} from "@/components/ui/accordion"
-import { ModuleWithLessons } from "@/lib/types"
-import { GripVertical, Pencil, Trash2, ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import LessonItem from "./LessonItem"
-import CreateLessonDialog from "./CreateLessonDialog"
-import { useState } from "react"
+import { GripVertical, Pencil, Trash2, ChevronDown } from "lucide-react";
+import CreateLessonDialog from "./CreateLessonDialog";
+import { Button } from "@/components/ui/button";
+import { ModuleWithLessons } from "@/lib/types";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import LessonItem from "./LessonItem";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 type Props = {
     module: ModuleWithLessons
     index: number
     courseId: string
     communitySlug: string
+    isDragOverlay?: boolean
 }
 
 export default function ModuleItem({ module, index, courseId, communitySlug }: Props) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(index == 0)
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: module.id })
 
     const style = { transform: CSS.Transform.toString(transform), transition }
@@ -33,7 +30,7 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
             style={style}
             className={cn(
                 "rounded-xl border border-border bg-input transition-all duration-200",
-                isDragging && "shadow-xl shadow-black/30 opacity-90 scale-[1.01] z-50"
+                isDragging && "opacity-30 border-dashed",
             )}
         >
             {/* Header Row — NOT inside AccordionTrigger */}
@@ -49,7 +46,7 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
                 </div>
 
                 {/* Index */}
-                <span className="text-xs font-mono text-secondary/60 bg-background-secondary border border-border rounded-md px-1.5 py-0.5 shrink-0 tabular-nums">
+                <span className="text-xs font-mono text-secondary/60 bg-background-secondary border border-border/80 rounded-md px-1.5 py-0.5 shrink-0 tabular-nums">
                     {String(index + 1).padStart(2, '0')}
                 </span>
 
