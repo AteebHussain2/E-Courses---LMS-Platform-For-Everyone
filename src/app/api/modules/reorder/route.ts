@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyApiRequest } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { bustCache } from "@/lib/cache";
 
 export async function PATCH(req: NextRequest) {
     const authError = verifyApiRequest(req)
@@ -42,6 +43,9 @@ export async function PATCH(req: NextRequest) {
                 )
             )
         })
+
+        // bust after reorder
+        await bustCache(['modules', `modules:${courseId}`])
 
         return NextResponse.json({ success: true })
     } catch (error) {

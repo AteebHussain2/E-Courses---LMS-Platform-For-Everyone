@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { verifyApiRequest } from "@/lib/api"
 import { prisma } from "@/lib/prisma"
 import { Role } from "@/generated/prisma/enums"
+import { withCache } from "@/lib/cache"
 
 export async function GET(req: NextRequest) {
     const authError = verifyApiRequest(req)
@@ -10,24 +11,30 @@ export async function GET(req: NextRequest) {
     const communitySlug = req.nextUrl.searchParams.get('communitySlug')
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
+    const cacheKey = `instructors:${communitySlug}`
+
     try {
-        const members = await prisma.communityMember.findMany({
-            where: {
-                community: { slug: communitySlug },
-                role: { not: Role.STUDENT }
-            },
-            select: {
-                user: {
-                    select: {
-                        userId: true,
-                        firstName: true,
-                        lastName: true,
-                        avatar: true,
-                    }
+        const members = await withCache(
+            cacheKey,
+            () => prisma.communityMember.findMany({
+                where: {
+                    community: { slug: communitySlug },
+                    role: { not: Role.STUDENT }
                 },
-                role: true
-            }
-        })
+                select: {
+                    user: {
+                        select: {
+                            userId: true,
+                            firstName: true,
+                            lastName: true,
+                            avatar: true,
+                        }
+                    },
+                    role: true
+                }
+            }),
+            { ttl: 60 * 60 * 24, tags: [`instructors:${communitySlug}`] } // 24 hours — instructors barely change 
+        )
 
         return NextResponse.json({
             members: members.map(m => ({

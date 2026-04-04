@@ -13,7 +13,11 @@ type Instructor = {
 
 export async function getInstructors(communitySlug: string) {
     const res = await fetch(getUrl(`/api/members/instructors?communitySlug=${communitySlug}`), {
-        headers: apiHeaders
+        headers: apiHeaders,
+        next: {
+            revalidate: 60 * 60 * 24,                        // 24 hours
+            tags: [`instructors:${communitySlug}`]
+        }
     })
 
     const data = await res.json()

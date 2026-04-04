@@ -1,6 +1,7 @@
 import { startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns"
 import { NextRequest, NextResponse } from "next/server"
 import { verifyApiRequest } from "@/lib/api"
+import { withCache } from "@/lib/cache"
 import { prisma } from "@/lib/prisma"
 
 const getTimeFilter = (time: string) => {
@@ -40,53 +41,60 @@ export async function GET(req: NextRequest) {
 
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
-    const where = {
-        community: { slug: communitySlug },
-        deletedAt: null,
-        ...(status === 'active' && { isActive: true }),
-        ...(status === 'inactive' && { isActive: false }),
-        ...(time !== 'all' && { createdAt: getTimeFilter(time) }),
-        ...(instructorId === 'unassigned' && { instructorId: null }),
-        ...(instructorId && instructorId !== 'unassigned' && { instructorId }),
-    }
+    const cacheKey = `courses:${communitySlug}:${status}:${time}:${sort}:${instructorId}:${offset}`
 
     try {
-        const [courses, total] = await prisma.$transaction([
-            prisma.course.findMany({
-                where,
-                take: LIMIT,
-                skip: offset,
-                orderBy: getSortFilter(sort),
-                select: {
-                    id: true,
-                    title: true,
-                    slug: true,
-                    description: true,
-                    imageUrl: true,
-                    isActive: true,
-                    createdAt: true,
-                    updatedAt: true,
-                    instructor: {
-                        select: {
-                            userId: true,
-                            firstName: true,
-                            lastName: true,
-                            avatar: true,
-                        }
-                    },
-                    community: {
-                        select: {
-                            id: true,
-                            slug: true,
+        const where = {
+            community: { slug: communitySlug },
+            deletedAt: null,
+            ...(status === 'active' && { isActive: true }),
+            ...(status === 'inactive' && { isActive: false }),
+            ...(time !== 'all' && { createdAt: getTimeFilter(time) }),
+            ...(instructorId === 'unassigned' && { instructorId: null }),
+            ...(instructorId && instructorId !== 'unassigned' && { instructorId }),
+        }
+
+        const [courses, total] = await withCache(
+            cacheKey,
+            () => prisma.$transaction([
+                prisma.course.findMany({
+                    where,
+                    take: LIMIT,
+                    skip: offset,
+                    orderBy: getSortFilter(sort),
+                    select: {
+                        id: true,
+                        title: true,
+                        slug: true,
+                        description: true,
+                        imageUrl: true,
+                        isActive: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        instructor: {
+                            select: {
+                                userId: true,
+                                firstName: true,
+                                lastName: true,
+                                avatar: true,
+                            }
                         },
-                    },
-                    _count: {
-                        select: { enrollments: true, modules: true }
+                        community: {
+                            select: {
+                                id: true,
+                                slug: true,
+                            },
+                        },
+                        _count: {
+                            select: { enrollments: true, modules: true }
+                        }
                     }
-                }
-            }),
-            prisma.course.count({ where })
-        ])
+                }),
+                prisma.course.count({ where })
+            ]),
+
+            { ttl: 300, tags: ['courses', `courses:${communitySlug}`] }
+        )
 
         return NextResponse.json({
             courses,

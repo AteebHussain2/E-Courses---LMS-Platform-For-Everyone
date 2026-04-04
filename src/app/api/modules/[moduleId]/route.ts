@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyApiRequest } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { bustCache } from "@/lib/cache";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ moduleId: string }> }) {
     const authError = verifyApiRequest(req)
@@ -81,6 +82,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ m
                 data: { deletedAt: now }
             })
         })
+
+        // bust after delete
+        await bustCache(['modules', `modules:${module.courseId}`])
 
         return NextResponse.json({ success: true })
     } catch (error) {

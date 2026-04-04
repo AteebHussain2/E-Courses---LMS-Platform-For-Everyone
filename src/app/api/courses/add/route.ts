@@ -1,6 +1,7 @@
 import { verifyApiRequest, generateSlug, validateWithRegex } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { bustCache } from "@/lib/cache";
 
 const PATTERNS = {
     title: /^[a-zA-Z0-9\s\-\_\:\&]{1,100}$/,
@@ -53,6 +54,8 @@ export async function POST(req: NextRequest) {
                 }
             }
         });
+
+        await bustCache(['courses', `courses:${communitySlug}`])
 
         return NextResponse.json({ course }, { status: 201 })
     } catch (error) {

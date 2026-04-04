@@ -1,6 +1,7 @@
 import { validateWithRegex, verifyApiRequest } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { bustCache } from "@/lib/cache";
 
 const PATTERNS = {
     title: /^[a-zA-Z0-9\s\-\_\:\&]{1,100}$/,
@@ -97,10 +98,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ co
                 ...(instructorId ? {
                     instructor: { connect: { userId: instructorId } }
                 } : {
-                    instructor: { disconnect: true }  // 👈 clears instructor if removed
+                    instructor: { disconnect: true }  // clears instructor if removed
                 })
             }
         })
+
+        await bustCache(['courses', `courses:${communitySlug}`])
 
         return NextResponse.json({ course })
     } catch (error) {
@@ -114,12 +117,20 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
     if (authError) return authError
 
     const { courseId } = await params
+    const body = await req.json()
+    const { communitySlug } = body
+
+    if (!communitySlug) {
+        return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
+    }
 
     try {
         await prisma.course.update({
             where: { id: courseId },
             data: { deletedAt: new Date(), isActive: false },
         })
+
+        await bustCache(['courses', `courses:${communitySlug}`])
 
         return NextResponse.json({ success: true })
     } catch (error) {

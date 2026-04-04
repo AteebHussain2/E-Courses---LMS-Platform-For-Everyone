@@ -41,7 +41,11 @@ export async function updateCourseAction(values: courseSchemaType, courseId: str
 
 export async function getCourseAction(courseId: string, communitySlug: string) {
     const res = await fetch(getUrl(`/api/courses/${courseId}?communitySlug=${communitySlug}`), {
-        headers: apiHeaders
+        headers: apiHeaders,
+        next: {
+            revalidate: 300,
+            tags: ['courses', `courses:${communitySlug}`]
+        }
     })
 
     const data = await res.json()
@@ -71,10 +75,11 @@ export async function getCoursesAction(communitySlug: string, filters: CourseFil
     }
 }
 
-export async function deleteCourseAction(courseId: string) {
+export async function deleteCourseAction(courseId: string, communitySlug: string) {
     const res = await fetch(getUrl(`/api/courses/${courseId}`), {
         method: 'DELETE',
-        headers: apiHeaders
+        headers: apiHeaders,
+        body: JSON.stringify({ communitySlug })
     })
 
     const data = await res.json()

@@ -55,7 +55,7 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
 
     const queryClient = useQueryClient()
     const mutation = useMutation({
-        mutationFn: (courseId: string) => deleteCourseAction(courseId),
+        mutationFn: (courseId: string) => deleteCourseAction(courseId, communitySlug),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['courses', communitySlug] })
             toast.success("Deleted course successfully!", { id: `course-delete-${courseId}` })

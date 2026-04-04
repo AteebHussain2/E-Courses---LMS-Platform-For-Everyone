@@ -1,6 +1,7 @@
 import { verifyApiRequest, generateSlug } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { bustCache, withCache } from "@/lib/cache";
 
 export async function GET(req: NextRequest) {
     const authError = verifyApiRequest(req)
@@ -14,30 +15,36 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: "courseId and communitySlug are required" }, { status: 400 })
     }
 
+    const cacheKey = `modules:${courseId}:${communitySlug}`
+
     try {
-        const modules = await prisma.module.findMany({
-            where: {
-                courseId,
-                course: { community: { slug: communitySlug } },
-                deletedAt: null
-            },
-            orderBy: { index: 'asc' },
-            include: {
-                lessons: {
-                    where: { deletedAt: null },
-                    select: {
-                        id: true,
-                        title: true,
-                        type: true,
-                        index: true,
-                        slug: true,
-                        session: true,
-                        video: true,
-                    },
-                    orderBy: { index: 'asc' }
+        const modules = await withCache(
+            cacheKey,
+            () => prisma.module.findMany({
+                where: {
+                    courseId,
+                    course: { community: { slug: communitySlug } },
+                    deletedAt: null
+                },
+                orderBy: { index: 'asc' },
+                include: {
+                    lessons: {
+                        where: { deletedAt: null },
+                        select: {
+                            id: true,
+                            title: true,
+                            type: true,
+                            index: true,
+                            slug: true,
+                            session: true,
+                            video: true,
+                        },
+                        orderBy: { index: 'asc' }
+                    }
                 }
-            }
-        })
+            }),
+            { ttl: 300, tags: ['modules', `modules:${courseId}`] }
+        )
 
         return NextResponse.json({ modules })
     } catch (error) {
@@ -75,6 +82,8 @@ export async function POST(req: NextRequest) {
                 course: { connect: { id: courseId } }
             }
         })
+
+        await bustCache(['modules', `modules:${courseId}`])
 
         return NextResponse.json({ module }, { status: 201 })
     } catch (error) {

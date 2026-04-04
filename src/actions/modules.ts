@@ -8,7 +8,11 @@ export async function getModulesAction(courseId: string, communitySlug: string) 
     const params = new URLSearchParams({ courseId, communitySlug })
 
     const res = await fetch(getUrl(`/api/modules?${params}`), {
-        headers: apiHeaders
+        headers: apiHeaders,
+        next: {
+            revalidate: 300,
+            tags: ['modules', `modules:${courseId}`]
+        }
     })
 
     const data = await res.json()
