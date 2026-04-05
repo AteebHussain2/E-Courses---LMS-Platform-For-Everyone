@@ -1,5 +1,5 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { Role } from '@/generated/prisma/enums';
+import { LessonStatus, Role } from '@/generated/prisma/enums';
 import { LucideIcon } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { cn } from '@/lib/utils';
@@ -9,12 +9,12 @@ type CustomBadgeProps = {
     className?: string,
     text: string | number,
     tooltip?: string,
-    variant?: Role,
+    variant?: Role | LessonStatus | 'default',
     side?: 'left' | 'top' | 'bottom' | 'right',
 }
 
-const customBadgeVariant = (role: Role | 'default') => {
-    switch (role) {
+const customBadgeVariant = (variant: Role | LessonStatus | 'default') => {
+    switch (variant) {
         case Role.STUDENT:
             return "bg-student-bg text-student-fg";
         case Role.INSTRUCTOR:
@@ -25,6 +25,12 @@ const customBadgeVariant = (role: Role | 'default') => {
             return "bg-admin-bg text-admin-fg";
         case Role.OWNER:
             return "bg-owner-bg text-owner-fg";
+        case LessonStatus.DRAFT:
+            return "bg-yellow-400 text-yellow-900";
+        case LessonStatus.ARCHIVED:
+            return "bg-gray-400 text-gray-900";
+        case LessonStatus.PUBLISHED:
+            return "bg-green-400 text-green-900";
         default:
             return "bg-glass-bg text-secondary";
     }

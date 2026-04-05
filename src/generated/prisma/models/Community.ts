@@ -186,7 +186,7 @@ export type CommunityGroupByOutputType = {
   _max: CommunityMaxAggregateOutputType | null
 }
 
-type GetCommunityGroupByPayload<T extends CommunityGroupByArgs> = Prisma.PrismaPromise<
+export type GetCommunityGroupByPayload<T extends CommunityGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CommunityGroupByOutputType, T['by']> &
       {

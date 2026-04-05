@@ -213,7 +213,7 @@ export type ModuleGroupByOutputType = {
   _max: ModuleMaxAggregateOutputType | null
 }
 
-type GetModuleGroupByPayload<T extends ModuleGroupByArgs> = Prisma.PrismaPromise<
+export type GetModuleGroupByPayload<T extends ModuleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ModuleGroupByOutputType, T['by']> &
       {
@@ -260,7 +260,7 @@ export type ModuleOrderByWithRelationInput = {
 export type ModuleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   slug_courseId?: Prisma.ModuleSlugCourseIdCompoundUniqueInput
-  courseId_index?: Prisma.ModuleCourseIdIndexCompoundUniqueInput
+  courseId_index_deletedAt?: Prisma.ModuleCourseIdIndexDeletedAtCompoundUniqueInput
   AND?: Prisma.ModuleWhereInput | Prisma.ModuleWhereInput[]
   OR?: Prisma.ModuleWhereInput[]
   NOT?: Prisma.ModuleWhereInput | Prisma.ModuleWhereInput[]
@@ -273,7 +273,7 @@ export type ModuleWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Module"> | Date | string
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   lessons?: Prisma.LessonListRelationFilter
-}, "id" | "slug_courseId" | "courseId_index">
+}, "id" | "slug_courseId" | "courseId_index_deletedAt">
 
 export type ModuleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -400,9 +400,10 @@ export type ModuleSlugCourseIdCompoundUniqueInput = {
   courseId: string
 }
 
-export type ModuleCourseIdIndexCompoundUniqueInput = {
+export type ModuleCourseIdIndexDeletedAtCompoundUniqueInput = {
   courseId: string
   index: number
+  deletedAt: Date | string
 }
 
 export type ModuleCountOrderByAggregateInput = {

@@ -41,6 +41,7 @@ export type SessionMinAggregateOutputType = {
   scheduledAt: Date | null
   duration: number | null
   platformLink: string | null
+  imageUrl: string | null
   status: $Enums.SessionStatus | null
   communityId: string | null
   deletedAt: Date | null
@@ -55,6 +56,7 @@ export type SessionMaxAggregateOutputType = {
   scheduledAt: Date | null
   duration: number | null
   platformLink: string | null
+  imageUrl: string | null
   status: $Enums.SessionStatus | null
   communityId: string | null
   deletedAt: Date | null
@@ -69,6 +71,7 @@ export type SessionCountAggregateOutputType = {
   scheduledAt: number
   duration: number
   platformLink: number
+  imageUrl: number
   status: number
   communityId: number
   deletedAt: number
@@ -93,6 +96,7 @@ export type SessionMinAggregateInputType = {
   scheduledAt?: true
   duration?: true
   platformLink?: true
+  imageUrl?: true
   status?: true
   communityId?: true
   deletedAt?: true
@@ -107,6 +111,7 @@ export type SessionMaxAggregateInputType = {
   scheduledAt?: true
   duration?: true
   platformLink?: true
+  imageUrl?: true
   status?: true
   communityId?: true
   deletedAt?: true
@@ -121,6 +126,7 @@ export type SessionCountAggregateInputType = {
   scheduledAt?: true
   duration?: true
   platformLink?: true
+  imageUrl?: true
   status?: true
   communityId?: true
   deletedAt?: true
@@ -222,6 +228,7 @@ export type SessionGroupByOutputType = {
   scheduledAt: Date
   duration: number | null
   platformLink: string | null
+  imageUrl: string | null
   status: $Enums.SessionStatus
   communityId: string
   deletedAt: Date | null
@@ -234,7 +241,7 @@ export type SessionGroupByOutputType = {
   _max: SessionMaxAggregateOutputType | null
 }
 
-type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
+export type GetSessionGroupByPayload<T extends SessionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<SessionGroupByOutputType, T['by']> &
       {
@@ -259,6 +266,7 @@ export type SessionWhereInput = {
   scheduledAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   duration?: Prisma.IntNullableFilter<"Session"> | number | null
   platformLink?: Prisma.StringNullableFilter<"Session"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Session"> | string | null
   status?: Prisma.EnumSessionStatusFilter<"Session"> | $Enums.SessionStatus
   communityId?: Prisma.StringFilter<"Session"> | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Session"> | Date | string | null
@@ -276,6 +284,7 @@ export type SessionOrderByWithRelationInput = {
   scheduledAt?: Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   platformLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -296,6 +305,7 @@ export type SessionWhereUniqueInput = Prisma.AtLeast<{
   scheduledAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   duration?: Prisma.IntNullableFilter<"Session"> | number | null
   platformLink?: Prisma.StringNullableFilter<"Session"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Session"> | string | null
   status?: Prisma.EnumSessionStatusFilter<"Session"> | $Enums.SessionStatus
   communityId?: Prisma.StringFilter<"Session"> | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Session"> | Date | string | null
@@ -313,6 +323,7 @@ export type SessionOrderByWithAggregationInput = {
   scheduledAt?: Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   platformLink?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -335,6 +346,7 @@ export type SessionScalarWhereWithAggregatesInput = {
   scheduledAt?: Prisma.DateTimeWithAggregatesFilter<"Session"> | Date | string
   duration?: Prisma.IntNullableWithAggregatesFilter<"Session"> | number | null
   platformLink?: Prisma.StringNullableWithAggregatesFilter<"Session"> | string | null
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Session"> | string | null
   status?: Prisma.EnumSessionStatusWithAggregatesFilter<"Session"> | $Enums.SessionStatus
   communityId?: Prisma.StringWithAggregatesFilter<"Session"> | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Session"> | Date | string | null
@@ -349,6 +361,7 @@ export type SessionCreateInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -365,6 +378,7 @@ export type SessionUncheckedCreateInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   communityId: string
   deletedAt?: Date | string | null
@@ -381,6 +395,7 @@ export type SessionUpdateInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -397,6 +412,7 @@ export type SessionUncheckedUpdateInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -413,6 +429,7 @@ export type SessionCreateManyInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   communityId: string
   deletedAt?: Date | string | null
@@ -427,6 +444,7 @@ export type SessionUpdateManyMutationInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,6 +458,7 @@ export type SessionUncheckedUpdateManyInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -469,6 +488,7 @@ export type SessionCountOrderByAggregateInput = {
   scheduledAt?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   platformLink?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -487,6 +507,7 @@ export type SessionMaxOrderByAggregateInput = {
   scheduledAt?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   platformLink?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -501,6 +522,7 @@ export type SessionMinOrderByAggregateInput = {
   scheduledAt?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   platformLink?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -600,6 +622,7 @@ export type SessionCreateWithoutCommunityInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -615,6 +638,7 @@ export type SessionUncheckedCreateWithoutCommunityInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -659,6 +683,7 @@ export type SessionScalarWhereInput = {
   scheduledAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   duration?: Prisma.IntNullableFilter<"Session"> | number | null
   platformLink?: Prisma.StringNullableFilter<"Session"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Session"> | string | null
   status?: Prisma.EnumSessionStatusFilter<"Session"> | $Enums.SessionStatus
   communityId?: Prisma.StringFilter<"Session"> | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Session"> | Date | string | null
@@ -673,6 +698,7 @@ export type SessionCreateWithoutLessonInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -688,6 +714,7 @@ export type SessionUncheckedCreateWithoutLessonInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   communityId: string
   deletedAt?: Date | string | null
@@ -719,6 +746,7 @@ export type SessionUpdateWithoutLessonInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -734,6 +762,7 @@ export type SessionUncheckedUpdateWithoutLessonInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -749,6 +778,7 @@ export type SessionCreateWithoutRecordingInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -764,6 +794,7 @@ export type SessionUncheckedCreateWithoutRecordingInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   communityId: string
   deletedAt?: Date | string | null
@@ -795,6 +826,7 @@ export type SessionUpdateWithoutRecordingInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -810,6 +842,7 @@ export type SessionUncheckedUpdateWithoutRecordingInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -825,6 +858,7 @@ export type SessionCreateManyCommunityInput = {
   scheduledAt: Date | string
   duration?: number | null
   platformLink?: string | null
+  imageUrl?: string | null
   status?: $Enums.SessionStatus
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -838,6 +872,7 @@ export type SessionUpdateWithoutCommunityInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -853,6 +888,7 @@ export type SessionUncheckedUpdateWithoutCommunityInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -868,6 +904,7 @@ export type SessionUncheckedUpdateManyWithoutCommunityInput = {
   scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -883,6 +920,7 @@ export type SessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scheduledAt?: boolean
   duration?: boolean
   platformLink?: boolean
+  imageUrl?: boolean
   status?: boolean
   communityId?: boolean
   deletedAt?: boolean
@@ -900,6 +938,7 @@ export type SessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   scheduledAt?: boolean
   duration?: boolean
   platformLink?: boolean
+  imageUrl?: boolean
   status?: boolean
   communityId?: boolean
   deletedAt?: boolean
@@ -915,6 +954,7 @@ export type SessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   scheduledAt?: boolean
   duration?: boolean
   platformLink?: boolean
+  imageUrl?: boolean
   status?: boolean
   communityId?: boolean
   deletedAt?: boolean
@@ -930,6 +970,7 @@ export type SessionSelectScalar = {
   scheduledAt?: boolean
   duration?: boolean
   platformLink?: boolean
+  imageUrl?: boolean
   status?: boolean
   communityId?: boolean
   deletedAt?: boolean
@@ -937,7 +978,7 @@ export type SessionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "scheduledAt" | "duration" | "platformLink" | "status" | "communityId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
+export type SessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "scheduledAt" | "duration" | "platformLink" | "imageUrl" | "status" | "communityId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
 export type SessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.Session$lessonArgs<ExtArgs>
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
@@ -964,6 +1005,7 @@ export type $SessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     scheduledAt: Date
     duration: number | null
     platformLink: string | null
+    imageUrl: string | null
     status: $Enums.SessionStatus
     communityId: string
     deletedAt: Date | null
@@ -1401,6 +1443,7 @@ export interface SessionFieldRefs {
   readonly scheduledAt: Prisma.FieldRef<"Session", 'DateTime'>
   readonly duration: Prisma.FieldRef<"Session", 'Int'>
   readonly platformLink: Prisma.FieldRef<"Session", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Session", 'String'>
   readonly status: Prisma.FieldRef<"Session", 'SessionStatus'>
   readonly communityId: Prisma.FieldRef<"Session", 'String'>
   readonly deletedAt: Prisma.FieldRef<"Session", 'DateTime'>

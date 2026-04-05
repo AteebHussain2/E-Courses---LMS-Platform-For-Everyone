@@ -37,6 +37,7 @@ export type VideoSumAggregateOutputType = {
 export type VideoMinAggregateOutputType = {
   id: string | null
   description: string | null
+  imageUrl: string | null
   videoUrl: string | null
   fileKey: string | null
   duration: number | null
@@ -49,6 +50,7 @@ export type VideoMinAggregateOutputType = {
 export type VideoMaxAggregateOutputType = {
   id: string | null
   description: string | null
+  imageUrl: string | null
   videoUrl: string | null
   fileKey: string | null
   duration: number | null
@@ -61,6 +63,7 @@ export type VideoMaxAggregateOutputType = {
 export type VideoCountAggregateOutputType = {
   id: number
   description: number
+  imageUrl: number
   videoUrl: number
   fileKey: number
   duration: number
@@ -83,6 +86,7 @@ export type VideoSumAggregateInputType = {
 export type VideoMinAggregateInputType = {
   id?: true
   description?: true
+  imageUrl?: true
   videoUrl?: true
   fileKey?: true
   duration?: true
@@ -95,6 +99,7 @@ export type VideoMinAggregateInputType = {
 export type VideoMaxAggregateInputType = {
   id?: true
   description?: true
+  imageUrl?: true
   videoUrl?: true
   fileKey?: true
   duration?: true
@@ -107,6 +112,7 @@ export type VideoMaxAggregateInputType = {
 export type VideoCountAggregateInputType = {
   id?: true
   description?: true
+  imageUrl?: true
   videoUrl?: true
   fileKey?: true
   duration?: true
@@ -206,6 +212,7 @@ export type VideoGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type VideoGroupByOutputType = {
   id: string
   description: string | null
+  imageUrl: string | null
   videoUrl: string | null
   fileKey: string | null
   duration: number | null
@@ -220,7 +227,7 @@ export type VideoGroupByOutputType = {
   _max: VideoMaxAggregateOutputType | null
 }
 
-type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
+export type GetVideoGroupByPayload<T extends VideoGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VideoGroupByOutputType, T['by']> &
       {
@@ -241,6 +248,7 @@ export type VideoWhereInput = {
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   id?: Prisma.StringFilter<"Video"> | string
   description?: Prisma.StringNullableFilter<"Video"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Video"> | string | null
   videoUrl?: Prisma.StringNullableFilter<"Video"> | string | null
   fileKey?: Prisma.StringNullableFilter<"Video"> | string | null
   duration?: Prisma.IntNullableFilter<"Video"> | number | null
@@ -255,6 +263,7 @@ export type VideoWhereInput = {
 export type VideoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   fileKey?: Prisma.SortOrderInput | Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -273,6 +282,7 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.VideoWhereInput[]
   NOT?: Prisma.VideoWhereInput | Prisma.VideoWhereInput[]
   description?: Prisma.StringNullableFilter<"Video"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Video"> | string | null
   videoUrl?: Prisma.StringNullableFilter<"Video"> | string | null
   fileKey?: Prisma.StringNullableFilter<"Video"> | string | null
   duration?: Prisma.IntNullableFilter<"Video"> | number | null
@@ -286,6 +296,7 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
 export type VideoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   fileKey?: Prisma.SortOrderInput | Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -306,6 +317,7 @@ export type VideoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VideoScalarWhereWithAggregatesInput | Prisma.VideoScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Video"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
   videoUrl?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
   fileKey?: Prisma.StringNullableWithAggregatesFilter<"Video"> | string | null
   duration?: Prisma.IntNullableWithAggregatesFilter<"Video"> | number | null
@@ -318,6 +330,7 @@ export type VideoScalarWhereWithAggregatesInput = {
 export type VideoCreateInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -331,6 +344,7 @@ export type VideoCreateInput = {
 export type VideoUncheckedCreateInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -344,6 +358,7 @@ export type VideoUncheckedCreateInput = {
 export type VideoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -357,6 +372,7 @@ export type VideoUpdateInput = {
 export type VideoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -370,6 +386,7 @@ export type VideoUncheckedUpdateInput = {
 export type VideoCreateManyInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -382,6 +399,7 @@ export type VideoCreateManyInput = {
 export type VideoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -393,6 +411,7 @@ export type VideoUpdateManyMutationInput = {
 export type VideoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -410,6 +429,7 @@ export type VideoNullableScalarRelationFilter = {
 export type VideoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   videoUrl?: Prisma.SortOrder
   fileKey?: Prisma.SortOrder
   duration?: Prisma.SortOrder
@@ -426,6 +446,7 @@ export type VideoAvgOrderByAggregateInput = {
 export type VideoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   videoUrl?: Prisma.SortOrder
   fileKey?: Prisma.SortOrder
   duration?: Prisma.SortOrder
@@ -438,6 +459,7 @@ export type VideoMaxOrderByAggregateInput = {
 export type VideoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   videoUrl?: Prisma.SortOrder
   fileKey?: Prisma.SortOrder
   duration?: Prisma.SortOrder
@@ -502,6 +524,7 @@ export type VideoUpdateOneWithoutWatchProgressNestedInput = {
 export type VideoCreateWithoutLessonInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -514,6 +537,7 @@ export type VideoCreateWithoutLessonInput = {
 export type VideoUncheckedCreateWithoutLessonInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -542,6 +566,7 @@ export type VideoUpdateToOneWithWhereWithoutLessonInput = {
 export type VideoUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -554,6 +579,7 @@ export type VideoUpdateWithoutLessonInput = {
 export type VideoUncheckedUpdateWithoutLessonInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -566,6 +592,7 @@ export type VideoUncheckedUpdateWithoutLessonInput = {
 export type VideoCreateWithoutWatchProgressInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -578,6 +605,7 @@ export type VideoCreateWithoutWatchProgressInput = {
 export type VideoUncheckedCreateWithoutWatchProgressInput = {
   id?: string
   description?: string | null
+  imageUrl?: string | null
   videoUrl?: string | null
   fileKey?: string | null
   duration?: number | null
@@ -606,6 +634,7 @@ export type VideoUpdateToOneWithWhereWithoutWatchProgressInput = {
 export type VideoUpdateWithoutWatchProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -618,6 +647,7 @@ export type VideoUpdateWithoutWatchProgressInput = {
 export type VideoUncheckedUpdateWithoutWatchProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fileKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -661,6 +691,7 @@ export type VideoCountOutputTypeCountWatchProgressArgs<ExtArgs extends runtime.T
 export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   description?: boolean
+  imageUrl?: boolean
   videoUrl?: boolean
   fileKey?: boolean
   duration?: boolean
@@ -676,6 +707,7 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   description?: boolean
+  imageUrl?: boolean
   videoUrl?: boolean
   fileKey?: boolean
   duration?: boolean
@@ -689,6 +721,7 @@ export type VideoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type VideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   description?: boolean
+  imageUrl?: boolean
   videoUrl?: boolean
   fileKey?: boolean
   duration?: boolean
@@ -702,6 +735,7 @@ export type VideoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type VideoSelectScalar = {
   id?: boolean
   description?: boolean
+  imageUrl?: boolean
   videoUrl?: boolean
   fileKey?: boolean
   duration?: boolean
@@ -711,7 +745,7 @@ export type VideoSelectScalar = {
   updatedAt?: boolean
 }
 
-export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "videoUrl" | "fileKey" | "duration" | "lessonId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
+export type VideoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "description" | "imageUrl" | "videoUrl" | "fileKey" | "duration" | "lessonId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["video"]>
 export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lesson?: boolean | Prisma.LessonDefaultArgs<ExtArgs>
   watchProgress?: boolean | Prisma.Video$watchProgressArgs<ExtArgs>
@@ -733,6 +767,7 @@ export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     description: string | null
+    imageUrl: string | null
     videoUrl: string | null
     fileKey: string | null
     duration: number | null
@@ -1167,6 +1202,7 @@ export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface VideoFieldRefs {
   readonly id: Prisma.FieldRef<"Video", 'String'>
   readonly description: Prisma.FieldRef<"Video", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Video", 'String'>
   readonly videoUrl: Prisma.FieldRef<"Video", 'String'>
   readonly fileKey: Prisma.FieldRef<"Video", 'String'>
   readonly duration: Prisma.FieldRef<"Video", 'Int'>

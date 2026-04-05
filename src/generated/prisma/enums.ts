@@ -36,3 +36,12 @@ export const LessonType = {
 } as const
 
 export type LessonType = (typeof LessonType)[keyof typeof LessonType]
+
+
+export const LessonStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type LessonStatus = (typeof LessonStatus)[keyof typeof LessonStatus]

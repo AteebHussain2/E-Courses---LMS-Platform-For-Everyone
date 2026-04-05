@@ -1,4 +1,4 @@
-import { Prisma } from "@/generated/prisma/client";
+import { LessonStatus, LessonType, Prisma } from "@/generated/prisma/client";
 
 export const RouteType = {
     GROUP: 'GROUP',
@@ -45,6 +45,7 @@ export type ModuleWithLessons = Prisma.ModuleGetPayload<{
                 type: true
                 index: true
                 slug: true
+                status: true
             }
             orderBy: { index: 'asc' }
         }
@@ -54,7 +55,8 @@ export type ModuleWithLessons = Prisma.ModuleGetPayload<{
 export type LessonInModule = {
     id: string
     title: string
-    type: 'VIDEO' | 'SESSION'
+    status: LessonStatus
+    type: LessonType
     index: number
     slug: string
 }

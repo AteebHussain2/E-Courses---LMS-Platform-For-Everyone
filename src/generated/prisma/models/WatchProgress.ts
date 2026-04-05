@@ -220,7 +220,7 @@ export type WatchProgressGroupByOutputType = {
   _max: WatchProgressMaxAggregateOutputType | null
 }
 
-type GetWatchProgressGroupByPayload<T extends WatchProgressGroupByArgs> = Prisma.PrismaPromise<
+export type GetWatchProgressGroupByPayload<T extends WatchProgressGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<WatchProgressGroupByOutputType, T['by']> &
       {

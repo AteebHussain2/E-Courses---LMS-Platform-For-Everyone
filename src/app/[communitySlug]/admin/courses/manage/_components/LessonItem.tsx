@@ -1,12 +1,14 @@
 "use client"
 
-import { Video, Radio, Pencil, GripVertical } from "lucide-react";
+import { Video, Radio, Pencil, GripVertical, ClockFading, Trash, Globe2 } from "lucide-react";
 import { DeleteLessonButton } from "@/components/CustomButtons";
+import CustomBadge from "@/components/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import { LessonInModule } from "@/lib/types";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+import { LessonStatus, LessonType } from "@/generated/prisma/enums";
 
 type Props = {
     lesson: LessonInModule
@@ -39,15 +41,14 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
                 <GripVertical className="size-3.5" />
             </div>
 
-            <div className={cn(
-                "size-6 rounded-md flex items-center justify-center shrink-0",
-                lesson.type === 'VIDEO' ? "bg-primary/10" : "bg-instructor-bg"
-            )}>
-                {lesson.type === 'VIDEO'
-                    ? <Video className="size-3 text-primary" />
-                    : <Radio className="size-3 text-instructor-fg" />
-                }
-            </div>
+            <CustomBadge
+                className={cn(
+                    "flex items-center justify-center shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded uppercase tracking-wide",
+                    lesson.type === LessonType.VIDEO ? "bg-primary/10 text-primary" : "bg-instructor-bg text-instructor-fg"
+                )}
+                text={lesson.type === LessonType.VIDEO ? 'Video' : 'Live'}
+                icon={lesson.type === LessonType.VIDEO ? Video : Radio}
+            />
 
             <span className="text-xs font-mono text-secondary/50 shrink-0 tabular-nums">
                 {String(index + 1).padStart(2, '0')}
@@ -69,14 +70,11 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
                 />
             </div>
 
-            <span className={cn(
-                "text-[10px] font-medium px-1.5 py-0.5 rounded uppercase tracking-wide shrink-0",
-                lesson.type === 'VIDEO'
-                    ? "bg-primary/10 text-primary"
-                    : "bg-instructor-bg text-instructor-fg"
-            )}>
-                {lesson.type === 'VIDEO' ? 'Video' : 'Live'}
-            </span>
+            <CustomBadge
+                text={lesson.status}
+                icon={lesson.status === LessonStatus.DRAFT ? ClockFading : lesson.status === LessonStatus.PUBLISHED ? Globe2 : Trash}
+                variant={lesson.status}
+            />
         </div>
     )
 }

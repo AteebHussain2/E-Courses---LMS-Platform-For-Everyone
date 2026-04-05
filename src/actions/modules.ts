@@ -34,6 +34,19 @@ export async function createModuleAction(title: string, courseId: string, commun
     return data.module
 }
 
+export async function updateModuleAction(moduleId: string, title: string, communitySlug: string) {
+    const res = await fetch(getUrl(`/api/modules/${moduleId}`), {
+        method: 'PATCH',
+        headers: apiHeaders,
+        body: JSON.stringify({ title, communitySlug })
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to update module")
+
+    return data.module
+}
+
 export async function reorderModulesAction(
     courseId: string,
     communitySlug: string,

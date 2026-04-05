@@ -125,7 +125,7 @@ export const DeleteCourseButton = ({ communitySlug, courseSlug, courseId, classN
                             mutation.mutate(courseId)
                         }}
                     >
-                        {mutation.isPending ? "Deleting..." : "Delete"}
+                        Delete Course
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
@@ -397,7 +397,7 @@ export function DeleteModuleButton({
                             mutation.mutate()
                         }}
                     >
-                        {mutation.isPending ? "Deleting..." : `Delete Module`}
+                        Delete Module
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

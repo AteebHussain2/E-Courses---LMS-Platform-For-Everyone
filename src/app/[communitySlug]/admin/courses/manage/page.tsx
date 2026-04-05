@@ -17,7 +17,7 @@ const ManageCoursePage = async ({ params, searchParams }: ManageCoursePageProps)
     const courseId = (await searchParams).courseId;
 
     if (!communitySlug) redirect('/');
-    if (!courseId) redirect(`'${communitySlug}/admin/courses`);
+    if (!courseId) redirect(`/${communitySlug}/admin/courses`);
 
     const course = await getCourseAction(courseId, communitySlug).catch(() => null)
     if (!course) return <CourseNotFound

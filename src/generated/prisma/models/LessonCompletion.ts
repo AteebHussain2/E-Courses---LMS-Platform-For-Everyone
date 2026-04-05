@@ -151,7 +151,7 @@ export type LessonCompletionGroupByOutputType = {
   _max: LessonCompletionMaxAggregateOutputType | null
 }
 
-type GetLessonCompletionGroupByPayload<T extends LessonCompletionGroupByArgs> = Prisma.PrismaPromise<
+export type GetLessonCompletionGroupByPayload<T extends LessonCompletionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<LessonCompletionGroupByOutputType, T['by']> &
       {

@@ -237,7 +237,7 @@ export type RecordingGroupByOutputType = {
   _max: RecordingMaxAggregateOutputType | null
 }
 
-type GetRecordingGroupByPayload<T extends RecordingGroupByArgs> = Prisma.PrismaPromise<
+export type GetRecordingGroupByPayload<T extends RecordingGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<RecordingGroupByOutputType, T['by']> &
       {

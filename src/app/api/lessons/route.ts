@@ -1,6 +1,7 @@
 import { verifyApiRequest, generateSlug } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
 import { LessonType } from "@/generated/prisma/enums";
+import { bustCache } from "@/lib/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
@@ -50,6 +51,8 @@ export async function POST(req: NextRequest) {
                 module: { connect: { id: moduleId } }
             }
         })
+
+        await bustCache(['modules', `modules:${courseId}`])
 
         return NextResponse.json({ lesson }, { status: 201 })
     } catch (error) {

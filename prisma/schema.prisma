@@ -138,15 +138,16 @@ model Module {
   updatedAt DateTime  @updatedAt
 
   @@unique([slug, courseId])
-  @@unique([courseId, index])
+  @@unique([courseId, index, deletedAt])
 }
 
 model Lesson {
-  id    String     @id @default(cuid())
-  slug  String
-  title String
-  index Float
-  type  LessonType
+  id     String       @id @default(cuid())
+  slug   String
+  title  String
+  index  Float
+  type   LessonType
+  status LessonStatus @default(DRAFT)
 
   moduleId String
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
@@ -161,7 +162,7 @@ model Lesson {
   updatedAt         DateTime           @updatedAt
   lessonCompletions LessonCompletion[]
 
-  @@unique([moduleId, index])
+  @@unique([moduleId, index, deletedAt])
   @@unique([moduleId, slug])
   @@index([moduleId])
 }
@@ -173,6 +174,7 @@ model Session {
   scheduledAt  DateTime
   duration     Int?
   platformLink String?
+  imageUrl     String?
   status       SessionStatus @default(UPCOMING)
 
   lesson Lesson?
@@ -194,6 +196,7 @@ model Session {
 model Video {
   id          String  @id @default(cuid())
   description String?
+  imageUrl    String?
   videoUrl    String?
   fileKey     String?
   duration    Int?
@@ -305,4 +308,10 @@ enum SessionStatus {
 enum LessonType {
   VIDEO
   SESSION
+}
+
+enum LessonStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }

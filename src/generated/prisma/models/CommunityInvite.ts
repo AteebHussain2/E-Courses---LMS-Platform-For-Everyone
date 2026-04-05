@@ -224,7 +224,7 @@ export type CommunityInviteGroupByOutputType = {
   _max: CommunityInviteMaxAggregateOutputType | null
 }
 
-type GetCommunityInviteGroupByPayload<T extends CommunityInviteGroupByArgs> = Prisma.PrismaPromise<
+export type GetCommunityInviteGroupByPayload<T extends CommunityInviteGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<CommunityInviteGroupByOutputType, T['by']> &
       {

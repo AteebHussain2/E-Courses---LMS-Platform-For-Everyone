@@ -1,7 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyApiRequest } from "@/lib/api";
-import { prisma } from "@/lib/prisma";
+import { generateSlug, verifyApiRequest } from "@/lib/api";
 import { bustCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
+
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ moduleId: string }> }) {
+    const authError = verifyApiRequest(req)
+    if (authError) return authError
+
+    const { moduleId } = await params
+    const { title, communitySlug } = await req.json()
+
+    if (!title || !communitySlug) {
+        return NextResponse.json({ error: "title and communitySlug are required" }, { status: 400 })
+    }
+
+    try {
+        const module = await prisma.module.findFirst({
+            where: { id: moduleId, deletedAt: null },
+            select: { id: true, courseId: true }
+        })
+
+        if (!module) return NextResponse.json({ error: "Module not found" }, { status: 404 })
+
+        const slug = generateSlug(title)
+
+        const updated = await prisma.module.update({
+            where: { id: moduleId },
+            data: { title, slug }
+        })
+
+        await bustCache(['modules', `modules:${module.courseId}`])
+
+        return NextResponse.json({ module: updated })
+    } catch (error) {
+        console.error("[MODULE_UPDATE]", error)
+        return NextResponse.json({ error: "Failed to update module" }, { status: 500 })
+    }
+}
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ moduleId: string }> }) {
     const authError = verifyApiRequest(req)

@@ -15,6 +15,7 @@ import LessonItem from "./LessonItem";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { DeleteModuleButton } from "@/components/CustomButtons";
+import EditModuleDialog from "./EditModuleDialog";
 
 type Props = {
     module: ModuleWithLessons
@@ -113,14 +114,12 @@ export default function ModuleItem({ module, index, courseId, communitySlug }: P
 
                 {/* Action buttons — safely outside button */}
                 <div className="flex items-center gap-0.5 shrink-0">
-                    <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        className="size-7 cursor-pointer text-secondary hover:text-foreground"
-                    >
-                        <Pencil className="size-3.5" />
-                    </Button>
+                    <EditModuleDialog
+                        moduleId={module.id}
+                        courseId={courseId}
+                        communitySlug={communitySlug}
+                        currentTitle={module.title}
+                    />
                     <DeleteModuleButton
                         moduleId={module.id}
                         moduleSlug={module.slug}

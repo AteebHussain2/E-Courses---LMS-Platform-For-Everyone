@@ -189,6 +189,7 @@ export const LessonScalarFieldEnum = {
   title: 'title',
   index: 'index',
   type: 'type',
+  status: 'status',
   moduleId: 'moduleId',
   sessionId: 'sessionId',
   deletedAt: 'deletedAt',
@@ -206,6 +207,7 @@ export const SessionScalarFieldEnum = {
   scheduledAt: 'scheduledAt',
   duration: 'duration',
   platformLink: 'platformLink',
+  imageUrl: 'imageUrl',
   status: 'status',
   communityId: 'communityId',
   deletedAt: 'deletedAt',
@@ -219,6 +221,7 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 export const VideoScalarFieldEnum = {
   id: 'id',
   description: 'description',
+  imageUrl: 'imageUrl',
   videoUrl: 'videoUrl',
   fileKey: 'fileKey',
   duration: 'duration',

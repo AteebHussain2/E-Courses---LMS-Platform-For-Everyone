@@ -1,7 +1,7 @@
 import { verifyApiRequest, generateSlug } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { bustCache, withCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
     const authError = verifyApiRequest(req)
@@ -34,6 +34,7 @@ export async function GET(req: NextRequest) {
                             id: true,
                             title: true,
                             type: true,
+                            status: true,
                             index: true,
                             slug: true,
                             session: true,

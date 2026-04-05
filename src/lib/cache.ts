@@ -1,5 +1,7 @@
-import { redis } from "./redis"
-import { revalidateTag } from "next/cache"
+"use server";
+
+import { redis } from "./redis";
+import { revalidateTag } from "next/cache";
 
 type CacheOptions = {
     ttl?: number
@@ -72,7 +74,9 @@ export async function bustCache(tags: string[]) {
             console.warn(`[CACHE] Failed to bust tag: ${tag}`, e)
         }
 
-        try { revalidateTag(tag, 'max') } catch (e) {
+        try {
+            revalidateTag(tag, { expire: 0 })
+        } catch (e) {
             console.warn(`[CACHE] Failed to revalidate next tag: ${tag}`, e)
         }
     }))
