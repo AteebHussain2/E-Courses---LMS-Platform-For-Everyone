@@ -82,27 +82,20 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
             })
         },
         onSuccess: () => {
-            toast.success(isEditing ? "Session updated!" : "Session saved!")
+            toast.success(isEditing ? "Session updated!" : "Session saved!", { id: "session-save" })
             setThumbnailFiles([])
         },
-        onError: (error) => toast.error(error.message)
+        onError: (error) => toast.error(error.message, { id: "session-save" })
     })
 
     return (
-        <form onSubmit={form.handleSubmit((v) => {
-            toast.loading(isEditing ? "Updating session..." : "Saving session...", { id: "session-save" })
-            mutation.mutate(v)
-        })}>
-            <FieldGroup className="max-w-3xl space-y-5">
-
-                {/* Thumbnail */}
-                <FileUpload
-                    title="Session Thumbnail"
-                    files={thumbnailFiles}
-                    onFilesChange={setThumbnailFiles}
-                    existingUrls={existingSession?.imageUrl ? [existingSession.imageUrl] : []}
-                    accept="image/*"
-                />
+        <form
+            onSubmit={form.handleSubmit((v) => {
+                toast.loading(isEditing ? "Updating session..." : "Saving session...", { id: "session-save" })
+                mutation.mutate(v)
+            })}
+        >
+            <FieldGroup className="space-y-5 grid grid-cols-2 gap-5">
 
                 {/* Core details */}
                 <Card>
@@ -144,7 +137,7 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
                                     <Textarea
                                         {...field}
                                         placeholder="Agenda, topics, pre-reads..."
-                                        className="bg-input border-border min-h-28"
+                                        className="bg-input border-border min-h-28 max-h-full"
                                     />
                                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                 </Field>
@@ -174,81 +167,92 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
                     </CardContent>
                 </Card>
 
-                {/* Schedule */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-base">
-                            <CalendarClock className="size-4 text-primary" />
-                            Schedule
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-5">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            {/* Scheduled at */}
-                            <Controller
-                                name="scheduledAt"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel>Date & Time</FieldLabel>
-                                        <Input
-                                            type="datetime-local"
-                                            className="bg-input border-border"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                    </Field>
-                                )}
-                            />
+                <div className="space-y-5">
+                    {/* Thumbnail */}
+                    <FileUpload
+                        title="Session Thumbnail"
+                        files={thumbnailFiles}
+                        onFilesChange={setThumbnailFiles}
+                        existingUrls={existingSession?.imageUrl ? [existingSession.imageUrl] : []}
+                        accept="image/*"
+                    />
 
-                            {/* Duration */}
+                    {/* Schedule */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-base">
+                                <CalendarClock className="size-4 text-primary" />
+                                Schedule
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                {/* Scheduled at */}
+                                <Controller
+                                    name="scheduledAt"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel>Date & Time</FieldLabel>
+                                            <Input
+                                                type="datetime-local"
+                                                className="bg-input border-border"
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
+                                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                        </Field>
+                                    )}
+                                />
+
+                                {/* Duration */}
+                                <Controller
+                                    name="duration"
+                                    control={form.control}
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel>Duration (minutes)</FieldLabel>
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                min={1}
+                                                placeholder="e.g. 90"
+                                                className="bg-input border-border"
+                                            />
+                                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                        </Field>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Platform link */}
                             <Controller
-                                name="duration"
+                                name="platformLink"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel>Duration (minutes)</FieldLabel>
+                                        <FieldLabel>
+                                            <Link2 className="size-3.5" />
+                                            Platform Link
+                                        </FieldLabel>
                                         <Input
                                             {...field}
-                                            type="number"
-                                            min={1}
-                                            placeholder="e.g. 90"
+                                            placeholder="https://zoom.us/j/... or https://meet.google.com/..."
                                             className="bg-input border-border"
+                                            autoComplete="off"
                                         />
+                                        <FieldDescription>
+                                            Zoom, Google Meet, or any join URL. Shown to enrolled students at session time.
+                                        </FieldDescription>
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
                             />
-                        </div>
+                        </CardContent>
+                    </Card>
+                </div>
 
-                        {/* Platform link */}
-                        <Controller
-                            name="platformLink"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>
-                                        <Link2 className="size-3.5" />
-                                        Platform Link
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        placeholder="https://zoom.us/j/... or https://meet.google.com/..."
-                                        className="bg-input border-border"
-                                        autoComplete="off"
-                                    />
-                                    <FieldDescription>
-                                        Zoom, Google Meet, or any join URL. Shown to enrolled students at session time.
-                                    </FieldDescription>
-                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                </Field>
-                            )}
-                        />
-                    </CardContent>
-                </Card>
-
-                <div className="flex justify-end">
+                <div className="flex justify-end col-span-full">
                     <Button
                         type="submit"
                         className="w-40 cursor-pointer text-foreground"
