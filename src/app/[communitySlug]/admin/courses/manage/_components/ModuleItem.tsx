@@ -6,16 +6,16 @@ import { GripVertical, Pencil, Trash2, ChevronDown, Video, Radio } from "lucide-
 import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LessonInModule, ModuleWithLessons } from "@/lib/types";
+import { DeleteModuleButton } from "@/components/CustomButtons";
 import { reorderLessonsAction } from "@/actions/lessons";
 import CreateLessonDialog from "./CreateLessonDialog";
+import EditModuleDialog from "./EditModuleDialog";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import LessonItem from "./LessonItem";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { DeleteModuleButton } from "@/components/CustomButtons";
-import EditModuleDialog from "./EditModuleDialog";
 
 type Props = {
     module: ModuleWithLessons

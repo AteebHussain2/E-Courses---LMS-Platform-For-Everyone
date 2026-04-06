@@ -26,11 +26,11 @@ const customBadgeVariant = (variant: Role | LessonStatus | 'default') => {
         case Role.OWNER:
             return "bg-owner-bg text-owner-fg";
         case LessonStatus.DRAFT:
-            return "bg-yellow-400 text-yellow-900";
+            return "bg-yellow-400/10 text-yellow-600";
         case LessonStatus.ARCHIVED:
-            return "bg-gray-400 text-gray-900";
+            return "bg-gray-400/10 text-gray-600";
         case LessonStatus.PUBLISHED:
-            return "bg-green-400 text-green-900";
+            return "bg-green-400/10 text-green-600";
         default:
             return "bg-glass-bg text-secondary";
     }

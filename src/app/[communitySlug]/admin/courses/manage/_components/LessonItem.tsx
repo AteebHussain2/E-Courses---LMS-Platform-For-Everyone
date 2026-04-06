@@ -1,14 +1,15 @@
 "use client"
 
 import { Video, Radio, Pencil, GripVertical, ClockFading, Trash, Globe2 } from "lucide-react";
+import { LessonStatus, LessonType } from "@/generated/prisma/enums";
 import { DeleteLessonButton } from "@/components/CustomButtons";
 import CustomBadge from "@/components/CustomBadge";
 import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import { LessonInModule } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import { LessonStatus, LessonType } from "@/generated/prisma/enums";
 
 type Props = {
     lesson: LessonInModule
@@ -19,10 +20,16 @@ type Props = {
 }
 
 export default function LessonItem({ index, lesson, moduleId, courseId, communitySlug }: Props) {
+    const router = useRouter()
+
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
         useSortable({ id: lesson.id })
 
     const style = { transform: CSS.Transform.toString(transform), transition }
+
+    const handleEdit = () => {
+        router.push(`/${communitySlug}/admin/courses/manage/lesson?lessonId=${lesson.id}`)
+    }
 
     return (
         <div
@@ -58,8 +65,21 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
                 {lesson.title}
             </span>
 
+            <CustomBadge
+                className="text-xs!"
+                text={lesson.status}
+                icon={lesson.status === LessonStatus.DRAFT ? ClockFading : lesson.status === LessonStatus.PUBLISHED ? Globe2 : Trash}
+                variant={lesson.status}
+            />
+
             <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button type="button" size="icon" variant="ghost" className="size-6 cursor-pointer">
+                <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="size-6 cursor-pointer"
+                    onClick={handleEdit}
+                >
                     <Pencil className="size-3 text-secondary" />
                 </Button>
                 <DeleteLessonButton
@@ -69,12 +89,6 @@ export default function LessonItem({ index, lesson, moduleId, courseId, communit
                     tooltip={false}
                 />
             </div>
-
-            <CustomBadge
-                text={lesson.status}
-                icon={lesson.status === LessonStatus.DRAFT ? ClockFading : lesson.status === LessonStatus.PUBLISHED ? Globe2 : Trash}
-                variant={lesson.status}
-            />
         </div>
     )
 }

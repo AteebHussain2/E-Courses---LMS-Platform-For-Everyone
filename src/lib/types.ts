@@ -40,16 +40,16 @@ export type ModuleWithLessons = Prisma.ModuleGetPayload<{
     include: {
         lessons: {
             select: {
-                id: true
-                title: true
-                type: true
-                index: true
-                slug: true
-                status: true
-            }
-            orderBy: { index: 'asc' }
-        }
-    }
+                id: true,
+                title: true,
+                type: true,
+                index: true,
+                slug: true,
+                status: true,
+            },
+            orderBy: { index: 'asc' },
+        },
+    },
 }>
 
 export type LessonInModule = {

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Video, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod/v3";
@@ -39,11 +40,14 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
     const mutation = useMutation({
         mutationFn: (values: FormValues) =>
             createLessonAction(values.title, values.type, moduleId, courseId, communitySlug),
-        onSuccess: async () => {
+        onSuccess: async (lesson) => {
             await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
             toast.success("Lesson created!")
             form.reset()
             setOpen(false)
+
+            // redirect user to lesson page for more details
+            redirect(`/${communitySlug}/admin/courses/manage/lesson?lessonId=${lesson.id}`)
         },
         onError: (error) => toast.error(error.message)
     })
