@@ -112,7 +112,7 @@ export default function PreviewSessionCard({
 
                     {/* Platform link */}
                     {session.platformLink && (
-                        <div className="flex items-center gap-1.5 text-xs text-muted hidden">
+                        <div className="items-center gap-1.5 text-xs text-muted hidden">
                             <Link2 className="size-3 shrink-0" />
                             <a
                                 href={session.platformLink}
