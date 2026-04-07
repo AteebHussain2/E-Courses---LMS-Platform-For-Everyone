@@ -12,3 +12,5 @@
 //         })
 //     }
 // })
+
+// fetch('http://localhost:3000/api/cleanup', { method: 'DELETE', headers: { "x-api-secret": "" } }).then(async res => console.log(JSON.stringify(await res.json(), null, 4)))

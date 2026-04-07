@@ -1,8 +1,8 @@
-import { startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns"
-import { NextRequest, NextResponse } from "next/server"
-import { verifyApiRequest } from "@/lib/api"
-import { withCache } from "@/lib/cache"
-import { prisma } from "@/lib/prisma"
+import { startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns";
+import { NextRequest, NextResponse } from "next/server";
+import { verifyApiRequest } from "@/lib/api";
+import { withCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
 
 const getTimeFilter = (time: string) => {
     const now = new Date()
@@ -86,7 +86,7 @@ export async function GET(req: NextRequest) {
                             },
                         },
                         _count: {
-                            select: { enrollments: true, modules: true }
+                            select: { enrollments: true, modules: { where: { deletedAt: null } } }
                         }
                     }
                 }),

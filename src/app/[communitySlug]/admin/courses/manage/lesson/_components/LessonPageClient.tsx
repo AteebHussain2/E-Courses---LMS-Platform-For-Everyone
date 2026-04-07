@@ -67,12 +67,17 @@ export default function LessonPageClient({ lesson, communitySlug }: Props) {
             {/* Form */}
             {isVideo ? (
                 <VideoForm
+                    communitySlug={communitySlug}
+                    courseId={lesson.module.courseId}
+                    lessonTitle={lesson.title}
                     lessonId={lesson.id}
                     existingVideo={lesson.video}
                 />
             ) : (
                 <SessionForm
                     lessonId={lesson.id}
+                    communitySlug={communitySlug}
+                    courseId={lesson.module.courseId}
                     lessonTitle={lesson.title}
                     existingSession={lesson.session}
                 />

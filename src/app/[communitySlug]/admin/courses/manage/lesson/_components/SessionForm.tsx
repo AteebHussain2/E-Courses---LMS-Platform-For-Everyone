@@ -4,20 +4,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { CalendarClock, Link2, Radio } from "lucide-react";
+import { SessionStatus } from "@/generated/prisma/enums";
 import FileUpload from "@/components/inputs/FileUpload";
+import PreviewSessionCard from "./PreviewSessionCard";
 import { saveSessionAction } from "@/actions/lessons";
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { Session } from "@/generated/prisma/client";
+import { Session } from "@/generated/prisma/browser";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod/v3";
+import { redirect, useRouter } from "next/navigation";
 
 const schema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters").max(100),
@@ -33,6 +36,8 @@ type FormValues = z.infer<typeof schema>
 type Props = {
     lessonId: string
     lessonTitle: string
+    courseId: string
+    communitySlug: string
     existingSession: Session | null
 }
 
@@ -43,7 +48,8 @@ const STATUS_LABELS: Record<string, string> = {
     CANCELLED: 'Cancelled',
 }
 
-export default function SessionForm({ lessonId, lessonTitle, existingSession }: Props) {
+export default function SessionForm({ lessonId, communitySlug, courseId, lessonTitle, existingSession }: Props) {
+    const router = useRouter()
     const [thumbnailFiles, setThumbnailFiles] = useState<File[]>([])
     const isEditing = !!existingSession
 
@@ -60,6 +66,12 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
             status: (existingSession?.status as FormValues['status']) ?? 'UPCOMING',
         }
     })
+
+    // Feed live values to preview as the user types
+    const watched = useWatch({ control: form.control })
+    const previewThumbnail = thumbnailFiles[0]
+        ? URL.createObjectURL(thumbnailFiles[0])
+        : existingSession?.imageUrl
 
     const mutation = useMutation({
         mutationFn: async (values: FormValues) => {
@@ -84,9 +96,21 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
         onSuccess: () => {
             toast.success(isEditing ? "Session updated!" : "Session saved!", { id: "session-save" })
             setThumbnailFiles([])
+            router.push(`/${communitySlug}/admin/courses/manage?courseId=${courseId}`)
         },
         onError: (error) => toast.error(error.message, { id: "session-save" })
     })
+
+    // Build preview session object from live form values
+    const previewSession = watched.scheduledAt ? {
+        title: watched.title || lessonTitle,
+        imageUrl: previewThumbnail,
+        description: watched.description || null,
+        scheduledAt: new Date(watched.scheduledAt),
+        duration: watched.duration ? Number(watched.duration) : null,
+        platformLink: watched.platformLink || null,
+        status: watched.status === 'CANCELLED' ? SessionStatus.CANCELLED : SessionStatus.UPCOMING,
+    } : null
 
     return (
         <form
@@ -95,79 +119,8 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
                 mutation.mutate(v)
             })}
         >
-            <FieldGroup className="space-y-5 grid grid-cols-2 gap-5">
-
-                {/* Core details */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-base">
-                            <Radio className="size-4 text-instructor-fg" />
-                            Session Details
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-5">
-                        {/* Title */}
-                        <Controller
-                            name="title"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Session Title</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        placeholder="e.g. Week 3: Building a Marketing Funnel"
-                                        className="bg-input border-border"
-                                        autoComplete="off"
-                                    />
-                                    <FieldDescription>
-                                        Shown to students on the sessions calendar. Defaults to the lesson title.
-                                    </FieldDescription>
-                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                </Field>
-                            )}
-                        />
-
-                        {/* Description */}
-                        <Controller
-                            name="description"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Description</FieldLabel>
-                                    <Textarea
-                                        {...field}
-                                        placeholder="Agenda, topics, pre-reads..."
-                                        className="bg-input border-border min-h-28 max-h-full"
-                                    />
-                                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                                </Field>
-                            )}
-                        />
-
-                        {/* Status */}
-                        <Controller
-                            name="status"
-                            control={form.control}
-                            render={({ field }) => (
-                                <Field>
-                                    <FieldLabel>Status</FieldLabel>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <SelectTrigger className="bg-input border-border w-48">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {Object.entries(STATUS_LABELS).map(([value, label]) => (
-                                                <SelectItem key={value} value={value}>{label}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </Field>
-                            )}
-                        />
-                    </CardContent>
-                </Card>
-
-                <div className="space-y-5">
+            <FieldGroup className="grid grid-cols-3 gap-5">
+                <div className="space-y-5 col-span-2">
                     {/* Thumbnail */}
                     <FileUpload
                         title="Session Thumbnail"
@@ -176,6 +129,76 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
                         existingUrls={existingSession?.imageUrl ? [existingSession.imageUrl] : []}
                         accept="image/*"
                     />
+
+                    {/* Core details */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-base">
+                                <Radio className="size-4 text-instructor-fg" />
+                                Session Details
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-5">
+                            {/* Title */}
+                            <Controller
+                                name="title"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Session Title</FieldLabel>
+                                        <Input
+                                            {...field}
+                                            placeholder="e.g. Week 3: Building a Marketing Funnel"
+                                            className="bg-input border-border"
+                                            autoComplete="off"
+                                        />
+                                        <FieldDescription>
+                                            Shown to students on the sessions calendar. Defaults to the lesson title.
+                                        </FieldDescription>
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            {/* Description */}
+                            <Controller
+                                name="description"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Description</FieldLabel>
+                                        <Textarea
+                                            {...field}
+                                            placeholder="Agenda, topics, pre-reads..."
+                                            className="bg-input border-border min-h-28 max-h-full"
+                                        />
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            {/* Status */}
+                            <Controller
+                                name="status"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <Field>
+                                        <FieldLabel>Status</FieldLabel>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger className="bg-input border-border w-48">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {Object.entries(STATUS_LABELS).map(([value, label]) => (
+                                                    <SelectItem key={value} value={value}>{label}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </Field>
+                                )}
+                            />
+                        </CardContent>
+                    </Card>
 
                     {/* Schedule */}
                     <Card>
@@ -252,17 +275,36 @@ export default function SessionForm({ lessonId, lessonTitle, existingSession }: 
                     </Card>
                 </div>
 
-                <div className="flex justify-end col-span-full">
-                    <Button
-                        type="submit"
-                        className="w-40 cursor-pointer text-foreground"
-                        disabled={mutation.isPending}
-                    >
-                        {mutation.isPending
-                            ? (isEditing ? "Updating..." : "Saving...")
-                            : (isEditing ? "Update Session" : "Save Session")
-                        }
-                    </Button>
+                <div className="space-y-5">
+                    <div className="space-y-5 sticky top-24">
+                        {/* Live preview — sticky */}
+                        <div className="lg:col-span-1">
+                            <PreviewSessionCard
+                                communitySlug={communitySlug}
+                                lessonId={lessonId}
+                                lessonTitle={lessonTitle}
+                                session={previewSession}
+                            />
+                        </div>
+
+                        <div className="flex justify-end col-span-full">
+                            {!form.formState.isDirty && (
+                                <span className="text-sm text-muted mr-2 my-auto">
+                                    No changes to save
+                                </span>
+                            )}
+                            <Button
+                                type="submit"
+                                className="w-40 cursor-pointer text-foreground"
+                                disabled={mutation.isPending || !form.formState.isDirty}
+                            >
+                                {mutation.isPending
+                                    ? (isEditing ? "Updating..." : "Saving...")
+                                    : (isEditing ? "Update Session" : "Save Session")
+                                }
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </FieldGroup>
         </form>

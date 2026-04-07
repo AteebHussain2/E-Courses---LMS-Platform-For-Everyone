@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getUrl(path: string) {
+export function getUrl(path: string | URL) {
   const baseUrl = process.env.FRONTEND_URL ?? "http://localhost:3000/"
   return new URL(path, baseUrl);
 }

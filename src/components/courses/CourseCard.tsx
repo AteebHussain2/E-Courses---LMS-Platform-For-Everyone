@@ -40,7 +40,7 @@ export const AdminCourseCard = ({ course }: { course: CourseWithInstructorAndCou
                     <CustomBadge
                         icon={Users2}
                         text={course._count.enrollments}
-                        tooltip={`${course._count.modules} students enrolled.`}
+                        tooltip={`${course._count.enrollments} students enrolled.`}
                     />
                     <CustomBadge
                         icon={course.isActive ? Globe2 : GlobeX}

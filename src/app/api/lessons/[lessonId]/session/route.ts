@@ -1,4 +1,4 @@
-import { LessonType, SessionStatus } from "@/generated/prisma/enums";
+import { LessonStatus, LessonType, SessionStatus } from "@/generated/prisma/enums";
 import { NextRequest, NextResponse } from "next/server";
 import { verifyApiRequest } from "@/lib/api";
 import { bustCache } from "@/lib/cache";
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ les
                 })
                 await tx.lesson.update({
                     where: { id: lessonId },
-                    data: { sessionId: created.id }
+                    data: { sessionId: created.id, status: LessonStatus.PUBLISHED }
                 })
                 return created
             })

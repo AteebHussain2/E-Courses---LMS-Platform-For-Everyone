@@ -1,7 +1,7 @@
 import { validateWithRegex, verifyApiRequest } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { bustCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
 
 const PATTERNS = {
     title: /^[a-zA-Z0-9\s\-\_\:\&]{1,100}$/,

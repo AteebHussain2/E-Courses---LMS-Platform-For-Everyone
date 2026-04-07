@@ -1,5 +1,6 @@
 "use server"
 
+import { SessionStatus } from "@/generated/prisma/enums";
 import { apiHeaders } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { getUrl } from "@/lib/utils";
@@ -103,7 +104,7 @@ type SessionPayload = {
     duration?: number
     platformLink?: string
     imageUrl?: string
-    status?: 'UPCOMING' | 'LIVE' | 'COMPLETED' | 'CANCELLED'
+    status?: SessionStatus
 }
 
 export async function saveSessionAction(lessonId: string, payload: SessionPayload) {
