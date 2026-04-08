@@ -1,5 +1,7 @@
-import { DeleteCourseButton, EditCourseButton, ManageCourseButton } from "../CustomButtons";
+import { CourseManageButton } from "@/components/custom/buttons/CourseManageButton";
+import { DeleteCourseButton } from "@/components/custom/buttons/DeleteCourseButton";
 import { Book, Clock, Globe2, GlobeX, GraduationCap, Users2 } from "lucide-react";
+import { CourseEditButton } from "@/components/custom/buttons/CourseEditButton";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { formatDate, formatDistanceToNow } from "date-fns";
 import { CourseWithInstructorAndCount } from "@/lib/types";
@@ -56,8 +58,8 @@ export const AdminCourseCard = ({ course }: { course: CourseWithInstructorAndCou
             </CardContent>
 
             <CardFooter className="flex flex-1 items-center gap-2">
-                <ManageCourseButton className="flex-1" courseId={course.id} />
-                <EditCourseButton courseId={course.id} />
+                <CourseManageButton className="flex-1" courseId={course.id} />
+                <CourseEditButton courseId={course.id} />
                 <DeleteCourseButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} />
             </CardFooter>
         </Card>
@@ -113,7 +115,7 @@ export const PreviewCourseCard = ({ course, showButtons = true }: { course: Cour
             </CardContent>
 
             {showButtons && <CardFooter className="max-w-inherit flex items-center gap-2">
-                <ManageCourseButton className="flex-1" courseId={course.id} disabled={true} />
+                <CourseManageButton className="flex-1" courseId={course.id} disabled={true} />
                 <DeleteCourseButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} disabled={true} />
             </CardFooter>}
         </Card>
