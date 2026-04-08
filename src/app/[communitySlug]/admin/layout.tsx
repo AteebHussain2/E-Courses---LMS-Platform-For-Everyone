@@ -6,6 +6,7 @@ import { Role } from "@/generated/prisma/enums";
 import AdminSidebar from "@/components/sidebar/AdminSidebar";
 import AdminTopbar from "@/components/topbar/AdminTopbar";
 import CustomHeader from "@/components/ui/custom-header";
+import CompleteCommunityTopbar from "@/components/topbar/CompleteCommunityTopbar";
 
 type Props = {
     params: Promise<{ communitySlug: string }>;
@@ -35,6 +36,13 @@ export default async function RootLayout({ params, children }: Props) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.jsonLd) }}
+            />
+
+            <CompleteCommunityTopbar
+                slug={seoData.community.slug}
+                name={seoData.community.name}
+                logo={seoData.community.logo}
+                description={seoData.community.description}
             />
 
             <AdminSidebar

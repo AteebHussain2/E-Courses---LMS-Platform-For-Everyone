@@ -16,7 +16,7 @@ export const AddSessionButton = ({ className, disabled = false }: ButtonProps) =
             disabled={disabled}
         >
             <Link href="courses/add" className='w-full h-full items-center justify-center flex gap-2'>
-                <Plus /> Add Course
+                <Plus /> Add Session
             </Link>
         </Button>
     )

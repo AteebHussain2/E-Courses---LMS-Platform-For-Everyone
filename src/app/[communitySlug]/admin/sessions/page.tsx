@@ -1,4 +1,4 @@
-import CoursesPage from "@/components/courses/CoursesPage";
+import SessionsPage from "@/components/sessions/SessionPage";
 
 type AdminCoursePageProps = {
     params: Promise<{
@@ -9,7 +9,7 @@ type AdminCoursePageProps = {
 const AdminSessionsPage = async ({ params }: AdminCoursePageProps) => {
     const communitySlug = (await params).communitySlug
 
-    return <CoursesPage communitySlug={communitySlug} />
+    return <SessionsPage communitySlug={communitySlug} />
 }
 
 export default AdminSessionsPage
