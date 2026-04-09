@@ -1,9 +1,8 @@
-const AddSessionPage = () => {
-    return (
-        <div>
+import StandaloneSessionForm from "@/components/sessions/StandaloneSessionForm";
 
-        </div>
-    )
+type Props = { params: Promise<{ communitySlug: string }> }
+
+export default async function AddSessionPage({ params }: Props) {
+    const { communitySlug } = await params
+    return <StandaloneSessionForm communitySlug={communitySlug} />
 }
-
-export default AddSessionPage

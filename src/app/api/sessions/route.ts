@@ -83,8 +83,21 @@ export async function GET(req: NextRequest) {
                             select: {
                                 id: true
                             }
-                        }
-                    }
+                        },
+                        lesson: {
+                            select: {
+                                id: true,
+                                title: true,
+                                module: {
+                                    select: {
+                                        id: true,
+                                        title: true,
+                                        course: { select: { id: true, title: true, slug: true } }
+                                    }
+                                }
+                            }
+                        },
+                    },
                 }),
                 prisma.session.count({ where })
             ]),
