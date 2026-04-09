@@ -8,14 +8,14 @@ type ButtonProps = {
     disabled?: boolean,
 }
 
-export const AddSessionButton = ({ className, disabled = false }: ButtonProps) => {
+export const SessionAddButton = ({ className, disabled = false }: ButtonProps) => {
     return (
         <Button
             size='lg'
             className={cn("w-full cursor-pointer rounded-full text-foreground hover:text-foreground", className)}
             disabled={disabled}
         >
-            <Link href="courses/add" className='w-full h-full items-center justify-center flex gap-2'>
+            <Link href="sessions/add" className='w-full h-full items-center justify-center flex gap-2'>
                 <Plus /> Add Session
             </Link>
         </Button>

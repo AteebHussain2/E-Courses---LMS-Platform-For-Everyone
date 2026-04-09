@@ -16,6 +16,29 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
     const [showFilters, setShowFilters] = useState(false)
     const { filters, setStatus, setTime, setSort, resetFilters, isFiltered } = useSessionFilters()
 
+    const statusOptions = [
+        { value: 'all', label: 'All' },
+        { value: 'upcoming', label: 'Upcoming' },
+        { value: 'live', label: 'Live' },
+        { value: 'completed', label: 'Completed' },
+        { value: 'canceled', label: 'Cancelled' },
+    ]
+
+    const timeOptions = [
+        { value: 'all', label: 'All Time' },
+        { value: 'today', label: 'Today' },
+        { value: 'week', label: 'This Week' },
+        { value: 'month', label: 'This Month' },
+        { value: 'year', label: 'This Year' },
+    ]
+
+    const sortOptions = [
+        { value: 'newest', label: 'Newest' },
+        { value: 'oldest', label: 'Oldest' },
+        { value: 'a-z', label: 'A - Z' },
+        { value: 'z-a', label: 'Z - A' },
+    ]
+
     return (
         <div className="flex items-center gap-3">
             <Button
@@ -33,9 +56,7 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
+                        {statusOptions.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
                     </SelectContent>
                 </Select>
 
@@ -45,11 +66,7 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                         <SelectValue placeholder="Time" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">All Time</SelectItem>
-                        <SelectItem value="today">Today</SelectItem>
-                        <SelectItem value="week">This Week</SelectItem>
-                        <SelectItem value="month">This Month</SelectItem>
-                        <SelectItem value="year">This Year</SelectItem>
+                        {timeOptions.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
                     </SelectContent>
                 </Select>
 
@@ -59,11 +76,7 @@ export default function CourseFilters({ communitySlug }: CourseFiltersProps) {
                         <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="newest">Newest</SelectItem>
-                        <SelectItem value="oldest">Oldest</SelectItem>
-                        <SelectItem value="a-z">A - Z</SelectItem>
-                        <SelectItem value="z-a">Z - A</SelectItem>
-                        <SelectItem value="most-enrolled">Most Enrolled</SelectItem>
+                        {sortOptions.map(o => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
                     </SelectContent>
                 </Select>
 

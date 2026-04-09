@@ -1,8 +1,8 @@
 import { startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns";
 import { SessionStatus } from "@/generated/prisma/enums";
 import { NextRequest, NextResponse } from "next/server";
+import { bustCache, withCache } from "@/lib/cache";
 import { verifyApiRequest } from "@/lib/api";
-import { withCache } from "@/lib/cache";
 import { prisma } from "@/lib/prisma";
 
 const getTimeFilter = (time: string) => {
@@ -100,5 +100,53 @@ export async function GET(req: NextRequest) {
     } catch (error) {
         console.error("[COURSES_GET]", error)
         return NextResponse.json({ error: "Failed to fetch sessions" }, { status: 500 })
+    }
+}
+
+export async function POST(req: NextRequest) {
+    const authError = verifyApiRequest(req)
+    if (authError) return authError
+
+    const { title, description, scheduledAt, duration, platformLink, imageUrl, status, communitySlug, lessonId } = await req.json()
+
+    if (!title || !scheduledAt || !communitySlug) {
+        return NextResponse.json({ error: "title, scheduledAt and communitySlug are required" }, { status: 400 })
+    }
+
+    try {
+        const community = await prisma.community.findUnique({
+            where: { slug: communitySlug },
+            select: { id: true }
+        })
+        if (!community) return NextResponse.json({ error: "Community not found" }, { status: 404 })
+
+        const session = await prisma.$transaction(async (tx) => {
+            const created = await tx.session.create({
+                data: {
+                    title,
+                    description: description || null,
+                    scheduledAt: new Date(scheduledAt),
+                    duration: duration || null,
+                    platformLink: platformLink || null,
+                    imageUrl: imageUrl || null,
+                    status: status ?? SessionStatus.UPCOMING,
+                    communityId: community.id,
+                }
+            })
+            if (lessonId) {
+                await tx.lesson.update({
+                    where: { id: lessonId },
+                    data: { sessionId: created.id }
+                })
+            }
+            return created
+        })
+
+        await bustCache(['sessions', `sessions:${communitySlug}`])
+
+        return NextResponse.json({ session }, { status: 201 })
+    } catch (error) {
+        console.error("[SESSION_CREATE]", error)
+        return NextResponse.json({ error: "Failed to create session" }, { status: 500 })
     }
 }

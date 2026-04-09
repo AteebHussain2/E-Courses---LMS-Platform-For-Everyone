@@ -1,7 +1,7 @@
 "use client"
 
+import { SessionAddButton } from "@/components/custom/buttons/SessionAddButton";
 import { useSessionFilters } from "@/hooks/use-session-filters";
-import { AddSessionButton } from "@/components/custom/buttons/AddSessionButton";
 import { useSessions } from "@/hooks/use-sessions";
 import SessionFilters from "./SessionFilters";
 import SessionsGrid from "./SessionsGrid";
@@ -15,10 +15,10 @@ const SessionsPage = ({ communitySlug }: { communitySlug: string }) => {
         <div className="space-y-5">
             <div className="flex items-center justify-between">
                 <SessionFilters communitySlug={communitySlug} />
-                <AddSessionButton className="w-32 rounded-sm!" />
+                <SessionAddButton className="w-32 rounded-sm!" />
             </div>
 
-            <SessionsGrid isLoading={isLoading} sessions={data?.sessions} />
+            <SessionsGrid isLoading={isLoading} sessions={data?.sessions} communitySlug={communitySlug} />
 
             <Pagination
                 total={data?.total ?? 0}
