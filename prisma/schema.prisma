@@ -25,6 +25,7 @@ model User {
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  post      Post[]
 }
 
 model UserInfo {
@@ -58,6 +59,7 @@ model Community {
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  post      Post[]
 }
 
 model CommunityMember {
@@ -290,6 +292,42 @@ model Enrollment {
   @@index([courseId])
 }
 
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  type        PostType
+  publishedAt DateTime?
+
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [userId], onDelete: SetNull)
+
+  polls PostPoll[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([communityId])
+  @@index([authorId])
+}
+
+model PostPoll {
+  id     String   @id @default(cuid())
+  text   String
+  option String
+  votes  String[] @default([])
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Role {
   OWNER
   ADMIN
@@ -314,4 +352,10 @@ enum LessonStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum PostType {
+  POLL
+  POST
+  ANNOUNCEMENT
 }
