@@ -125,9 +125,56 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
     }
 
     try {
-        await prisma.course.update({
-            where: { id: courseId },
-            data: { deletedAt: new Date(), isActive: false },
+        const now = new Date()
+
+        // Fetch all nested IDs before touching anything
+        const modules = await prisma.module.findMany({
+            where: { courseId },
+            select: {
+                id: true,
+                lessons: {
+                    select: {
+                        id: true,
+                        video: { select: { id: true } },
+                        session: {
+                            select: {
+                                id: true,
+                                recording: { select: { id: true } }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        const lessonIds = modules.flatMap(m => m.lessons.map(l => l.id))
+        const videoLessonIds = modules.flatMap(m => m.lessons.filter(l => l.video).map(l => l.id))
+        const sessionIds = modules.flatMap(m => m.lessons.filter(l => l.session).map(l => l.session!.id))
+        const recordingSessionIds = modules.flatMap(m =>
+            m.lessons.filter(l => l.session?.recording).map(l => l.session!.id)
+        )
+        const moduleIds = modules.map(m => m.id)
+
+        await prisma.$transaction(async (tx) => {
+            if (recordingSessionIds.length > 0)
+                await tx.recording.updateMany({ where: { sessionId: { in: recordingSessionIds } }, data: { deletedAt: now } })
+
+            if (sessionIds.length > 0)
+                await tx.session.updateMany({ where: { id: { in: sessionIds } }, data: { deletedAt: now } })
+
+            if (videoLessonIds.length > 0)
+                await tx.video.updateMany({ where: { lessonId: { in: videoLessonIds } }, data: { deletedAt: now } })
+
+            if (lessonIds.length > 0)
+                await tx.lesson.updateMany({ where: { id: { in: lessonIds } }, data: { deletedAt: now } })
+
+            if (moduleIds.length > 0)
+                await tx.module.updateMany({ where: { id: { in: moduleIds } }, data: { deletedAt: now } })
+
+            await tx.course.update({
+                where: { id: courseId },
+                data: { deletedAt: now, isActive: false }
+            })
         })
 
         await bustCache(['courses', `courses:${communitySlug}`])
