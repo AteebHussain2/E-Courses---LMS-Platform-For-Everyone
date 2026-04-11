@@ -22,10 +22,12 @@ model User {
   enrollments       Enrollment[]
   lessonCompletions LessonCompletion[]
 
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  post      Post[]
+  deletedAt     DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  post          Post[]
+  postReactions PostReaction[]
+  postPollVotes PostPollVote[]
 }
 
 model UserInfo {
@@ -295,8 +297,10 @@ model Enrollment {
 model Post {
   id          String    @id @default(cuid())
   title       String
-  content     String
+  content     String?
   type        PostType
+  imageUrl    String?
+  isPinned    Boolean   @default(false)
   publishedAt DateTime?
 
   communityId String
@@ -305,7 +309,8 @@ model Post {
   authorId String?
   author   User?   @relation(fields: [authorId], references: [userId], onDelete: SetNull)
 
-  polls PostPoll[]
+  pollOptions PostPollOption[]
+  reactions   PostReaction[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -313,19 +318,53 @@ model Post {
 
   @@index([communityId])
   @@index([authorId])
+  @@index([type])
+  @@index([isPinned])
 }
 
-model PostPoll {
-  id     String   @id @default(cuid())
-  text   String
-  option String
-  votes  String[] @default([])
+model PostPollOption {
+  id   String @id @default(cuid())
+  text String
 
   postId String
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
+  votes PostPollVote[]
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  @@index([postId])
+}
+
+model PostPollVote {
+  id String @id @default(cuid())
+
+  optionId String
+  option   PostPollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([optionId, userId])
+  @@index([userId])
+}
+
+model PostReaction {
+  id    String @id @default(cuid())
+  emoji String
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId, emoji])
+  @@index([postId])
 }
 
 enum Role {
@@ -355,7 +394,7 @@ enum LessonStatus {
 }
 
 enum PostType {
-  POLL
   POST
   ANNOUNCEMENT
+  POLL
 }
