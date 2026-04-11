@@ -87,3 +87,23 @@ export type LessonCompletion = Prisma.LessonCompletionModel
  * 
  */
 export type Enrollment = Prisma.EnrollmentModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel
+/**
+ * Model PostPollOption
+ * 
+ */
+export type PostPollOption = Prisma.PostPollOptionModel
+/**
+ * Model PostPollVote
+ * 
+ */
+export type PostPollVote = Prisma.PostPollVoteModel
+/**
+ * Model PostReaction
+ * 
+ */
+export type PostReaction = Prisma.PostReactionModel

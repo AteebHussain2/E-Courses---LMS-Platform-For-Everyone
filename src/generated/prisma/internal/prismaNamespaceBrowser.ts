@@ -64,7 +64,11 @@ export const ModelName = {
   Recording: 'Recording',
   WatchProgress: 'WatchProgress',
   LessonCompletion: 'LessonCompletion',
-  Enrollment: 'Enrollment'
+  Enrollment: 'Enrollment',
+  Post: 'Post',
+  PostPollOption: 'PostPollOption',
+  PostPollVote: 'PostPollVote',
+  PostReaction: 'PostReaction'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -289,6 +293,55 @@ export const EnrollmentScalarFieldEnum = {
 } as const
 
 export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const PostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  type: 'type',
+  imageUrl: 'imageUrl',
+  isPinned: 'isPinned',
+  publishedAt: 'publishedAt',
+  communityId: 'communityId',
+  authorId: 'authorId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostPollOptionScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  postId: 'postId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostPollOptionScalarFieldEnum = (typeof PostPollOptionScalarFieldEnum)[keyof typeof PostPollOptionScalarFieldEnum]
+
+
+export const PostPollVoteScalarFieldEnum = {
+  id: 'id',
+  optionId: 'optionId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostPollVoteScalarFieldEnum = (typeof PostPollVoteScalarFieldEnum)[keyof typeof PostPollVoteScalarFieldEnum]
+
+
+export const PostReactionScalarFieldEnum = {
+  id: 'id',
+  emoji: 'emoji',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type PostReactionScalarFieldEnum = (typeof PostReactionScalarFieldEnum)[keyof typeof PostReactionScalarFieldEnum]
 
 
 export const SortOrder = {

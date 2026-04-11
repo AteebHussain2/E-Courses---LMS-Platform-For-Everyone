@@ -45,3 +45,12 @@ export const LessonStatus = {
 } as const
 
 export type LessonStatus = (typeof LessonStatus)[keyof typeof LessonStatus]
+
+
+export const PostType = {
+  POST: 'POST',
+  ANNOUNCEMENT: 'ANNOUNCEMENT',
+  POLL: 'POLL'
+} as const
+
+export type PostType = (typeof PostType)[keyof typeof PostType]
