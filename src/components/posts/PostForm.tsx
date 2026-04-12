@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Megaphone, FileText, BarChart2, Plus, Trash2, Pin, Calendar } from "lucide-react";
 import { createPostAction, PostWithDetails, updatePostAction } from "@/actions/posts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
 import FileUpload from "@/components/inputs/FileUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { z } from "zod/v3";
+import PreviewPostCard from "./PreviewPostCard";
 
 const schema = z.object({
     title: z.string().min(3, "At least 3 characters").max(200),
@@ -69,6 +70,11 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
 
     const { fields, append, remove } = useFieldArray({ control: form.control, name: 'pollOptions' })
     const watchType = form.watch('type')
+    // Feed live values to preview as the user types
+    const watched = useWatch({ control: form.control })
+    const previewThumbnail = imageFiles[0]
+        ? URL.createObjectURL(imageFiles[0])
+        : existingPost?.imageUrl
 
     const mutation = useMutation({
         mutationFn: async (values: FormValues) => {
@@ -103,177 +109,198 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
         onError: (e) => toast.error(e.message, { id: "post-form" })
     })
 
+    // Build preview session object from live form values
+    const previewPost = watched ? {
+        title: watched.title || existingPost?.title || 'Title of your post...',
+        content: watched.content || existingPost?.content || null,
+        type: watched.type || existingPost?.type || PostType.POST,
+        isPinned: watched.isPinned || existingPost?.isPinned || false,
+        imageUrl: previewThumbnail || existingPost?.imageUrl || null,
+        scheduledAt: new Date(watched.scheduledAt || ''),
+        pollOptions: watched.pollOptions || existingPost?.pollOptions?.map(o => ({ text: o.text })) || [{ text: '' }, { text: '' }]
+    } : null
+
     return (
         <form onSubmit={form.handleSubmit((v) => {
             toast.loading(isEditing ? "Saving..." : "Publishing...", { id: "post-form" })
             mutation.mutate(v)
         })}>
-            <FieldGroup className="max-w-2xl space-y-5">
-                {/* Type selector */}
-                <div className="grid grid-cols-3 gap-3">
-                    {(Object.entries(TYPE_META) as [FormValues['type'], typeof TYPE_META[keyof typeof TYPE_META]][]).map(([value, meta]) => {
-                        const Icon = meta.icon
-                        const active = watchType === value
-                        return (
-                            <button
-                                key={value}
-                                type="button"
-                                onClick={() => form.setValue('type', value, { shouldDirty: true })}
-                                className={cn(
-                                    "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all cursor-pointer",
-                                    active
-                                        ? `border-current ${meta.color} ${meta.bg}`
-                                        : "border-border bg-card text-muted hover:border-border/80"
-                                )}
-                            >
-                                <Icon className="size-5" />
-                                <span className="text-xs font-medium">{meta.label}</span>
-                            </button>
-                        )
-                    })}
-                </div>
+            <FieldGroup className="grid grid-cols-3 gap-5">
+                <div className="space-y-5 col-span-2">
+                    {/* Type selector */}
+                    <div className="grid grid-cols-3 gap-3">
+                        {(Object.entries(TYPE_META) as [FormValues['type'], typeof TYPE_META[keyof typeof TYPE_META]][]).map(([value, meta]) => {
+                            const Icon = meta.icon
+                            const active = watchType === value
+                            return (
+                                <button
+                                    key={value}
+                                    type="button"
+                                    onClick={() => form.setValue('type', value, { shouldDirty: true })}
+                                    className={cn(
+                                        "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all cursor-pointer",
+                                        active
+                                            ? `border-current ${meta.color} ${meta.bg}`
+                                            : "border-border bg-card text-muted hover:border-border/80"
+                                    )}
+                                >
+                                    <Icon className="size-5" />
+                                    <span className="text-xs font-medium">{meta.label}</span>
+                                </button>
+                            )
+                        })}
+                    </div>
 
-                {/* Image (not for polls) */}
-                {watchType !== PostType.POLL && (
-                    <FileUpload
-                        title={watchType === PostType.ANNOUNCEMENT ? "Announcement Banner" : "Post Image"}
-                        files={imageFiles}
-                        onFilesChange={setImageFiles}
-                        existingUrls={existingPost?.imageUrl ? [existingPost.imageUrl] : []}
-                        accept="image/*"
-                    />
-                )}
+                    {/* Image (not for polls) */}
+                    {watchType !== PostType.POLL && (
+                        <FileUpload
+                            title={watchType === PostType.ANNOUNCEMENT ? "Announcement Banner" : "Post Image"}
+                            files={imageFiles}
+                            onFilesChange={setImageFiles}
+                            existingUrls={existingPost?.imageUrl ? [existingPost.imageUrl] : []}
+                            accept="image/*"
+                        />
+                    )}
 
-                {/* Core fields */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base flex items-center gap-2">
-                            {(() => { const Icon = TYPE_META[watchType].icon; return <Icon className={cn("size-4", TYPE_META[watchType].color)} /> })()}
-                            {TYPE_META[watchType].label} Details
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-5">
-                        <Controller name="title" control={form.control} render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel>Title</FieldLabel>
-                                <Input {...field} placeholder="What's this about?" className="bg-input border-border" autoComplete="off" />
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )} />
-
-                        {watchType !== PostType.POLL && (
-                            <Controller name="content" control={form.control} render={({ field, fieldState }) => (
+                    {/* Core fields */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-base flex items-center gap-2">
+                                {(() => { const Icon = TYPE_META[watchType].icon; return <Icon className={cn("size-4", TYPE_META[watchType].color)} /> })()}
+                                {TYPE_META[watchType].label} Details
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-5">
+                            <Controller name="title" control={form.control} render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Content</FieldLabel>
-                                    <Textarea {...field} placeholder="Write something..." className="bg-input border-border min-h-36" />
+                                    <FieldLabel>Title</FieldLabel>
+                                    <Input {...field} placeholder="What's this about?" className="bg-input border-border" autoComplete="off" />
                                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                 </Field>
                             )} />
-                        )}
 
-                        {/* Poll options */}
-                        {watchType === PostType.POLL && (
-                            <div className="space-y-3">
-                                <FieldLabel>Poll Options</FieldLabel>
-                                {fields.map((field, i) => (
-                                    <div key={field.id} className="flex items-center gap-2">
-                                        <span className="text-xs font-mono text-muted w-5 text-right shrink-0">{i + 1}</span>
-                                        <Input
-                                            {...form.register(`pollOptions.${i}.text`)}
-                                            placeholder={`Option ${i + 1}`}
-                                            className="bg-input border-border flex-1"
-                                        />
-                                        {fields.length > 2 && (
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="icon-sm"
-                                                className="cursor-pointer text-muted hover:text-destructive shrink-0"
-                                                onClick={() => remove(i)}
-                                            >
-                                                <Trash2 className="size-3.5" />
-                                            </Button>
-                                        )}
-                                    </div>
-                                ))}
-                                {fields.length < 6 && (
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="sm"
-                                        className="gap-1.5 text-muted cursor-pointer"
-                                        onClick={() => append({ text: '' })}
-                                    >
-                                        <Plus className="size-3.5" />
-                                        Add option
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                            {watchType !== PostType.POLL && (
+                                <Controller name="content" control={form.control} render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Content</FieldLabel>
+                                        <Textarea {...field} placeholder="Write something..." className="bg-input border-border min-h-36" />
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )} />
+                            )}
 
-                {/* Publishing options */}
-                <Card>
-                    <CardContent className="pt-5 space-y-4">
-                        <Controller name="isPinned" control={form.control} render={({ field }) => (
-                            <Field className="flex flex-row! items-center gap-3">
-                                <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                    className="size-4! bg-input border-border mt-1! text-foreground! outline-2!"
-                                />
-                                <div>
-                                    <FieldLabel className="flex items-center gap-1.5 cursor-pointer">
-                                        <Pin className="size-3.5" />
-                                        Pin this post
-                                    </FieldLabel>
-                                    <FieldDescription>Pinned posts appear at the top of the feed.</FieldDescription>
+                            {/* Poll options */}
+                            {watchType === PostType.POLL && (
+                                <div className="space-y-3">
+                                    <FieldLabel>Poll Options</FieldLabel>
+                                    {fields.map((field, i) => (
+                                        <div key={field.id} className="flex items-center gap-2">
+                                            <span className="text-xs font-mono text-muted w-5 text-right shrink-0">{i + 1}</span>
+                                            <Input
+                                                {...form.register(`pollOptions.${i}.text`)}
+                                                placeholder={`Option ${i + 1}`}
+                                                className="bg-input border-border flex-1"
+                                            />
+                                            {fields.length > 2 && (
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon-sm"
+                                                    className="cursor-pointer text-muted hover:text-destructive shrink-0"
+                                                    onClick={() => remove(i)}
+                                                >
+                                                    <Trash2 className="size-3.5" />
+                                                </Button>
+                                            )}
+                                        </div>
+                                    ))}
+                                    {fields.length < 6 && (
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="sm"
+                                            className="gap-1.5 text-muted cursor-pointer"
+                                            onClick={() => append({ text: '' })}
+                                        >
+                                            <Plus className="size-3.5" />
+                                            Add option
+                                        </Button>
+                                    )}
                                 </div>
-                            </Field>
-                        )} />
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
 
-                        <Controller name="scheduledAt" control={form.control} render={({ field }) => (
-                            <Field>
-                                <FieldLabel className="flex items-center gap-1.5">
-                                    <Calendar className="size-3.5" />
-                                    Schedule publish
-                                    <span className="text-xs font-normal text-muted">(leave blank to publish now)</span>
-                                </FieldLabel>
-                                <Input
-                                    type="datetime-local"
-                                    className="bg-input border-border w-64"
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
-                            </Field>
-                        )} />
-                    </CardContent>
-                </Card>
+                <div>
+                    <div className="sticky top-24 space-y-5">
+                        <PreviewPostCard
+                            communitySlug={communitySlug}
+                            post={previewPost}
+                        />
+                        {/* Publishing options */}
+                        <Card>
+                            <CardContent className="pt-5 space-y-4">
+                                <Controller name="isPinned" control={form.control} render={({ field }) => (
+                                    <Field className="flex flex-row! items-start gap-3">
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            className="size-4! bg-input border-border mt-1! text-foreground! outline-2!"
+                                        />
+                                        <div>
+                                            <FieldLabel className="flex items-center gap-1.5 cursor-pointer">
+                                                <Pin className="size-3.5" />
+                                                Pin this post
+                                            </FieldLabel>
+                                            <FieldDescription>Pinned posts appear at the top of the feed.</FieldDescription>
+                                        </div>
+                                    </Field>
+                                )} />
 
-                {/* Actions */}
-                <div className="flex items-center gap-3 justify-end">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="cursor-pointer border-border"
-                        onClick={() => router.push(`/${communitySlug}/admin/posts`)}
-                        disabled={mutation.isPending || !form.formState.isDirty}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        type="submit"
-                        className="cursor-pointer text-foreground w-36"
-                        disabled={mutation.isPending || !form.formState.isDirty}
-                    >
-                        {mutation.isPending
-                            ? (isEditing ? "Saving..." : "Publishing...")
-                            : (isEditing ? "Save Changes" : "Publish Post")
-                        }
-                    </Button>
+                                <Controller name="scheduledAt" control={form.control} render={({ field }) => (
+                                    <Field>
+                                        <FieldLabel className="flex items-center gap-1.5">
+                                            <Calendar className="size-3.5" />
+                                            Schedule publish
+                                            <span className="text-xs font-normal text-muted">(leave blank to publish now)</span>
+                                        </FieldLabel>
+                                        <Input
+                                            type="datetime-local"
+                                            className="bg-input border-border w-64"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    </Field>
+                                )} />
+                            </CardContent>
+                        </Card>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-3 justify-end">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="cursor-pointer border-border"
+                                onClick={() => router.push(`/${communitySlug}/admin/posts`)}
+                                disabled={mutation.isPending || !form.formState.isDirty}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                className="cursor-pointer text-foreground w-36"
+                                disabled={mutation.isPending || !form.formState.isDirty}
+                            >
+                                {mutation.isPending
+                                    ? (isEditing ? "Saving..." : "Publishing...")
+                                    : (isEditing ? "Save Changes" : "Publish Post")
+                                }
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </FieldGroup>
-        </form>
+        </form >
     )
 }

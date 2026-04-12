@@ -1,17 +1,16 @@
 "use client"
 
-import { PostWithDetails, voteOnPollAction, reactToPostAction, deletePostAction } from "@/actions/posts";
-import { SESSION_STATUS_STYLES } from "@/lib/session-status";
-import { Megaphone, FileText, BarChart2, Pin, Edit2, Trash2, Check } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { PostWithDetails, voteOnPollAction, reactToPostAction, deletePostAction } from "@/actions/posts";
+import { Megaphone, FileText, BarChart2, Pin, Edit2, Trash2, Check } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatDistanceToNow, format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 const TYPE_META = {
     POST: { label: 'Post', icon: FileText, color: 'text-primary', bg: 'bg-primary/10' },
