@@ -21,7 +21,7 @@ export default async function RootLayout({ params, children }: Props) {
     if (!seoData || !seoData?.community) return notFound();
 
     return (
-        <div className="max-h-screen pt-3 flex flex-row flex-1 items-center justify-center">
+        <div className="max-h-screen flex flex-row flex-1 items-center justify-center">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.jsonLd) }}
@@ -33,9 +33,11 @@ export default async function RootLayout({ params, children }: Props) {
                 logo={seoData.community.logo}
                 role={Role.STUDENT}
             />
-            <main className="overflow-y-auto bg-background w-full h-full border border-border rounded-t-[20px] mx-3">
-                {children}
-            </main>
+            <div className="relative w-full max-h-screen mx-3">
+                <main className="px-10 py-4 space-y-3 bg-background w-full h-full border-x border-border">
+                    {children}
+                </main>
+            </div>
         </div>
     );
 }
