@@ -102,11 +102,11 @@ export default function SessionForm({ lessonId, communitySlug, courseId, lessonT
     })
 
     // Build preview session object from live form values
-    const previewSession = watched.scheduledAt ? {
+    const previewSession = watched ? {
         title: watched.title || lessonTitle,
         imageUrl: previewThumbnail,
         description: watched.description || null,
-        scheduledAt: new Date(watched.scheduledAt),
+        scheduledAt: new Date(watched.scheduledAt || ''),
         duration: watched.duration ? Number(watched.duration) : null,
         platformLink: watched.platformLink || null,
         status: watched.status === 'CANCELLED' ? SessionStatus.CANCELLED : SessionStatus.UPCOMING,

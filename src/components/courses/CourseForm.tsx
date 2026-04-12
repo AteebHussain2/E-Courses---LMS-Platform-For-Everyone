@@ -4,13 +4,14 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/c
 import InstructorSelect from "@/components/inputs/InstructorSelect";
 import { Card, CardContent } from "@/components/ui/card";
 import FileUpload from "@/components/inputs/FileUpload";
-import { courseSchemaType } from "@/lib/schemas/course";
 import { useCourseForm } from "@/hooks/use-course-form";
+import { useInstructor } from "@/hooks/use-instructor";
+import { Controller, useWatch } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PreviewCourseCard } from "./CourseCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 type CourseFormProps = {
@@ -19,13 +20,21 @@ type CourseFormProps = {
 } & ReturnType<typeof useCourseForm>
 
 const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, className, files, setFiles, onCancel }: CourseFormProps) => {
+
+    const { title, description, imageUrl, isActive, instructorId } = useWatch({
+        control: form.control
+    })
+    const { data: instructor } = useInstructor(instructorId)
+
     return (
         <form
             id={isEditing ? "edit-course-form" : "create-course-form"}
-            className={cn("space-y-5", className)}
+            className={cn("space-y-5", "grid grid-cols-1 md:grid-cols-3 gap-5", className)}
             onSubmit={onSubmit}
         >
-            <FieldGroup>
+            <FieldGroup
+                className="col-span-1 md:col-span-2"
+            >
                 <Controller
                     name="imageUrl"
                     control={form.control}
@@ -137,28 +146,55 @@ const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, class
                 </Card>
             </FieldGroup>
 
-            <Field
-                orientation="horizontal"
-                className="items-center justify-end"
-            >
-                <Button
-                    type="submit"
-                    form={isEditing ? "edit-course-form" : "create-course-form"}
-                    className="text-foreground! cursor-pointer w-34 h-10"
-                    disabled={isLoading}
-                >
-                    {isLoading ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : "Create Course")}
-                </Button>
-                <Button
-                    type="button"
-                    variant="destructive"
-                    className="cursor-pointer w-34 h-10!"
-                    onClick={onCancel}
-                    disabled={isLoading}
-                >
-                    Cancel
-                </Button>
-            </Field>
+
+            <div className="relative">
+                <div className="sticky top-24 space-y-5">
+                    <p className="text-xs font-medium text-muted uppercase tracking-wider">Preview</p>
+                    <PreviewCourseCard
+                        showButtons={true}
+                        course={{
+                            id: 'once-again-demo-id-which-is-incorrect',
+                            slug: 'once-again-demo-slug-here',
+                            description: description ?? '',
+                            imageUrl: files[0] ? URL.createObjectURL(files[0]) : imageUrl || '/placeholder-image.webp',
+                            title: title || '',
+                            isActive: isActive ?? false,
+                            createdAt: new Date,
+                            updatedAt: new Date,
+                            instructor: {
+                                avatar: instructor?.avatar || '/placeholder-avatar.png',
+                                firstName: instructor?.firstName || 'Full',
+                                lastName: instructor?.lastName || 'Name',
+                                userId: instructor?.userId || instructorId || 'demo-instructor-id',
+                            },
+                            community: { slug: communitySlug, id: 'demo-id-which-is-incorrect' },
+                            _count: { modules: 0, enrollments: 0 },
+                        }}
+                    />
+                    <Field
+                        orientation="vertical"
+                        className="items-center"
+                    >
+                        <Button
+                            type="submit"
+                            form={isEditing ? "edit-course-form" : "create-course-form"}
+                            className="text-foreground! cursor-pointer flex-1 min-h-10!"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (isEditing ? "Saving..." : "Creating...") : (isEditing ? "Save Changes" : "Create Course")}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full cursor-pointer border-border min-h-10! flex-1"
+                            onClick={onCancel}
+                            disabled={isLoading}
+                        >
+                            Cancel
+                        </Button>
+                    </Field>
+                </div>
+            </div>
         </form>
     )
 }

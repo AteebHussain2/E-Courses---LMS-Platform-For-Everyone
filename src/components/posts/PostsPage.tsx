@@ -35,9 +35,10 @@ export default function PostsPage({ communitySlug }: { communitySlug: string }) 
 
             {isLoading ? (
                 <div className="space-y-4 max-w-2xl">
-                    {Array.from({ length: 3 }).map((_, i) => (
+                    Loading...
+                    {/* {Array.from({ length: 3 }).map((_, i) => (
                         <Skeleton key={i} className="h-48 w-full rounded-xl" />
-                    ))}
+                    ))} */}
                 </div>
             ) : data?.posts.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-24 gap-3 text-center">

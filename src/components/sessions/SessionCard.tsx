@@ -103,7 +103,10 @@ export const AdminSessionCard = ({ session, communitySlug }: { session: SessionW
             </CardContent>
 
             <CardFooter className="px-4! pt-3! pb-0! flex items-center gap-2">
-                <Button asChild variant="outline" size="sm" className="flex-1 cursor-pointer border-border bg-input">
+                <Button
+                    size='lg'
+                    className="flex-1 w-full cursor-pointer rounded-full bg-[#0C1321] text-foreground hover:border-border hover:bg-[#0F1A2E] hover:text-foreground"
+                >
                     <Link href={`/${communitySlug}/admin/sessions/edit?sessionId=${session.id}`}>
                         Edit
                     </Link>
@@ -120,7 +123,6 @@ export const AdminSessionCard = ({ session, communitySlug }: { session: SessionW
                     sessionId={session.id}
                     sessionSlug={session.title.toLowerCase().replace(/\s+/g, '-').slice(0, 20)}
                     communitySlug={communitySlug}
-                    className="rounded-md! size-8!"
                 />
             </CardFooter>
         </Card >

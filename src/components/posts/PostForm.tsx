@@ -25,7 +25,7 @@ import { z } from "zod/v3";
 const schema = z.object({
     title: z.string().min(3, "At least 3 characters").max(200),
     content: z.string().max(5000).optional(),
-    type: z.enum(['POST', 'ANNOUNCEMENT', 'POLL']),
+    type: z.enum(['POST', 'ANNOUNCEMENT', PostType.POLL]),
     isPinned: z.boolean(),
     scheduledAt: z.string().optional(),
     pollOptions: z.array(z.object({ text: z.string().min(1, "Option can't be empty") }))
@@ -88,7 +88,7 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
                 publishedAt: values.scheduledAt || new Date().toISOString(),
                 communitySlug,
                 authorId,
-                pollOptions: values.type === 'POLL'
+                pollOptions: values.type === PostType.POLL
                     ? values.pollOptions?.map(o => o.text).filter(Boolean)
                     : undefined
             }
@@ -134,9 +134,9 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
                 </div>
 
                 {/* Image (not for polls) */}
-                {watchType !== 'POLL' && (
+                {watchType !== PostType.POLL && (
                     <FileUpload
-                        title={watchType === 'ANNOUNCEMENT' ? "Announcement Banner" : "Post Image"}
+                        title={watchType === PostType.ANNOUNCEMENT ? "Announcement Banner" : "Post Image"}
                         files={imageFiles}
                         onFilesChange={setImageFiles}
                         existingUrls={existingPost?.imageUrl ? [existingPost.imageUrl] : []}
@@ -161,7 +161,7 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
                             </Field>
                         )} />
 
-                        {watchType !== 'POLL' && (
+                        {watchType !== PostType.POLL && (
                             <Controller name="content" control={form.control} render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
                                     <FieldLabel>Content</FieldLabel>
@@ -172,7 +172,7 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
                         )}
 
                         {/* Poll options */}
-                        {watchType === 'POLL' && (
+                        {watchType === PostType.POLL && (
                             <div className="space-y-3">
                                 <FieldLabel>Poll Options</FieldLabel>
                                 {fields.map((field, i) => (
@@ -221,7 +221,7 @@ export default function PostForm({ communitySlug, authorId, existingPost }: Prop
                                 <Checkbox
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
-                                    className="size-4! bg-input border-border"
+                                    className="size-4! bg-input border-border mt-1! text-foreground! outline-2!"
                                 />
                                 <div>
                                     <FieldLabel className="flex items-center gap-1.5 cursor-pointer">

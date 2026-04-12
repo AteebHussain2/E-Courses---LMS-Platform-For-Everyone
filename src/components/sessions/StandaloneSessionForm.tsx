@@ -2,8 +2,8 @@
 
 import { createSessionAction, getCoursesForCommunity, getSessionLessonsForCourse, updateSessionAction } from "@/actions/sessions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { SESSION_STATUS_LABELS, SESSION_STATUS_STYLES, getSessionStatus } from "@/lib/session-status";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarClock, Link2, Radio, Unlink, Video } from "lucide-react";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
@@ -29,7 +29,7 @@ const schema = z.object({
     description: z.string().max(2000).optional(),
     scheduledAt: z.string().min(1, "Date and time is required"),
     duration: z.coerce.number().int().min(1, "At least 1 minute").optional().or(z.literal('')),
-    platformLink: z.string().url("Must be a valid URL").optional().or(z.literal('')),
+    platformLink: z.string().url("Must be a valid URL").or(z.literal('')),
     status: z.enum(['UPCOMING', 'LIVE', 'COMPLETED', 'CANCELLED']).default('UPCOMING') as z.ZodType<'UPCOMING' | 'LIVE' | 'COMPLETED' | 'CANCELLED'>,
     courseId: z.string().optional(),
     lessonId: z.string().optional(),
@@ -130,7 +130,7 @@ export default function StandaloneSessionForm({ communitySlug, existingSession }
     // Build live preview
     const previewStatus = getSessionStatus({
         scheduledAt: watched.scheduledAt ? new Date(watched.scheduledAt) : new Date(),
-        status: (watched.status as SessionStatus) ?? SessionStatus.UPCOMING,
+        status: (watched.status as SessionStatus) ?? SessionStatus.LIVE,
         duration: watched.duration ? Number(watched.duration) : null
     })
     const previewScheduledAt = watched.scheduledAt ? new Date(watched.scheduledAt) : null
@@ -322,7 +322,7 @@ export default function StandaloneSessionForm({ communitySlug, existingSession }
                         <div className="space-y-2">
                             <p className="text-xs font-medium text-muted uppercase tracking-wider">Preview</p>
                             <Card className="p-0! pb-4! gap-3! overflow-hidden">
-                                <div className="relative w-full aspect-video bg-muted flex items-center justify-center">
+                                <div className="relative w-full aspect-video bg-secondary/2 border-border border-b flex items-center justify-center">
                                     {previewThumbnail ? (
                                         <Image src={previewThumbnail} alt="preview" fill className="object-cover" />
                                     ) : (

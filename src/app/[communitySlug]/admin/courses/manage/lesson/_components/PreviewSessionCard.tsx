@@ -61,7 +61,7 @@ export default function PreviewSessionCard({
             <Card className="w-full max-w-sm p-0! pb-3! gap-3! overflow-hidden">
                 {/* Thumbnail / hero */}
                 <CardHeader className="p-0!">
-                    <div className="relative w-full aspect-video bg-muted flex items-center justify-center">
+                    <div className="relative w-full aspect-video bg-secondary/2 border-b border-border flex items-center justify-center">
                         {session.imageUrl ? (
                             <Image
                                 src={session.imageUrl}

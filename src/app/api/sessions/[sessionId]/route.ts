@@ -113,19 +113,19 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ s
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
     try {
-        await prisma.$transaction(async (tx) => {
+        await prisma.$transaction([
             // unlink any lesson pointing to this session
-            await tx.lesson.updateMany({
+            prisma.lesson.updateMany({
                 where: { sessionId },
                 data: { sessionId: null }
-            })
-            await tx.session.update({
+            }),
+            prisma.session.update({
                 where: { id: sessionId },
                 data: { deletedAt: new Date() }
             })
-        })
+        ]);
 
-        await bustCache(['sessions', `sessions:${communitySlug}`])
+        await bustCache(['sessions', `sessions:${communitySlug}`]);
 
         return NextResponse.json({ success: true })
     } catch (error) {

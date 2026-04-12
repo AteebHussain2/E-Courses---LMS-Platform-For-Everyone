@@ -75,7 +75,7 @@ export const PreviewCourseCard = ({ course, showButtons = true }: { course: Cour
                     alt={course.title || 'course hero image'}
                     width={380}
                     height={300}
-                    className="w-full aspect-video object-cover"
+                    className="w-full aspect-video object-cover flex items-center justify-center border-b border-border bg-secondary/2"
                 />
             </CardHeader>
             <CardContent className="items-start py-0! px-4! space-y-4">
@@ -115,8 +115,8 @@ export const PreviewCourseCard = ({ course, showButtons = true }: { course: Cour
             </CardContent>
 
             {showButtons && <CardFooter className="max-w-inherit flex items-center gap-2">
-                <CourseManageButton className="flex-1" courseId={course.id} disabled={true} />
-                <CourseDeleteButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} disabled={true} />
+                <CourseManageButton className="flex-1" courseId={course.id} disabled />
+                <CourseDeleteButton courseSlug={course.slug} courseId={course.id} communitySlug={course.community.slug} disabled />
             </CardFooter>}
         </Card>
     )

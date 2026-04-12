@@ -58,7 +58,7 @@ export default function FileUpload({ onFilesChange, files = [], title, existingU
 
             <CardContent className="p-5! pt-0! border-none!">
                 {/* Dropzone UI */}
-                <div className="overflow-clip border-2 border-dashed border-border rounded-xl relative">
+                <div className="overflow-clip border-2 border-dashed border-border rounded-xl relative aspect-video">
                     <input
                         type="file"
                         ref={mergedRef}
@@ -67,9 +67,9 @@ export default function FileUpload({ onFilesChange, files = [], title, existingU
                         {...rest}
                     />
 
-                    {(files.length < 0 || existingUrls?.length < 0) ? (
+                    {(files.length === 0 || existingUrls?.length === 0) ? (
                         <div
-                            className={cn("overflow-clip flex flex-col items-center justify-center py-10 bg-background-secondary cursor-pointer transition-all hover:bg-background-secondary/90",
+                            className={cn("overflow-clip h-full flex flex-col items-center justify-center py-10 bg-background-secondary cursor-pointer transition-all hover:bg-background-secondary/90",
                                 uploadVariants['default']
                             )}
                             onClick={() => fileInputRef.current?.click()}

@@ -13,9 +13,12 @@ const SessionsGrid = ({ isLoading = true, sessions, communitySlug }: SessionsGri
             {!isLoading ? sessions?.map(session => (
                 <AdminSessionCard key={session.id} session={session} communitySlug={communitySlug} />
             )) : (
-                Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="rounded-xl bg-card animate-pulse aspect-4/3" />
-                ))
+                <span>
+                    Loading...
+                </span>
+                // Array.from({length: 6 }).map((_, i) => (
+                //     <div key={i} className="rounded-xl bg-card animate-pulse aspect-4/3" />
+                // ))
             )}
         </div>
     )
