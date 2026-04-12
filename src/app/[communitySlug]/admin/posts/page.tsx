@@ -1,9 +1,12 @@
-const PostsPage = () => {
-    return (
-        <div>
+import PostsPage from "@/components/posts/PostsPage";
 
-        </div>
-    )
+type PostPageProps = {
+    params: Promise<{
+        communitySlug: string
+    }>
 }
 
-export default PostsPage
+export default async function AdminPostsPage({ params }: PostPageProps) {
+    const { communitySlug } = await params
+    return <PostsPage communitySlug={communitySlug} />
+}

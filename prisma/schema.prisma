@@ -21,13 +21,13 @@ model User {
   watchProgresses   WatchProgress[]
   enrollments       Enrollment[]
   lessonCompletions LessonCompletion[]
+  post              Post[]
+  postReactions     PostReaction[]
+  postPollVotes     PostPollVote[]
 
-  deletedAt     DateTime?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  post          Post[]
-  postReactions PostReaction[]
-  postPollVotes PostPollVote[]
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model UserInfo {
@@ -57,11 +57,11 @@ model Community {
   communityInvites CommunityInvite[]
   courses          Course[]
   sessions         Session[]
+  post             Post[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  post      Post[]
 }
 
 model CommunityMember {

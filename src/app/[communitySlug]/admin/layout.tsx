@@ -42,6 +42,7 @@ export default async function RootLayout({ params, children }: Props) {
                 slug={seoData.community.slug}
                 name={seoData.community.name}
                 logo={seoData.community.logo}
+                slogan={seoData.community.slogan}
                 description={seoData.community.description}
             />
 
