@@ -67,7 +67,7 @@ export default function FileUpload({ onFilesChange, files = [], title, existingU
                         {...rest}
                     />
 
-                    {(files.length === 0 || existingUrls?.length === 0) ? (
+                    {(files.length === 0 && existingUrls?.length === 0) ? (
                         <div
                             className={cn("overflow-clip h-full flex flex-col items-center justify-center py-10 bg-background-secondary cursor-pointer transition-all hover:bg-background-secondary/90",
                                 uploadVariants['default']

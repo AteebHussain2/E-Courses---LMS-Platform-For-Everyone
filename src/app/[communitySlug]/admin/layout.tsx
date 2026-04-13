@@ -32,7 +32,7 @@ export default async function RootLayout({ params, children }: Props) {
     if (seoData.community.communityMembers[0].role === Role.STUDENT) redirect(`/unauthorized?title="Access Denied"&description="You don't have access to this portal. Contact owner of this community to access admin portal."`);
 
     return (
-        <div className="max-h-screen flex flex-row flex-1 items-center justify-center">
+        <div className="max-h-screen flex flex-row flex-1 items-start justify-center">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.jsonLd) }}
@@ -54,7 +54,7 @@ export default async function RootLayout({ params, children }: Props) {
             />
             <div className="relative w-full max-h-screen mx-3">
                 <AdminTopbar />
-                <main className="px-10 py-4 space-y-3 bg-background w-full h-full border-x border-border">
+                <main className="px-10 py-4 space-y-3 bg-background w-full h-[calc(100vh-84px)] border-x border-border">
                     <CustomHeader
                         slug={seoData.community.slug}
                         role={seoData.community.communityMembers[0].role}
