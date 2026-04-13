@@ -37,7 +37,7 @@ export type FeaturedData =
     | { type: 'course'; item: FeaturedCourse; badge: 'new' }
 
 export async function getFeaturedAction(communitySlug: string): Promise<FeaturedData | null> {
-    const res = await fetch(getUrl(`/api/featured?communitySlug=${communitySlug}`), {
+    const res = await fetch(getUrl(`/api/home/featured?communitySlug=${communitySlug}`), {
         headers: apiHeaders,
         next: { revalidate: 60, tags: [`featured:${communitySlug}`] }
     })
