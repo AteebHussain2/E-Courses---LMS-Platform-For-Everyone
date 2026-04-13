@@ -1,7 +1,7 @@
 "use client"
 
 import { BookOpen, CalendarClock, Plus, Radio, Users } from "lucide-react";
-import { formatDistanceToNow, format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { FeaturedData } from "@/actions/home";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -34,8 +34,7 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
     const secondaryLabel = isSession ? "+ Save in Library" : "+ Save in Courses"
 
     return (
-        <div className="relative w-full overflow-hidden rounded-2xl bg-[#0d0d12] min-h-55 sm:min-h-65 flex items-center">
-
+        <div className="relative w-full rounded-t-[20px] overflow-clip bg-[#0d0d12] min-h-55 sm:min-h-[50vh] flex items-center">
             {/* Right side image */}
             {imageUrl && (
                 <>
@@ -43,13 +42,14 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                         <Image
                             src={imageUrl}
                             alt={title}
-                            fill
-                            className="object-cover object-right"
+                            width={420}
+                            height={420}
+                            className=""
                             priority
                         />
                     </div>
                     {/* gradient overlays — left fade + bottom scrim */}
-                    <div className="absolute inset-0 bg-linear-to-r from-[#0d0d12] via-[#0d0d12]/90 to-transparent w-[65%]" />
+                    <div className="absolute inset-0 bg-linear-to-r from-background via-background/90 to-transparent w-[65%]" />
                     <div className="absolute inset-0 bg-linear-to-r from-[#0d0d12] to-transparent" style={{ width: '40%' }} />
                 </>
             )}

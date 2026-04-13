@@ -33,8 +33,8 @@ export default async function RootLayout({ params, children }: Props) {
                 logo={seoData.community.logo}
                 role={Role.STUDENT}
             />
-            <div className="relative w-full max-h-screen pt-3 mx-3">
-                <main className="px-10 py-4 space-y-3 bg-background w-full h-[calc(100vh-12px)] border-x border-t border-border rounded-t-[20px]">
+            <div className="relative w-full max-h-screen mt-3 mx-3">
+                <main className="space-y-3 bg-background w-full h-[calc(100vh-12px)] border-x border-t border-border rounded-t-[20px]">
                     {children}
                 </main>
             </div>

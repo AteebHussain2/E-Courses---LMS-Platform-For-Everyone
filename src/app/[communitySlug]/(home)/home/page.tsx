@@ -10,7 +10,7 @@ const HomePage = async ({ params }: Props) => {
     const featured = await getFeaturedAction(communitySlug).catch(() => null)
 
     return (
-        <div className="space-y-6 p-6">
+        <div className="space-y-5">
             <FeaturedBanner communitySlug={communitySlug} featured={featured} />
         </div>
     )
