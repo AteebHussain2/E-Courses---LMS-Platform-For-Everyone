@@ -65,6 +65,14 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-status-error: #EF4444;
+  --color-status-error-bg: #EF4444/10%;
+  --color-status-warning: #F59E0B;
+  --color-status-warning-bg: #F59E0B/10%;
+  --color-status-success: #10B981;
+  --color-status-success-bg: #10B981/10%;
+  --color-status-info: #38BDF8;
+  --color-status-info-bg: #38BDF8/10%;
 }
 
 :root {

@@ -54,7 +54,7 @@ export default async function RootLayout({ params, children }: Props) {
             />
             <div className="relative w-full max-h-screen mx-3">
                 <AdminTopbar />
-                <main className="px-10 py-4 space-y-3 bg-background w-full h-[calc(100vh-84px)] border-x border-border">
+                <main className="px-10 py-4 space-y-3 bg-background w-full min-h-[calc(100vh-84px)] h-full border-x border-border">
                     <CustomHeader
                         slug={seoData.community.slug}
                         role={seoData.community.communityMembers[0].role}
