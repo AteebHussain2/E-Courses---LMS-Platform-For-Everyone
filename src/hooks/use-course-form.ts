@@ -30,7 +30,8 @@ export function useCourseForm({ communitySlug, defaultValues, courseId }: UseCou
             description: '',
             imageUrl: '',
             isActive: false,
-            instructorId: ''
+            instructorId: '',
+            price: 0,
         }
     })
 
