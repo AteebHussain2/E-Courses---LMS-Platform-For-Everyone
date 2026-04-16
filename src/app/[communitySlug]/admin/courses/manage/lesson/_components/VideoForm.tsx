@@ -2,12 +2,12 @@
 
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import FileUpload from "@/components/inputs/FileUpload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkIcon, UploadCloud } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 import { saveVideoAction } from "@/actions/lessons";
 import { Video } from "@/generated/prisma/browser";
@@ -38,6 +38,7 @@ type Props = {
 export default function VideoForm({ lessonId, lessonTitle, courseId, communitySlug, existingVideo }: Props) {
     const router = useRouter()
     const [thumbnailFiles, setThumbnailFiles] = useState<File[]>([])
+    const queryClient = useQueryClient()
     const isEditing = !!existingVideo
 
     const form = useForm<FormValues>({
@@ -72,7 +73,8 @@ export default function VideoForm({ lessonId, lessonTitle, courseId, communitySl
                 imageUrl,
             })
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
             toast.success(isEditing ? "Video updated!" : "Video saved!", { id: "video-save" })
             setThumbnailFiles([])
             router.push(`/${communitySlug}/admin/courses/manage?courseId=${courseId}`)
@@ -202,7 +204,7 @@ export default function VideoForm({ lessonId, lessonTitle, courseId, communitySl
                             <Button
                                 type="submit"
                                 className="w-40 cursor-pointer text-foreground"
-                                disabled={mutation.isPending || !form.formState.isDirty}
+                                disabled={mutation.isPending || !form.formState.isDirty || thumbnailFiles.length > 0}
                             >
                                 {mutation.isPending
                                     ? (isEditing ? "Updating..." : "Saving...")

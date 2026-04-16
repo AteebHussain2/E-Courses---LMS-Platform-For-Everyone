@@ -1,7 +1,7 @@
 import { verifyApiRequest, generateSlug, validateWithRegex } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { bustCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
 
 const PATTERNS = {
     title: /^[a-zA-Z0-9\s\-\_\:\&]{1,100}$/,
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // parse body
     const body = await req.json()
-    const { title, description, communitySlug, isActive, imageUrl, instructorId } = body
+    const { title, description, communitySlug, isActive, imageUrl, instructorId, price } = body
 
     // validate required fields exist
     if (!title || !communitySlug || !instructorId) {
@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
                 slug,
                 description,
                 imageUrl,
+                price: price ?? 0,
                 isActive: isActive ?? false,
                 community: {
                     connect: { slug: communitySlug }

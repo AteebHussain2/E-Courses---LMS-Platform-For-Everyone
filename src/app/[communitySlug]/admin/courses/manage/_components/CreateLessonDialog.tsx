@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Video, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod/v3";
@@ -31,6 +31,7 @@ type Props = {
 export default function CreateLessonDialog({ moduleId, courseId, communitySlug }: Props) {
     const [open, setOpen] = useState(false)
     const queryClient = useQueryClient()
+    const router = useRouter()
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -47,7 +48,7 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
             setOpen(false)
 
             // redirect user to lesson page for more details
-            redirect(`/${communitySlug}/admin/courses/manage/lesson?lessonId=${lesson.id}`)
+            router.push(`/${communitySlug}/admin/courses/manage/lesson?lessonId=${lesson.id}`)
         },
         onError: (error) => toast.error(error.message)
     })

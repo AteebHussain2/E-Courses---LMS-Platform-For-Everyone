@@ -5,7 +5,8 @@ export const courseSchema = z.object({
     description: z.string().max(2000).optional(),
     isActive: z.boolean().default(false).optional(),
     imageUrl: z.string().min(1),
-    instructorId: z.string().min(1)
+    instructorId: z.string().min(1),
+    price: z.coerce.number().int().min(0).default(0),
 })
 
 export type courseSchemaType = z.infer<typeof courseSchema>

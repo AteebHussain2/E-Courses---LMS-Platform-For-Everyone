@@ -20,8 +20,18 @@ export type CourseModel = runtime.Types.Result.DefaultSelection<Prisma.$CoursePa
 
 export type AggregateCourse = {
   _count: CourseCountAggregateOutputType | null
+  _avg: CourseAvgAggregateOutputType | null
+  _sum: CourseSumAggregateOutputType | null
   _min: CourseMinAggregateOutputType | null
   _max: CourseMaxAggregateOutputType | null
+}
+
+export type CourseAvgAggregateOutputType = {
+  price: number | null
+}
+
+export type CourseSumAggregateOutputType = {
+  price: number | null
 }
 
 export type CourseMinAggregateOutputType = {
@@ -31,6 +41,7 @@ export type CourseMinAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   isActive: boolean | null
+  price: number | null
   communityId: string | null
   instructorId: string | null
   deletedAt: Date | null
@@ -45,6 +56,7 @@ export type CourseMaxAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   isActive: boolean | null
+  price: number | null
   communityId: string | null
   instructorId: string | null
   deletedAt: Date | null
@@ -59,6 +71,7 @@ export type CourseCountAggregateOutputType = {
   description: number
   imageUrl: number
   isActive: number
+  price: number
   communityId: number
   instructorId: number
   deletedAt: number
@@ -68,6 +81,14 @@ export type CourseCountAggregateOutputType = {
 }
 
 
+export type CourseAvgAggregateInputType = {
+  price?: true
+}
+
+export type CourseSumAggregateInputType = {
+  price?: true
+}
+
 export type CourseMinAggregateInputType = {
   id?: true
   slug?: true
@@ -75,6 +96,7 @@ export type CourseMinAggregateInputType = {
   description?: true
   imageUrl?: true
   isActive?: true
+  price?: true
   communityId?: true
   instructorId?: true
   deletedAt?: true
@@ -89,6 +111,7 @@ export type CourseMaxAggregateInputType = {
   description?: true
   imageUrl?: true
   isActive?: true
+  price?: true
   communityId?: true
   instructorId?: true
   deletedAt?: true
@@ -103,6 +126,7 @@ export type CourseCountAggregateInputType = {
   description?: true
   imageUrl?: true
   isActive?: true
+  price?: true
   communityId?: true
   instructorId?: true
   deletedAt?: true
@@ -149,6 +173,18 @@ export type CourseAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CourseAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CourseSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CourseMinAggregateInputType
@@ -179,6 +215,8 @@ export type CourseGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: CourseCountAggregateInputType | true
+  _avg?: CourseAvgAggregateInputType
+  _sum?: CourseSumAggregateInputType
   _min?: CourseMinAggregateInputType
   _max?: CourseMaxAggregateInputType
 }
@@ -190,12 +228,15 @@ export type CourseGroupByOutputType = {
   description: string | null
   imageUrl: string
   isActive: boolean
+  price: number
   communityId: string
   instructorId: string | null
   deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: CourseCountAggregateOutputType | null
+  _avg: CourseAvgAggregateOutputType | null
+  _sum: CourseSumAggregateOutputType | null
   _min: CourseMinAggregateOutputType | null
   _max: CourseMaxAggregateOutputType | null
 }
@@ -225,6 +266,7 @@ export type CourseWhereInput = {
   description?: Prisma.StringNullableFilter<"Course"> | string | null
   imageUrl?: Prisma.StringFilter<"Course"> | string
   isActive?: Prisma.BoolFilter<"Course"> | boolean
+  price?: Prisma.IntFilter<"Course"> | number
   communityId?: Prisma.StringFilter<"Course"> | string
   instructorId?: Prisma.StringNullableFilter<"Course"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Course"> | Date | string | null
@@ -243,6 +285,7 @@ export type CourseOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   instructorId?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -265,6 +308,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Course"> | string | null
   imageUrl?: Prisma.StringFilter<"Course"> | string
   isActive?: Prisma.BoolFilter<"Course"> | boolean
+  price?: Prisma.IntFilter<"Course"> | number
   communityId?: Prisma.StringFilter<"Course"> | string
   instructorId?: Prisma.StringNullableFilter<"Course"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Course"> | Date | string | null
@@ -283,14 +327,17 @@ export type CourseOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   instructorId?: Prisma.SortOrderInput | Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CourseCountOrderByAggregateInput
+  _avg?: Prisma.CourseAvgOrderByAggregateInput
   _max?: Prisma.CourseMaxOrderByAggregateInput
   _min?: Prisma.CourseMinOrderByAggregateInput
+  _sum?: Prisma.CourseSumOrderByAggregateInput
 }
 
 export type CourseScalarWhereWithAggregatesInput = {
@@ -303,6 +350,7 @@ export type CourseScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   imageUrl?: Prisma.StringWithAggregatesFilter<"Course"> | string
   isActive?: Prisma.BoolWithAggregatesFilter<"Course"> | boolean
+  price?: Prisma.IntWithAggregatesFilter<"Course"> | number
   communityId?: Prisma.StringWithAggregatesFilter<"Course"> | string
   instructorId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
@@ -317,6 +365,7 @@ export type CourseCreateInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -333,6 +382,7 @@ export type CourseUncheckedCreateInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   instructorId?: string | null
   deletedAt?: Date | string | null
@@ -349,6 +399,7 @@ export type CourseUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,6 +416,7 @@ export type CourseUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -381,6 +433,7 @@ export type CourseCreateManyInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   instructorId?: string | null
   deletedAt?: Date | string | null
@@ -395,6 +448,7 @@ export type CourseUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,6 +461,7 @@ export type CourseUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -436,11 +491,16 @@ export type CourseCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CourseAvgOrderByAggregateInput = {
+  price?: Prisma.SortOrder
 }
 
 export type CourseMaxOrderByAggregateInput = {
@@ -450,6 +510,7 @@ export type CourseMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -464,11 +525,16 @@ export type CourseMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   communityId?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CourseSumOrderByAggregateInput = {
+  price?: Prisma.SortOrder
 }
 
 export type CourseScalarRelationFilter = {
@@ -595,6 +661,7 @@ export type CourseCreateWithoutInstructorInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -610,6 +677,7 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -654,6 +722,7 @@ export type CourseScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Course"> | string | null
   imageUrl?: Prisma.StringFilter<"Course"> | string
   isActive?: Prisma.BoolFilter<"Course"> | boolean
+  price?: Prisma.IntFilter<"Course"> | number
   communityId?: Prisma.StringFilter<"Course"> | string
   instructorId?: Prisma.StringNullableFilter<"Course"> | string | null
   deletedAt?: Prisma.DateTimeNullableFilter<"Course"> | Date | string | null
@@ -668,6 +737,7 @@ export type CourseCreateWithoutCommunityInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -683,6 +753,7 @@ export type CourseUncheckedCreateWithoutCommunityInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   instructorId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -724,6 +795,7 @@ export type CourseCreateWithoutModulesInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -739,6 +811,7 @@ export type CourseUncheckedCreateWithoutModulesInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   instructorId?: string | null
   deletedAt?: Date | string | null
@@ -770,6 +843,7 @@ export type CourseUpdateWithoutModulesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -785,6 +859,7 @@ export type CourseUncheckedUpdateWithoutModulesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -800,6 +875,7 @@ export type CourseCreateWithoutEnrollmentsInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -815,6 +891,7 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   instructorId?: string | null
   deletedAt?: Date | string | null
@@ -846,6 +923,7 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -861,6 +939,7 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -876,6 +955,7 @@ export type CourseCreateManyInstructorInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   communityId: string
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -889,6 +969,7 @@ export type CourseUpdateWithoutInstructorInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -904,6 +985,7 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -919,6 +1001,7 @@ export type CourseUncheckedUpdateManyWithoutInstructorInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   communityId?: Prisma.StringFieldUpdateOperationsInput | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -932,6 +1015,7 @@ export type CourseCreateManyCommunityInput = {
   description?: string | null
   imageUrl: string
   isActive?: boolean
+  price?: number
   instructorId?: string | null
   deletedAt?: Date | string | null
   createdAt?: Date | string
@@ -945,6 +1029,7 @@ export type CourseUpdateWithoutCommunityInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -960,6 +1045,7 @@ export type CourseUncheckedUpdateWithoutCommunityInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -975,6 +1061,7 @@ export type CourseUncheckedUpdateManyWithoutCommunityInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   instructorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1028,6 +1115,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   description?: boolean
   imageUrl?: boolean
   isActive?: boolean
+  price?: boolean
   communityId?: boolean
   instructorId?: boolean
   deletedAt?: boolean
@@ -1047,6 +1135,7 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   description?: boolean
   imageUrl?: boolean
   isActive?: boolean
+  price?: boolean
   communityId?: boolean
   instructorId?: boolean
   deletedAt?: boolean
@@ -1063,6 +1152,7 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   description?: boolean
   imageUrl?: boolean
   isActive?: boolean
+  price?: boolean
   communityId?: boolean
   instructorId?: boolean
   deletedAt?: boolean
@@ -1079,6 +1169,7 @@ export type CourseSelectScalar = {
   description?: boolean
   imageUrl?: boolean
   isActive?: boolean
+  price?: boolean
   communityId?: boolean
   instructorId?: boolean
   deletedAt?: boolean
@@ -1086,7 +1177,7 @@ export type CourseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "imageUrl" | "isActive" | "communityId" | "instructorId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "imageUrl" | "isActive" | "price" | "communityId" | "instructorId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
   instructor?: boolean | Prisma.Course$instructorArgs<ExtArgs>
@@ -1118,6 +1209,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     description: string | null
     imageUrl: string
     isActive: boolean
+    price: number
     communityId: string
     instructorId: string | null
     deletedAt: Date | null
@@ -1556,6 +1648,7 @@ export interface CourseFieldRefs {
   readonly description: Prisma.FieldRef<"Course", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Course", 'String'>
   readonly isActive: Prisma.FieldRef<"Course", 'Boolean'>
+  readonly price: Prisma.FieldRef<"Course", 'Int'>
   readonly communityId: Prisma.FieldRef<"Course", 'String'>
   readonly instructorId: Prisma.FieldRef<"Course", 'String'>
   readonly deletedAt: Prisma.FieldRef<"Course", 'DateTime'>

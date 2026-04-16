@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { PreviewCourseCard } from "./CourseCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type CourseFormProps = {
@@ -114,34 +115,58 @@ const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, class
                             )}
                         />
 
-                        <Controller
-                            name="isActive"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field
-                                    data-invalid={fieldState.invalid}
-                                    className="flex flex-row! items-start"
-                                >
-                                    <Checkbox
-                                        className="size-4! bg-input border-border mt-1! text-foreground! outline-2!"
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                        name={field.name}
-                                        ref={field.ref}
-                                        disabled={false}
-                                    />
-                                    <div className="space-y-1 leading-none">
-                                        <FieldLabel>This will make your course accessible to public through your lms.</FieldLabel>
-                                        <FieldDescription>
-                                            Mark this only if your course is ready-to-learn.
-                                        </FieldDescription>
-                                        {fieldState.invalid && (
-                                            <FieldError errors={[fieldState.error]} />
-                                        )}
-                                    </div>
-                                </Field>
-                            )}
-                        />
+                        <div className="grid grid-cols-2 gap-4">
+                            <Controller
+                                name="price"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Price (RS)</FieldLabel>
+                                        <div className="relative">
+                                            <DollarSign className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                min={0}
+                                                placeholder="0"
+                                                className="bg-input! min-h-11 border-border border appearance-none pl-7"
+                                            />
+                                        </div>
+                                        <FieldDescription>Set 0 for free</FieldDescription>
+                                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            <Controller
+                                name="isActive"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field
+                                        data-invalid={fieldState.invalid}
+                                        className="flex flex-row! items-start"
+                                    >
+                                        <Checkbox
+                                            className="size-4! bg-input border-border mt-1! text-foreground! outline-2!"
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            name={field.name}
+                                            ref={field.ref}
+                                            disabled={false}
+                                        />
+                                        <div className="space-y-1 leading-none">
+                                            <FieldLabel>This will make your course accessible to public through your lms.</FieldLabel>
+                                            <FieldDescription>
+                                                Mark this only if your course is ready-to-learn.
+                                            </FieldDescription>
+                                            {fieldState.invalid && (
+                                                <FieldError errors={[fieldState.error]} />
+                                            )}
+                                        </div>
+                                    </Field>
+                                )}
+                            />
+                        </div>
                     </CardContent>
                 </Card>
             </FieldGroup>

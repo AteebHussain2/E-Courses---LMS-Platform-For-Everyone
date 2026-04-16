@@ -3,6 +3,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadToImageKit } from "@/lib/helpers/uploadToImageKit";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { CalendarClock, Link2, Radio } from "lucide-react";
@@ -13,14 +14,13 @@ import { saveSessionAction } from "@/actions/lessons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "@/generated/prisma/browser";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod/v3";
-import { redirect, useRouter } from "next/navigation";
 
 const schema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters").max(100),
@@ -51,6 +51,7 @@ const STATUS_LABELS: Record<string, string> = {
 export default function SessionForm({ lessonId, communitySlug, courseId, lessonTitle, existingSession }: Props) {
     const router = useRouter()
     const [thumbnailFiles, setThumbnailFiles] = useState<File[]>([])
+    const queryClient = useQueryClient()
     const isEditing = !!existingSession
 
     const form = useForm<FormValues>({
@@ -93,7 +94,8 @@ export default function SessionForm({ lessonId, communitySlug, courseId, lessonT
                 imageUrl,
             })
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
             toast.success(isEditing ? "Session updated!" : "Session saved!", { id: "session-save" })
             setThumbnailFiles([])
             router.push(`/${communitySlug}/admin/courses/manage?courseId=${courseId}`)
@@ -296,7 +298,7 @@ export default function SessionForm({ lessonId, communitySlug, courseId, lessonT
                             <Button
                                 type="submit"
                                 className="w-40 cursor-pointer text-foreground"
-                                disabled={mutation.isPending || !form.formState.isDirty}
+                                disabled={mutation.isPending || !form.formState.isDirty || thumbnailFiles.length > 0}
                             >
                                 {mutation.isPending
                                     ? (isEditing ? "Updating..." : "Saving...")

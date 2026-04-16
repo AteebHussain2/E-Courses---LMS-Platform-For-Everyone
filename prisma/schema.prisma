@@ -109,6 +109,7 @@ model Course {
   description String?
   imageUrl    String
   isActive    Boolean @default(false)
+  price       Int     @default(0)
 
   communityId String
   community   Community @relation(fields: [communityId], references: [id], onDelete: Restrict)
