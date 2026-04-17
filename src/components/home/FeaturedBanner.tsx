@@ -31,7 +31,7 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
     const description = featured.item.description
 
     return (
-        <div className="relative w-full h-full flex gap-5 items-center justify-between gap-auto rounded-t-[20px] overflow-clip border-border border-b border-0">
+        <div className="w-full h-full flex gap-5 items-center justify-between gap-auto rounded-t-[20px] overflow-clip border-border border-b border-0">
             <div className="flex flex-col pl-16 py-5 gap-5">
                 <div className="flex flex-wrap gap-3">
                     {isLive && <LiveBadge />}
@@ -79,12 +79,13 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                 </div>
             </div>
 
-            <div className="relative w-2/3 h-full">
+            <div className="relative w-2/3 h-full max-h-100 overflow-clip">
                 <Image
                     src={imageUrl || '/placeholder-featured.png'}
                     alt={title}
                     width={1200}
                     height={800}
+                    preload
                     className="w-full h-full object-cover"
                 />
 

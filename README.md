@@ -268,3 +268,8 @@ Built by **Ateeb** as both a real product and a portfolio project.
 ## License
 
 MIT — do whatever you want with it, just don't remove the attribution.
+
+## Responsiveness
+
+Work on making the home page responsive side-by-side along with development of new pages. moreover the figma design suits `xl:` i.e. a min-width of 1280px more than `lg:`
+Write your code in accordance to this approach
