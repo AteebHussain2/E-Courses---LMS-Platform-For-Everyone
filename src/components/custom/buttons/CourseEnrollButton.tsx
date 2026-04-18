@@ -15,13 +15,12 @@ const CourseEnrollButton = ({ courseSlug, communitySlug, className, disabled = f
     return (
         <Button
             variant='default'
-            asChild
-            className={cn("p-0!", className)}
+            className={cn("flex-1 w-full cursor-pointer rounded-full bg-primary text-foreground hover:border-border hover:bg-primary/85 hover:text-foreground", className)}
             disabled={disabled}
         >
             <Link
                 href={`/${communitySlug}/courses/${courseSlug}`}
-                className="w-full h-full"
+                className='w-full h-full items-center justify-center flex'
             >
                 Enroll Now
             </Link>

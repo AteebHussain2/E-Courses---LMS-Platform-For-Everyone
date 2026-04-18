@@ -20,7 +20,6 @@ export const CourseSaveButton = ({ courseId, className, side, disabled = false, 
                 <Button
                     size='icon'
                     className={cn("cursor-pointer rounded-full bg-glass-bg text-secondary hover:bg-[#ffffff]/10 transition-colors", className)}
-                    asChild
                     disabled={disabled}
                 >
                     <Bookmark className="size-4" />{text}

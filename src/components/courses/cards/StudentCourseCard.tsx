@@ -1,15 +1,13 @@
-import { Book, Clock, DollarSign, Globe2, GlobeX, GraduationCap, Users2 } from "lucide-react";
-import { CourseManageButton } from "@/components/custom/buttons/CourseManageButton";
-import { CourseDeleteButton } from "@/components/custom/buttons/CourseDeleteButton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { CourseEditButton } from "@/components/custom/buttons/CourseEditButton";
-import { formatDate, formatDistanceToNow } from "date-fns";
+import CourseEnrollButton from "@/components/custom/buttons/CourseEnrollButton";
+import { CourseSaveButton } from "@/components/custom/buttons/CourseSaveButton";
+import { Book, Clock, GraduationCap, Users2 } from "lucide-react";
+import PriceBadge from "@/components/custom/badge/PriceBadge";
 import { CourseWithInstructorAndCount } from "@/lib/types";
 import CustomBadge from "@/components/CustomBadge";
 import { Role } from "@/generated/prisma/enums";
+import { formatDate } from "date-fns";
 import Image from "next/image";
-import CourseEnrollButton from "@/components/custom/buttons/CourseEnrollButton";
-import { CourseSaveButton } from "@/components/custom/buttons/CourseSaveButton";
 
 const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount }) => {
     return (
@@ -22,10 +20,9 @@ const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount })
                     height={300}
                     className="w-full aspect-video object-cover"
                 />
-                <CustomBadge
-                    icon={DollarSign}
-                    text={course.price > 0 ? `${course.price}` : "Free"}
-                    className="absolute top-2 right-2"
+                <PriceBadge
+                    currency="USD"
+                    price={course.price}
                 />
             </CardHeader>
             <CardContent className="items-start py-0! px-4! space-y-4">
