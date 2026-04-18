@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { BookOpen, Radio } from "lucide-react"
 import Link from "next/link"
@@ -19,16 +20,21 @@ const EnrollButton = ({ isSession, isLive, platformLink, communitySlug, courseSl
         : `/${communitySlug}/courses/${courseSlug}`
 
     return (
-        <Link
-            href={primaryHref}
-            className="inline-flex flex-1 items-center justify-center gap-2 bg-primary hover:bg-primary/85 transition-colors text-white px-4 py-3 rounded-full text-sm font-medium"
+        <Button
+            asChild
+            className="w-full h-full inline-flex flex-1 items-center justify-center gap-2 bg-primary hover:bg-primary/85 transition-colors text-white px-4 py-3 rounded-full text-sm font-medium"
         >
-            {isSession ?
-                <Radio className="size-4 pt-px" /> :
-                <BookOpen className="size-4 pt-px" />
-            }
-            {primaryLabel}
-        </Link>
+            <Link
+                href={primaryHref}
+                className="w-full h-full"
+            >
+                {isSession ?
+                    <Radio className="size-4 pt-px" /> :
+                    <BookOpen className="size-4 pt-px" />
+                }
+                {primaryLabel}
+            </Link>
+        </Button>
     )
 }
 

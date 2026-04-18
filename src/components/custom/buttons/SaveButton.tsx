@@ -7,13 +7,12 @@ type SaveButtonProps = {
 }
 
 const SaveButton = ({ isSession }: SaveButtonProps) => {
-    const secondaryLabel = isSession ? "Save in Library" : "Save in Courses"
-
+    const secondaryLabel = "Save in Library" // isSession ? "Save in Library" : "Save in Library"
 
     return (
         <Button
             variant='ghost'
-            className="inline-flex flex-1 items-center gap-2 px-4! py-3! rounded-full text-sm font-medium cursor-pointer h-full"
+            className="h-full w-full inline-flex flex-1 items-center gap-2 px-4 py-3 rounded-full text-sm font-medium cursor-pointer"
             onClick={() => toast.info("TODO: Implement save in courses")}
         >
             <Bookmark className="size-4" />

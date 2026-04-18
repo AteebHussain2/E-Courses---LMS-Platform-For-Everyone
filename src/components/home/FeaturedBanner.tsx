@@ -1,17 +1,16 @@
 "use client"
 
-import { BookOpen, CalendarClock, Plus, Radio, Users } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { FeaturedData } from "@/actions/home";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import LiveBadge from "../custom/badge/LiveBadge";
 import UpcomingBadge from "../custom/badge/UpcomingBadge";
-import NewBadge from "../custom/badge/NewBadge";
-import CustomBadge from "../CustomBadge";
 import EnrollButton from "../custom/buttons/EnrollButton";
 import SaveButton from "../custom/buttons/SaveButton";
+import PriceBadge from "../custom/badge/PriceBadge";
+import LiveBadge from "../custom/badge/LiveBadge";
+import NewBadge from "../custom/badge/NewBadge";
+import { FeaturedData } from "@/actions/home";
+import CustomBadge from "../CustomBadge";
+import { Users } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {
     communitySlug: string
@@ -45,6 +44,11 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                                 variant="default"
                                 className="py-3! border-glass-border"
                             />}
+                            <PriceBadge
+                                currency="USD"
+                                price={(featured.item as any).price}
+                                isAbsolute={false}
+                            />
                         </>
                     )}
                 </div>
@@ -64,7 +68,7 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                     </p>
                 )}
 
-                <div className="flex items-center gap-4 pt-1 w-full ">
+                <div className="flex items-center gap-4 pt-1 w-7/8">
                     <EnrollButton
                         isLive={isLive}
                         isSession={isSession}

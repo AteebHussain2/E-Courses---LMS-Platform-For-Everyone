@@ -82,6 +82,7 @@ export async function GET(req: NextRequest) {
                         imageUrl: true,
                         slug: true,
                         createdAt: true,
+                        price: true,
                         instructor: {
                             select: {
                                 firstName: true,

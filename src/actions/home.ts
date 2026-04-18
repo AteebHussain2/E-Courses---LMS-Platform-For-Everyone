@@ -47,3 +47,17 @@ export async function getFeaturedAction(communitySlug: string): Promise<Featured
 
     return data.featured as FeaturedData | null
 }
+
+export type FeaturedCourseData = { type: 'course'; item: FeaturedCourse; badge: 'new' }
+
+export async function getFeaturedCourseAction(communitySlug: string): Promise<FeaturedData | null> {
+    const res = await fetch(getUrl(`/api/courses/featured?communitySlug=${communitySlug}`), {
+        headers: apiHeaders,
+        next: { revalidate: 60, tags: [`featured:${communitySlug}`] }
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to fetch featured")
+
+    return data.featured as FeaturedData | null
+}

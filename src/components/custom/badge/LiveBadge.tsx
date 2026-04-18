@@ -4,7 +4,7 @@ import { Dot } from "lucide-react"
 const LiveBadge = () => {
     return (
         <Badge
-            className="bg-glass-bg border-glass-border py-1 px-3 shadow-md backdrop-blur-lg"
+            className="bg-glass-bg border border-glass-border py-1 px-3 shadow-md backdrop-blur-lg"
         >
             <div className="relative">
                 <Dot className="size-1 bg-status-error aspect-square text-status-error rounded-full m-1" />
