@@ -12,6 +12,7 @@ export type CourseWithInstructorAndCount = Prisma.CourseGetPayload<{
         title: true
         slug: true
         description: true
+        price: true
         imageUrl: true
         isActive: true
         createdAt: true

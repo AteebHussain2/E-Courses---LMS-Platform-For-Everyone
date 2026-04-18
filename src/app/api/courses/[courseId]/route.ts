@@ -32,6 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cour
                 isActive: true,
                 createdAt: true,
                 updatedAt: true,
+                price: true,
                 instructor: {
                     select: {
                         userId: true,
@@ -67,7 +68,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ co
 
     const { courseId } = await params
     const body = await req.json()
-    const { title, description, communitySlug, isActive, imageUrl, instructorId } = body
+    const { title, description, communitySlug, isActive, imageUrl, instructorId, price } = body
 
     if (!title || !communitySlug) {
         return NextResponse.json({ error: "title and communitySlug are required" }, { status: 400 })
@@ -94,6 +95,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ co
                 title,
                 description,
                 imageUrl,
+                price: price ?? 0,
                 isActive: isActive ?? false,
                 ...(instructorId ? {
                     instructor: { connect: { userId: instructorId } }

@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     // parse body
     const body = await req.json()
-    const { title, description, communitySlug, isActive, imageUrl, instructorId } = body
+    const { title, description, communitySlug, isActive, imageUrl, instructorId, price } = body
 
     // validate required fields exist
     if (!title || !communitySlug || !instructorId) {
@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
                 slug,
                 description,
                 imageUrl,
+                price: price ?? 0,
                 isActive: isActive ?? false,
                 community: {
                     connect: { slug: communitySlug }

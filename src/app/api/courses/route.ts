@@ -71,6 +71,7 @@ export async function GET(req: NextRequest) {
                         isActive: true,
                         createdAt: true,
                         updatedAt: true,
+                        price: true,
                         instructor: {
                             select: {
                                 userId: true,

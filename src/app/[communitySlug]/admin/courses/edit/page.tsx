@@ -32,7 +32,8 @@ export default async function EditCoursePage({ params, searchParams }: EditCours
                 description: course.description ?? '',
                 imageUrl: course.imageUrl ?? '',
                 isActive: course.isActive,
-                instructorId: course.instructor?.userId ?? ''
+                instructorId: course.instructor?.userId ?? '',
+                price: course.price ?? 0
             }}
         />
     )

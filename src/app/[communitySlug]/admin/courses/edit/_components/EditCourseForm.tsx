@@ -12,17 +12,16 @@ type EditCourseFormProps = {
         imageUrl: string,
         isActive: boolean,
         instructorId: string,
+        price: number,
     }
 }
 
 const EditCourseForm = ({ communitySlug, courseId, defaultValues }: EditCourseFormProps) => {
-    const { form, files, ...courseForm } = useCourseForm({ communitySlug, courseId, defaultValues })
+    const courseForm = useCourseForm({ communitySlug, courseId, defaultValues })
 
     return (
         <CourseForm
             communitySlug={communitySlug}
-            form={form}
-            files={files}
             {...courseForm}
         />
     )

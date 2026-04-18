@@ -1,5 +1,5 @@
 import { CourseWithInstructorAndCount } from '@/lib/types';
-import { AdminCourseCard } from './CourseCard';
+import AdminCourseCard from './cards/AdminCourseCard';
 
 type CoursesGridProps = {
     isLoading: boolean,

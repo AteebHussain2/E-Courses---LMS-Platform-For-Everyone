@@ -1,5 +1,5 @@
 import { CourseEditButton } from "@/components/custom/buttons/CourseEditButton";
-import { PreviewCourseCard } from "@/components/courses/CourseCard";
+import { PreviewCourseCard } from "@/components/courses/cards/AdminCourseCard";
 import { CourseWithInstructorAndCount } from "@/lib/types";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

@@ -12,7 +12,7 @@ const LiveBadge = () => {
                 <div className="bg-status-error/10 rounded-full absolute inset-0 size-3 animate-ping" />
             </div>
             <span className="text-status-error">Live Now</span>
-        </Badge >
+        </Badge>
     )
 }
 

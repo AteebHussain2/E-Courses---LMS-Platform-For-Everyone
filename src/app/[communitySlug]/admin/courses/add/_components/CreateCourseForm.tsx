@@ -8,13 +8,11 @@ type CreateCourseFormProps = {
 }
 
 const CreateCourseForm = ({ communitySlug }: CreateCourseFormProps) => {
-    const { form, files, ...courseForm } = useCourseForm({ communitySlug })
+    const courseForm = useCourseForm({ communitySlug })
 
     return (
         <CourseForm
             communitySlug={communitySlug}
-            files={files}
-            form={form}
             {...courseForm}
         />
     )

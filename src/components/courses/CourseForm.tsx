@@ -2,14 +2,14 @@
 
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import InstructorSelect from "@/components/inputs/InstructorSelect";
+import PreviewCourseCard from "./cards/PreviewCourseCard";
 import { Card, CardContent } from "@/components/ui/card";
-import FileUpload from "@/components/inputs/FileUpload";
 import { useCourseForm } from "@/hooks/use-course-form";
+import FileUpload from "@/components/inputs/FileUpload";
 import { useInstructor } from "@/hooks/use-instructor";
 import { Controller, useWatch } from "react-hook-form";
-import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PreviewCourseCard } from "./CourseCard";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DollarSign } from "lucide-react";
@@ -22,9 +22,7 @@ type CourseFormProps = {
 
 const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, className, files, setFiles, onCancel }: CourseFormProps) => {
 
-    const { title, description, imageUrl, isActive, instructorId } = useWatch({
-        control: form.control
-    })
+    const { title, description, imageUrl, isActive, instructorId, price } = useWatch({ control: form.control })
     const { data: instructor } = useInstructor(instructorId)
 
     return (
@@ -128,11 +126,11 @@ const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, class
                                                 {...field}
                                                 type="number"
                                                 min={0}
-                                                placeholder="0"
-                                                className="bg-input! min-h-11 border-border border appearance-none pl-7"
+                                                placeholder="Free"
+                                                className="bg-input! min-h-11 border-border border appearance-none! pl-7"
                                             />
                                         </div>
-                                        <FieldDescription>Set 0 for free</FieldDescription>
+                                        <FieldDescription>Leave empty for free</FieldDescription>
                                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
@@ -182,6 +180,7 @@ const CourseForm = ({ form, onSubmit, isLoading, isEditing, communitySlug, class
                             slug: 'once-again-demo-slug-here',
                             description: description ?? '',
                             imageUrl: files[0] ? URL.createObjectURL(files[0]) : imageUrl || '/placeholder-image.webp',
+                            price: price ?? 0,
                             title: title || '',
                             isActive: isActive ?? false,
                             createdAt: new Date,
