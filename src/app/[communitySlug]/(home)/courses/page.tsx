@@ -1,10 +1,7 @@
-import StudentCourseCard from "@/components/courses/cards/StudentCourseCard";
 import { getStudentCoursesAction } from "@/actions/student/courses";
+import CourseSection from "@/components/courses/CourseSection";
 import FeaturedBanner from "@/components/home/FeaturedBanner";
 import { getFeaturedAction } from "@/actions/home";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import CourseSection from "@/components/courses/CourseSection";
 
 type Props = {
     params: Promise<{ communitySlug: string }>
