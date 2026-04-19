@@ -9,21 +9,27 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = req.nextUrl
     const courseId = searchParams.get('courseId')
+    const courseSlug = searchParams.get('courseSlug')
     const communitySlug = searchParams.get('communitySlug')
 
-    if (!courseId || !communitySlug) {
-        return NextResponse.json({ error: "courseId and communitySlug are required" }, { status: 400 })
+    if ((!courseId && !courseSlug) || !communitySlug) {
+        return NextResponse.json({ error: "At least courseId or courseSlug and communitySlug are required" }, { status: 400 })
     }
 
-    const cacheKey = `modules:${courseId}:${communitySlug}`
+    // Build course filter — whichever identifier was provided
+    const courseFilter = courseId
+        ? { id: courseId, community: { slug: communitySlug } }
+        : { slug: courseSlug!, community: { slug: communitySlug } }
+
+    // Stable cache key regardless of which identifier was passed
+    const cacheKey = `modules:${courseId ?? courseSlug}:${communitySlug}`
 
     try {
         const modules = await withCache(
             cacheKey,
             () => prisma.module.findMany({
                 where: {
-                    courseId,
-                    course: { community: { slug: communitySlug } },
+                    course: courseFilter,
                     deletedAt: null
                 },
                 orderBy: { index: 'asc' },

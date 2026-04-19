@@ -10,10 +10,9 @@ type Props = {
     modules: ModuleWithLessons[]
     isEnrolled: boolean
     communitySlug: string
-    courseSlug: string
 }
 
-export default function CourseModuleList({ modules, isEnrolled, communitySlug, courseSlug }: Props) {
+export default function CourseModuleList({ modules, isEnrolled, communitySlug }: Props) {
     const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0)
 
     return (

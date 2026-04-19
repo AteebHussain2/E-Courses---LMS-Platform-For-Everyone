@@ -44,7 +44,22 @@ export async function getCourseAction(courseId: string, communitySlug: string) {
         headers: apiHeaders,
         next: {
             revalidate: 300,
-            tags: ['courses', `courses:${communitySlug}`]
+            tags: ['course', `course:${courseId}:${communitySlug}`]
+        }
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to fetch course")
+
+    return data.course as CourseWithInstructorAndCount
+}
+
+export async function getCourseActionWithSlug(courseSlug: string, communitySlug: string) {
+    const res = await fetch(getUrl(`/api/courses/slug/${courseSlug}?communitySlug=${communitySlug}`), {
+        headers: apiHeaders,
+        next: {
+            revalidate: 300,
+            tags: ['course', `course:${courseSlug}:${communitySlug}`]
         }
     })
 
@@ -62,7 +77,11 @@ export async function getCoursesAction(communitySlug: string, filters: CourseFil
     })
 
     const res = await fetch(getUrl(`/api/courses?${params}`), {
-        headers: apiHeaders
+        headers: apiHeaders,
+        next: {
+            revalidate: 300,
+            tags: ['courses', `courses:${communitySlug}`]
+        }
     })
 
     const data = await res.json()

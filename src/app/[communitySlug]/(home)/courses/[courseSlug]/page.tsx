@@ -2,24 +2,24 @@ import CourseModuleList from "@/components/home/CourseModuleList";
 import CourseNotFound from "@/components/courses/CourseNotFound";
 import { checkEnrollmentAction } from "@/actions/enrollments";
 import { GraduationCap, BookOpen, Clock } from "lucide-react";
+import { getCourseActionWithSlug } from "@/actions/courses";
 import CourseBanner from "@/components/home/CourseBanner";
 import { getModulesAction } from "@/actions/modules";
-import { getCourseAction } from "@/actions/courses";
 import { auth } from "@clerk/nextjs/server";
 import { formatDate } from "date-fns";
 import Image from "next/image";
 
 type Props = {
-    params: Promise<{ communitySlug: string; courseId: string }>
+    params: Promise<{ communitySlug: string; courseSlug: string }>
 }
 
 export default async function CourseDetailPage({ params }: Props) {
-    const { communitySlug, courseId } = await params
+    const { communitySlug, courseSlug } = await params
     const { userId } = await auth()
 
     const [course, modules] = await Promise.all([
-        getCourseAction(courseId, communitySlug).catch(() => null),
-        getModulesAction(courseId, communitySlug).catch(() => []),
+        getCourseActionWithSlug(courseSlug, communitySlug).catch(() => null),
+        getModulesAction(courseSlug, communitySlug).catch(() => []),
     ])
 
     if (!course) return (
@@ -81,7 +81,6 @@ export default async function CourseDetailPage({ params }: Props) {
                             modules={visibleModules}
                             isEnrolled={isEnrolled}
                             communitySlug={communitySlug}
-                            courseSlug={course.slug}
                         />
                     ) : (
                         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 space-y-2">

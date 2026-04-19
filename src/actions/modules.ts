@@ -4,14 +4,22 @@ import { ModuleWithLessons } from "@/lib/types";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";
 
-export async function getModulesAction(courseId: string, communitySlug: string) {
-    const params = new URLSearchParams({ courseId, communitySlug })
+export async function getModulesAction(communitySlug: string, courseId?: string, courseSlug?: string) {
+    const params = new URLSearchParams({ communitySlug })
+
+    if (courseId) {
+        params.set('courseId', courseId)
+    } else if (courseSlug) {
+        params.set('courseSlug', courseSlug)
+    }
+
+    const identifier = courseId ?? courseSlug!
 
     const res = await fetch(getUrl(`/api/modules?${params}`), {
         headers: apiHeaders,
         next: {
             revalidate: 300,
-            tags: ['modules', `modules:${courseId}`]
+            tags: ['modules', `modules:${identifier}`]
         }
     })
 
