@@ -216,6 +216,7 @@ export type UserWhereInput = {
   post?: Prisma.PostListRelationFilter
   postReactions?: Prisma.PostReactionListRelationFilter
   postPollVotes?: Prisma.PostPollVoteListRelationFilter
+  savedCourses?: Prisma.SavedCourseListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type UserOrderByWithRelationInput = {
   post?: Prisma.PostOrderByRelationAggregateInput
   postReactions?: Prisma.PostReactionOrderByRelationAggregateInput
   postPollVotes?: Prisma.PostPollVoteOrderByRelationAggregateInput
+  savedCourses?: Prisma.SavedCourseOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -261,6 +263,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   post?: Prisma.PostListRelationFilter
   postReactions?: Prisma.PostReactionListRelationFilter
   postPollVotes?: Prisma.PostPollVoteListRelationFilter
+  savedCourses?: Prisma.SavedCourseListRelationFilter
 }, "userId" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -310,6 +313,7 @@ export type UserCreateInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -331,6 +335,7 @@ export type UserUncheckedCreateInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -352,6 +357,7 @@ export type UserUpdateInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -373,6 +379,7 @@ export type UserUncheckedUpdateInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -613,6 +620,20 @@ export type UserUpdateOneRequiredWithoutPostReactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostReactionsInput, Prisma.UserUpdateWithoutPostReactionsInput>, Prisma.UserUncheckedUpdateWithoutPostReactionsInput>
 }
 
+export type UserCreateNestedOneWithoutSavedCoursesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedCoursesInput, Prisma.UserUncheckedCreateWithoutSavedCoursesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedCoursesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedCoursesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedCoursesInput, Prisma.UserUncheckedCreateWithoutSavedCoursesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedCoursesInput
+  upsert?: Prisma.UserUpsertWithoutSavedCoursesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedCoursesInput, Prisma.UserUpdateWithoutSavedCoursesInput>, Prisma.UserUncheckedUpdateWithoutSavedCoursesInput>
+}
+
 export type UserCreateWithoutUserInfoInput = {
   userId: string
   firstName: string
@@ -631,6 +652,7 @@ export type UserCreateWithoutUserInfoInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserInfoInput = {
@@ -651,6 +673,7 @@ export type UserUncheckedCreateWithoutUserInfoInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserInfoInput = {
@@ -687,6 +710,7 @@ export type UserUpdateWithoutUserInfoInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserInfoInput = {
@@ -707,6 +731,7 @@ export type UserUncheckedUpdateWithoutUserInfoInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunitiesInput = {
@@ -727,6 +752,7 @@ export type UserCreateWithoutCommunitiesInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunitiesInput = {
@@ -747,6 +773,7 @@ export type UserUncheckedCreateWithoutCommunitiesInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunitiesInput = {
@@ -783,6 +810,7 @@ export type UserUpdateWithoutCommunitiesInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunitiesInput = {
@@ -803,6 +831,7 @@ export type UserUncheckedUpdateWithoutCommunitiesInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityInvitesInput = {
@@ -823,6 +852,7 @@ export type UserCreateWithoutCommunityInvitesInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityInvitesInput = {
@@ -843,6 +873,7 @@ export type UserUncheckedCreateWithoutCommunityInvitesInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityInvitesInput = {
@@ -879,6 +910,7 @@ export type UserUpdateWithoutCommunityInvitesInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityInvitesInput = {
@@ -899,6 +931,7 @@ export type UserUncheckedUpdateWithoutCommunityInvitesInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCoursesInput = {
@@ -919,6 +952,7 @@ export type UserCreateWithoutCoursesInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCoursesInput = {
@@ -939,6 +973,7 @@ export type UserUncheckedCreateWithoutCoursesInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCoursesInput = {
@@ -975,6 +1010,7 @@ export type UserUpdateWithoutCoursesInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -995,6 +1031,7 @@ export type UserUncheckedUpdateWithoutCoursesInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWatchProgressesInput = {
@@ -1015,6 +1052,7 @@ export type UserCreateWithoutWatchProgressesInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWatchProgressesInput = {
@@ -1035,6 +1073,7 @@ export type UserUncheckedCreateWithoutWatchProgressesInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWatchProgressesInput = {
@@ -1071,6 +1110,7 @@ export type UserUpdateWithoutWatchProgressesInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWatchProgressesInput = {
@@ -1091,6 +1131,7 @@ export type UserUncheckedUpdateWithoutWatchProgressesInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLessonCompletionsInput = {
@@ -1111,6 +1152,7 @@ export type UserCreateWithoutLessonCompletionsInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLessonCompletionsInput = {
@@ -1131,6 +1173,7 @@ export type UserUncheckedCreateWithoutLessonCompletionsInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLessonCompletionsInput = {
@@ -1167,6 +1210,7 @@ export type UserUpdateWithoutLessonCompletionsInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLessonCompletionsInput = {
@@ -1187,6 +1231,7 @@ export type UserUncheckedUpdateWithoutLessonCompletionsInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -1207,6 +1252,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -1227,6 +1273,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -1263,6 +1310,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1283,6 +1331,7 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostInput = {
@@ -1303,6 +1352,7 @@ export type UserCreateWithoutPostInput = {
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostInput = {
@@ -1323,6 +1373,7 @@ export type UserUncheckedCreateWithoutPostInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostInput = {
@@ -1359,6 +1410,7 @@ export type UserUpdateWithoutPostInput = {
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostInput = {
@@ -1379,6 +1431,7 @@ export type UserUncheckedUpdateWithoutPostInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostPollVotesInput = {
@@ -1399,6 +1452,7 @@ export type UserCreateWithoutPostPollVotesInput = {
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostPollVotesInput = {
@@ -1419,6 +1473,7 @@ export type UserUncheckedCreateWithoutPostPollVotesInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostPollVotesInput = {
@@ -1455,6 +1510,7 @@ export type UserUpdateWithoutPostPollVotesInput = {
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostPollVotesInput = {
@@ -1475,6 +1531,7 @@ export type UserUncheckedUpdateWithoutPostPollVotesInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostReactionsInput = {
@@ -1495,6 +1552,7 @@ export type UserCreateWithoutPostReactionsInput = {
   lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
   post?: Prisma.PostCreateNestedManyWithoutAuthorInput
   postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostReactionsInput = {
@@ -1515,6 +1573,7 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
   post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+  savedCourses?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostReactionsInput = {
@@ -1551,6 +1610,7 @@ export type UserUpdateWithoutPostReactionsInput = {
   lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
   post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostReactionsInput = {
@@ -1571,6 +1631,107 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
   post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  savedCourses?: Prisma.SavedCourseUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavedCoursesInput = {
+  userId: string
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  email: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userInfo?: Prisma.UserInfoCreateNestedOneWithoutUserInput
+  communityInvites?: Prisma.CommunityInviteCreateNestedManyWithoutInviterInput
+  communities?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseCreateNestedManyWithoutInstructorInput
+  watchProgresses?: Prisma.WatchProgressCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+  lessonCompletions?: Prisma.LessonCompletionCreateNestedManyWithoutUserInput
+  post?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  postPollVotes?: Prisma.PostPollVoteCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavedCoursesInput = {
+  userId: string
+  firstName: string
+  lastName?: string | null
+  avatar?: string | null
+  email: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userInfo?: Prisma.UserInfoUncheckedCreateNestedOneWithoutUserInput
+  communityInvites?: Prisma.CommunityInviteUncheckedCreateNestedManyWithoutInviterInput
+  communities?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  courses?: Prisma.CourseUncheckedCreateNestedManyWithoutInstructorInput
+  watchProgresses?: Prisma.WatchProgressUncheckedCreateNestedManyWithoutUserInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+  lessonCompletions?: Prisma.LessonCompletionUncheckedCreateNestedManyWithoutUserInput
+  post?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  postPollVotes?: Prisma.PostPollVoteUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavedCoursesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedCoursesInput, Prisma.UserUncheckedCreateWithoutSavedCoursesInput>
+}
+
+export type UserUpsertWithoutSavedCoursesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedCoursesInput, Prisma.UserUncheckedUpdateWithoutSavedCoursesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedCoursesInput, Prisma.UserUncheckedCreateWithoutSavedCoursesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedCoursesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedCoursesInput, Prisma.UserUncheckedUpdateWithoutSavedCoursesInput>
+}
+
+export type UserUpdateWithoutSavedCoursesInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userInfo?: Prisma.UserInfoUpdateOneWithoutUserNestedInput
+  communityInvites?: Prisma.CommunityInviteUpdateManyWithoutInviterNestedInput
+  communities?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUpdateManyWithoutInstructorNestedInput
+  watchProgresses?: Prisma.WatchProgressUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+  lessonCompletions?: Prisma.LessonCompletionUpdateManyWithoutUserNestedInput
+  post?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  postPollVotes?: Prisma.PostPollVoteUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedCoursesInput = {
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userInfo?: Prisma.UserInfoUncheckedUpdateOneWithoutUserNestedInput
+  communityInvites?: Prisma.CommunityInviteUncheckedUpdateManyWithoutInviterNestedInput
+  communities?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  courses?: Prisma.CourseUncheckedUpdateManyWithoutInstructorNestedInput
+  watchProgresses?: Prisma.WatchProgressUncheckedUpdateManyWithoutUserNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+  lessonCompletions?: Prisma.LessonCompletionUncheckedUpdateManyWithoutUserNestedInput
+  post?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  postPollVotes?: Prisma.PostPollVoteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1588,6 +1749,7 @@ export type UserCountOutputType = {
   post: number
   postReactions: number
   postPollVotes: number
+  savedCourses: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1600,6 +1762,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   post?: boolean | UserCountOutputTypeCountPostArgs
   postReactions?: boolean | UserCountOutputTypeCountPostReactionsArgs
   postPollVotes?: boolean | UserCountOutputTypeCountPostPollVotesArgs
+  savedCourses?: boolean | UserCountOutputTypeCountSavedCoursesArgs
 }
 
 /**
@@ -1675,6 +1838,13 @@ export type UserCountOutputTypeCountPostPollVotesArgs<ExtArgs extends runtime.Ty
   where?: Prisma.PostPollVoteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedCourseWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   userId?: boolean
@@ -1695,6 +1865,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   post?: boolean | Prisma.User$postArgs<ExtArgs>
   postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
   postPollVotes?: boolean | Prisma.User$postPollVotesArgs<ExtArgs>
+  savedCourses?: boolean | Prisma.User$savedCoursesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1743,6 +1914,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   post?: boolean | Prisma.User$postArgs<ExtArgs>
   postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
   postPollVotes?: boolean | Prisma.User$postPollVotesArgs<ExtArgs>
+  savedCourses?: boolean | Prisma.User$savedCoursesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1761,6 +1933,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     post: Prisma.$PostPayload<ExtArgs>[]
     postReactions: Prisma.$PostReactionPayload<ExtArgs>[]
     postPollVotes: Prisma.$PostPollVotePayload<ExtArgs>[]
+    savedCourses: Prisma.$SavedCoursePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     userId: string
@@ -2175,6 +2348,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   post<T extends Prisma.User$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   postReactions<T extends Prisma.User$postReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   postPollVotes<T extends Prisma.User$postPollVotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postPollVotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPollVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedCourses<T extends Prisma.User$savedCoursesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedCoursesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2837,6 +3011,30 @@ export type User$postPollVotesArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.PostPollVoteScalarFieldEnum | Prisma.PostPollVoteScalarFieldEnum[]
+}
+
+/**
+ * User.savedCourses
+ */
+export type User$savedCoursesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedCourse
+   */
+  select?: Prisma.SavedCourseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedCourse
+   */
+  omit?: Prisma.SavedCourseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedCourseInclude<ExtArgs> | null
+  where?: Prisma.SavedCourseWhereInput
+  orderBy?: Prisma.SavedCourseOrderByWithRelationInput | Prisma.SavedCourseOrderByWithRelationInput[]
+  cursor?: Prisma.SavedCourseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedCourseScalarFieldEnum | Prisma.SavedCourseScalarFieldEnum[]
 }
 
 /**

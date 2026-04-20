@@ -58,7 +58,7 @@ const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount })
 
             <CardFooter className="flex flex-1 items-center gap-2">
                 <CourseEnrollNowButton courseSlug={course.slug} communitySlug={course.community.slug} />
-                <CourseSaveButton courseId={course.id} />
+                <CourseSaveButton courseId={course.id} communitySlug={course.community.slug} />
             </CardFooter>
         </Card>
     )

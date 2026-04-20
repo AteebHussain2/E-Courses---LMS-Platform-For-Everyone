@@ -131,3 +131,8 @@ export type PostPollVote = Prisma.PostPollVoteModel
  * 
  */
 export type PostReaction = Prisma.PostReactionModel
+/**
+ * Model SavedCourse
+ * 
+ */
+export type SavedCourse = Prisma.SavedCourseModel

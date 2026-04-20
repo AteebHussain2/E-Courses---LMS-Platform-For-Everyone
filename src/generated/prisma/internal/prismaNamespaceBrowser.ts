@@ -68,7 +68,8 @@ export const ModelName = {
   Post: 'Post',
   PostPollOption: 'PostPollOption',
   PostPollVote: 'PostPollVote',
-  PostReaction: 'PostReaction'
+  PostReaction: 'PostReaction',
+  SavedCourse: 'SavedCourse'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -343,6 +344,16 @@ export const PostReactionScalarFieldEnum = {
 } as const
 
 export type PostReactionScalarFieldEnum = (typeof PostReactionScalarFieldEnum)[keyof typeof PostReactionScalarFieldEnum]
+
+
+export const SavedCourseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  savedAt: 'savedAt'
+} as const
+
+export type SavedCourseScalarFieldEnum = (typeof SavedCourseScalarFieldEnum)[keyof typeof SavedCourseScalarFieldEnum]
 
 
 export const SortOrder = {

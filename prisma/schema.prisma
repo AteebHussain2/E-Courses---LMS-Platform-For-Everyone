@@ -24,6 +24,7 @@ model User {
   post              Post[]
   postReactions     PostReaction[]
   postPollVotes     PostPollVote[]
+  savedCourses      SavedCourse[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -119,6 +120,7 @@ model Course {
 
   modules     Module[]
   enrollments Enrollment[]
+  savedBy     SavedCourse[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -366,6 +368,19 @@ model PostReaction {
 
   @@unique([postId, userId, emoji])
   @@index([postId])
+}
+
+model SavedCourse {
+  id       String   @id @default(cuid())
+  userId   String
+  courseId String
+  savedAt  DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([userId])
 }
 
 enum Role {
