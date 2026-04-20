@@ -53,7 +53,6 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                     )}
                 </div>
 
-                {/* Title */}
                 <h2 className={cn(
                     "font-heading font-semibold text-foreground leading-tight",
                     title.length > 40 ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl"
@@ -61,7 +60,6 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                     {title}
                 </h2>
 
-                {/* Description */}
                 {description && (
                     <p className="text-sm text-secondary leading-relaxed line-clamp-3 max-w-sm">
                         {description}

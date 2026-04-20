@@ -8,6 +8,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cour
 
     const { courseSlug } = await params;
     const communitySlug = req.nextUrl.searchParams.get('communitySlug')
+    const userId = req.nextUrl.searchParams.get('userId')
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
     try {
@@ -42,7 +43,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cour
                 },
                 _count: {
                     select: { enrollments: true, modules: true }
-                }
+                },
+                ...(userId && {
+                    enrollments: {
+                        where: { userId },
+                        select: { userId: true }
+                    }
+                }),
             }
         })
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyApiRequest } from "@/lib/api";
-import { prisma } from "@/lib/prisma";
 import { bustCache } from "@/lib/cache";
+import { prisma } from "@/lib/prisma";
 
 export async function PATCH(req: NextRequest) {
     const authError = verifyApiRequest(req)
@@ -16,7 +16,7 @@ export async function PATCH(req: NextRequest) {
     try {
         const course = await prisma.course.findFirst({
             where: { id: courseId, community: { slug: communitySlug } },
-            select: { id: true }
+            select: { id: true, slug: true }
         })
 
         if (!course) return NextResponse.json({ error: "Course not found" }, { status: 404 })
@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest) {
                 order.map(({ id, index }: { id: string, index: number }) =>
                     tx.module.update({
                         where: { id },
-                        data: { index: index + 0.5 }  // 👈 fractional, never conflicts
+                        data: { index: index + 0.5 }  // fractional, never conflicts
                     })
                 )
             )
@@ -38,7 +38,7 @@ export async function PATCH(req: NextRequest) {
                 order.map(({ id, index }: { id: string, index: number }) =>
                     tx.module.update({
                         where: { id },
-                        data: { index }  // 👈 clean final value
+                        data: { index }  // clean final value
                     })
                 )
             )
@@ -46,6 +46,7 @@ export async function PATCH(req: NextRequest) {
 
         // bust after reorder
         await bustCache(['modules', `modules:${courseId}`])
+        await bustCache(['modules', `modules:${course.slug}`])
 
         return NextResponse.json({ success: true })
     } catch (error) {

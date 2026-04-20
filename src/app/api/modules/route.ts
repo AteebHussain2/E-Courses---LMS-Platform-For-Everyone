@@ -9,27 +9,23 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = req.nextUrl
     const courseId = searchParams.get('courseId')
-    const courseSlug = searchParams.get('courseSlug')
     const communitySlug = searchParams.get('communitySlug')
 
-    if ((!courseId && !courseSlug) || !communitySlug) {
+    if (!courseId || !communitySlug) {
         return NextResponse.json({ error: "At least courseId or courseSlug and communitySlug are required" }, { status: 400 })
     }
 
-    // Build course filter — whichever identifier was provided
-    const courseFilter = courseId
-        ? { id: courseId, community: { slug: communitySlug } }
-        : { slug: courseSlug!, community: { slug: communitySlug } }
-
-    // Stable cache key regardless of which identifier was passed
-    const cacheKey = `modules:${courseId ?? courseSlug}:${communitySlug}`
+    const cacheKey = `modules:${courseId}:${communitySlug}`
 
     try {
         const modules = await withCache(
             cacheKey,
             () => prisma.module.findMany({
                 where: {
-                    course: courseFilter,
+                    course: {
+                        id: courseId,
+                        community: { slug: communitySlug }
+                    },
                     deletedAt: null
                 },
                 orderBy: { index: 'asc' },
@@ -87,10 +83,18 @@ export async function POST(req: NextRequest) {
                 slug,
                 index,
                 course: { connect: { id: courseId } }
+            },
+            include: {
+                course: {
+                    select: {
+                        slug: true
+                    }
+                }
             }
         })
 
         await bustCache(['modules', `modules:${courseId}`])
+        await bustCache(['modules', `modules:${module.course.slug}`])
 
         return NextResponse.json({ module }, { status: 201 })
     } catch (error) {

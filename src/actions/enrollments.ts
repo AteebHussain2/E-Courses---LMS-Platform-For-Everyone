@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidatePath } from "next/cache";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";
 
@@ -11,6 +12,9 @@ export async function enrollCourseAction(userId: string, courseId: string, commu
     })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || "Failed to enroll")
+
+    revalidatePath(`/${communitySlug}/courses/${courseId}`) // revalidate course page to show enrolled state
+
     return data.enrollment
 }
 

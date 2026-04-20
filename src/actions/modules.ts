@@ -4,22 +4,35 @@ import { ModuleWithLessons } from "@/lib/types";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";
 
-export async function getModulesAction(communitySlug: string, courseId?: string, courseSlug?: string) {
+export async function getModulesAction(courseId: string, communitySlug: string) {
     const params = new URLSearchParams({ communitySlug })
 
-    if (courseId) {
-        params.set('courseId', courseId)
-    } else if (courseSlug) {
-        params.set('courseSlug', courseSlug)
-    }
-
-    const identifier = courseId ?? courseSlug!
+    params.set('courseId', courseId)
 
     const res = await fetch(getUrl(`/api/modules?${params}`), {
         headers: apiHeaders,
         next: {
             revalidate: 300,
-            tags: ['modules', `modules:${identifier}`]
+            tags: ['modules', `modules:${courseId}`]
+        }
+    })
+
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Failed to fetch modules")
+
+    return data.modules as ModuleWithLessons[]
+}
+
+export async function getModulesActionWithSlug(courseSlug: string, communitySlug: string) {
+    const params = new URLSearchParams({ communitySlug })
+
+    params.set('courseSlug', courseSlug)
+
+    const res = await fetch(getUrl(`/api/modules/slug?${params}`), {
+        headers: apiHeaders,
+        next: {
+            revalidate: 300,
+            tags: ['modules', `modules:${courseSlug}`]
         }
     })
 

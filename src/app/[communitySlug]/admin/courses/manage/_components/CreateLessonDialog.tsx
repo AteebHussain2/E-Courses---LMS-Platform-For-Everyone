@@ -45,10 +45,12 @@ export default function CreateLessonDialog({ moduleId, courseId, communitySlug }
             await queryClient.invalidateQueries({ queryKey: ['modules', courseId] })
             toast.success("Lesson created!")
             form.reset()
-            setOpen(false)
 
             // redirect user to lesson page for more details
             router.push(`/${communitySlug}/admin/courses/manage/lesson?lessonId=${lesson.id}`)
+
+            // close dialog after redirecting to allow time for page transition
+            setOpen(false)
         },
         onError: (error) => toast.error(error.message)
     })

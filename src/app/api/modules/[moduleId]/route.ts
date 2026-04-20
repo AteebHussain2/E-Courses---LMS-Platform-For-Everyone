@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { generateSlug, verifyApiRequest } from "@/lib/api";
+import { NextRequest, NextResponse } from "next/server";
 import { bustCache } from "@/lib/cache";
 import { prisma } from "@/lib/prisma";
 
@@ -17,7 +17,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ mo
     try {
         const module = await prisma.module.findFirst({
             where: { id: moduleId, deletedAt: null },
-            select: { id: true, courseId: true }
+            select: { id: true, course: { select: { slug: true, id: true } } }
         })
 
         if (!module) return NextResponse.json({ error: "Module not found" }, { status: 404 })
@@ -29,7 +29,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ mo
             data: { title, slug }
         })
 
-        await bustCache(['modules', `modules:${module.courseId}`])
+        await bustCache(['modules', `modules:${module.course.id}`])
+        await bustCache(['modules', `modules:${module.course.slug}`])
 
         return NextResponse.json({ module: updated })
     } catch (error) {

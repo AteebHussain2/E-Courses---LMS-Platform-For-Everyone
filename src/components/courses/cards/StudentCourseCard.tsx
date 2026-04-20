@@ -1,5 +1,5 @@
+import CourseEnrollNowButton from "@/components/custom/buttons/CourseEnrollNowButton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import CourseEnrollButton from "@/components/custom/buttons/CourseEnrollButton";
 import { CourseSaveButton } from "@/components/custom/buttons/CourseSaveButton";
 import { Book, Clock, GraduationCap, Users2 } from "lucide-react";
 import PriceBadge from "@/components/custom/badge/PriceBadge";
@@ -57,7 +57,7 @@ const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount })
             </CardContent>
 
             <CardFooter className="flex flex-1 items-center gap-2">
-                <CourseEnrollButton courseSlug={course.slug} communitySlug={course.community.slug} />
+                <CourseEnrollNowButton courseSlug={course.slug} communitySlug={course.community.slug} />
                 <CourseSaveButton courseId={course.id} />
             </CardFooter>
         </Card>

@@ -1,7 +1,7 @@
 "use server"
 
+import { CourseWithInstructorAndCount, CourseWithInstructorCountAndEnrollment } from "@/lib/types";
 import { StatusFilter, TimeFilter, SortFilter } from "@/hooks/use-course-filters";
-import { CourseWithInstructorAndCount } from "@/lib/types";
 import { courseSchemaType } from "@/lib/schemas/course";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";

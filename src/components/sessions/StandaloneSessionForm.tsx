@@ -376,7 +376,7 @@ export default function StandaloneSessionForm({ communitySlug, existingSession }
                             <Button
                                 type="submit"
                                 className="w-full cursor-pointer text-foreground"
-                                disabled={mutation.isPending || (isEditing && !form.formState.isDirty)}
+                                disabled={mutation.isPending || (isEditing && !form.formState.isDirty) || thumbnailFiles.length === 0}
                             >
                                 {mutation.isPending
                                     ? (isEditing ? "Updating..." : "Creating...")

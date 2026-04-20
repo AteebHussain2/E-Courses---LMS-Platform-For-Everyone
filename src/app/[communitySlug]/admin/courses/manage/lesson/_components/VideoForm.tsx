@@ -204,7 +204,7 @@ export default function VideoForm({ lessonId, lessonTitle, courseId, communitySl
                             <Button
                                 type="submit"
                                 className="w-40 cursor-pointer text-foreground"
-                                disabled={mutation.isPending || !form.formState.isDirty || thumbnailFiles.length > 0}
+                                disabled={mutation.isPending || !form.formState.isDirty || thumbnailFiles.length === 0}
                             >
                                 {mutation.isPending
                                     ? (isEditing ? "Updating..." : "Saving...")

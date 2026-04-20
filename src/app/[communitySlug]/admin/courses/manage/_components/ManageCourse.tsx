@@ -1,5 +1,5 @@
 import { CourseEditButton } from "@/components/custom/buttons/CourseEditButton";
-import { PreviewCourseCard } from "@/components/courses/cards/AdminCourseCard";
+import PreviewCourseCard from "@/components/courses/cards/AdminCourseCard";
 import { CourseWithInstructorAndCount } from "@/lib/types";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ const ManageCourse = ({ course }: ManageCourseProps) => {
     return (
         <div className="grid grid-cols-3 gap-5">
             <div className="space-y-5">
-                <PreviewCourseCard course={course} showButtons={false} />
+                <PreviewCourseCard course={course} />
                 <CourseEditButton
                     courseId={course.id}
                     text="Edit Course"
@@ -21,7 +21,6 @@ const ManageCourse = ({ course }: ManageCourseProps) => {
                         buttonVariants({ size: "default", variant: "default" })
                     )} />
             </div>
-
         </div>
     )
 }

@@ -1,29 +1,48 @@
+"use client";
+
+import { enrollCourseAction } from "@/actions/enrollments";
+import { useMutation } from "@tanstack/react-query";
+import { BookOpen, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button"
+import { useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils"
-import Link from "next/link"
+import { toast } from "sonner";
 
 type EnrollButtonProps = {
-    courseSlug: string
+    courseId: string
     communitySlug: string
+    isFree: boolean
     className?: string,
     disabled?: boolean,
+    setEnrolled: (v: boolean) => void,
 }
 
-const CourseEnrollButton = ({ courseSlug, communitySlug, className, disabled = false }: EnrollButtonProps) => {
-    // TODO
-    // className="inline-flex flex-1 items-center justify-center gap-2 bg-primary hover:bg-primary/85 transition-colors text-white px-4 py-3 rounded-full text-sm font-medium"
+const CourseEnrollButton = ({ isFree, courseId, communitySlug, className, disabled = false, setEnrolled }: EnrollButtonProps) => {
+    const { user } = useUser()
+
+    const mutation = useMutation({
+        mutationFn: () => {
+            if (!user) throw new Error("Sign in to enroll")
+            return enrollCourseAction(user.id, courseId, communitySlug)
+        },
+        onSuccess: () => {
+            setEnrolled(true)
+            toast.success("You're enrolled! Welcome to the course.")
+        },
+        onError: (e) => toast.error(e.message)
+    })
+
     return (
         <Button
             variant='default'
             className={cn("flex-1 w-full cursor-pointer rounded-full bg-primary text-foreground hover:border-border hover:bg-primary/85 hover:text-foreground", className)}
-            disabled={disabled}
+            disabled={mutation.isPending || !user || disabled}
+            onClick={() => mutation.mutate()}
         >
-            <Link
-                href={`/${communitySlug}/courses/${courseSlug}`}
-                className='w-full h-full items-center justify-center flex'
-            >
-                Enroll Now
-            </Link>
+            {mutation.isPending
+                ? <><Loader2 className="size-3.5 animate-spin" /> Enrolling...</>
+                : <><BookOpen className="size-3.5" /> {isFree ? "Enroll Free" : "Enroll Now"}</>
+            }
         </Button>
     )
 }

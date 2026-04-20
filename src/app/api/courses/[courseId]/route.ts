@@ -1,6 +1,6 @@
 import { validateWithRegex, verifyApiRequest } from "@/lib/api";
 import { NextRequest, NextResponse } from "next/server";
-import { bustCache } from "@/lib/cache";
+import { bustCache, withCache } from "@/lib/cache";
 import { prisma } from "@/lib/prisma";
 
 const PATTERNS = {
@@ -17,41 +17,47 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ cour
     const communitySlug = req.nextUrl.searchParams.get('communitySlug')
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
+    const cacheKey = `course:${courseId}`
+
     try {
-        const course = await prisma.course.findFirst({
-            where: {
-                id: courseId,
-                community: { slug: communitySlug }
-            },
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                description: true,
-                imageUrl: true,
-                isActive: true,
-                createdAt: true,
-                updatedAt: true,
-                price: true,
-                instructor: {
-                    select: {
-                        userId: true,
-                        firstName: true,
-                        lastName: true,
-                        avatar: true,
-                    }
+        const course = await withCache(
+            cacheKey,
+            () => prisma.course.findFirst({
+                where: {
+                    id: courseId,
+                    community: { slug: communitySlug }
                 },
-                community: {
-                    select: {
-                        id: true,
-                        slug: true,
+                select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                    description: true,
+                    imageUrl: true,
+                    isActive: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    price: true,
+                    instructor: {
+                        select: {
+                            userId: true,
+                            firstName: true,
+                            lastName: true,
+                            avatar: true,
+                        }
                     },
-                },
-                _count: {
-                    select: { enrollments: true, modules: true }
+                    community: {
+                        select: {
+                            id: true,
+                            slug: true,
+                        },
+                    },
+                    _count: {
+                        select: { enrollments: true, modules: true }
+                    }
                 }
-            }
-        })
+            }),
+            { ttl: 60, tags: ['course', `course:${courseId}`] }
+        )
 
         if (!course) return NextResponse.json({ error: "Course not found" }, { status: 404 })
 

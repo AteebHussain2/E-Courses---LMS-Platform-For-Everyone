@@ -56,7 +56,7 @@ function ModuleAccordion({
     index,
     isEnrolled,
     communitySlug,
-    defaultOpen
+    defaultOpen = true
 }: {
     module: ModuleWithLessons
     index: number
@@ -133,14 +133,14 @@ function LessonRow({
     isEnrolled: boolean
     communitySlug: string
 }) {
-    const isPublished = lesson.status === LessonStatus.PUBLISHED
+    const isPublished = true
     const isVideo = lesson.type === LessonType.VIDEO
     const isLocked = !isEnrolled && !isPublished
 
     return (
         <div className={cn(
             "flex items-center gap-3.5 px-5 py-3.5 transition-colors",
-            isEnrolled && isPublished
+            isEnrolled
                 ? "hover:bg-muted/30 cursor-pointer group"
                 : "opacity-60 cursor-not-allowed"
         )}>
