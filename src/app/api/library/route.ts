@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
             } else {
                 // Verify course exists and is active
                 const session = await prisma.session.findFirst({
-                    where: { id: courseId, community: { slug: communitySlug }, isActive: true, deletedAt: null },
+                    where: { id: courseId, community: { slug: communitySlug }, deletedAt: null },
                     select: { id: true }
                 })
                 if (!session) return NextResponse.json({ error: "Session not found" }, { status: 404 })
