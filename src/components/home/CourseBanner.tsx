@@ -62,7 +62,11 @@ export default function CourseBanner({ course, isEnrolled: initialEnrolled = fal
                                 setEnrolled={setEnrolled}
                             />
 
-                            <SaveButton isSession={false} />
+                            <SaveButton
+                                isSession={false}
+                                communitySlug={communitySlug}
+                                courseId={course.id}
+                            />
                         </>
                     )}
                 </div>

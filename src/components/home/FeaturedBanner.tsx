@@ -38,17 +38,17 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
                     {isCourse && (
                         <>
                             <NewBadge />
-                            {(featured.item as any)._count.enrollments > 0 && <CustomBadge
-                                text={`${(featured.item as any)._count.enrollments} enrolled`}
-                                icon={Users}
-                                variant="default"
-                                className="py-3! border-glass-border"
-                            />}
                             <PriceBadge
                                 currency="USD"
                                 price={(featured.item as any).price}
                                 isAbsolute={false}
                             />
+                            {(featured.item as any)._count.enrollments > 0 && <CustomBadge
+                                text={`${(featured.item as any)._count.enrollments} enrolled`}
+                                icon={Users}
+                                variant="default"
+                                className="border-glass-border"
+                            />}
                         </>
                     )}
                 </div>
@@ -77,6 +77,9 @@ export default function FeaturedBanner({ communitySlug, featured }: Props) {
 
                     <SaveButton
                         isSession={isSession}
+                        communitySlug={communitySlug}
+                        courseId={isCourse ? (featured.item as any).id : undefined}
+                        sessionId={isSession ? (featured.item as any).id : undefined}
                     />
                 </div>
             </div>

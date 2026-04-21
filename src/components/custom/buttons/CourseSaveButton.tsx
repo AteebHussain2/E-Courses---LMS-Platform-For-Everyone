@@ -1,7 +1,9 @@
+"use client";
+
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { checkSavedAction, toggleSaveAction } from "@/actions/library";
-import { Bookmark, BookmarkCheck } from "lucide-react";
+import { checkCourseSavedAction, toggleSaveAction } from "@/actions/library";
+import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
@@ -27,7 +29,7 @@ export const CourseSaveButton = ({ communitySlug, courseId, className, side, dis
     const { data: isSaved = false, isLoading: isChecking } = useQuery({
         queryKey,
         queryFn: () =>
-            user ? checkSavedAction(user.id, courseId, communitySlug) : Promise.resolve(false),
+            user ? checkCourseSavedAction(user.id, courseId, communitySlug) : Promise.resolve(false),
         enabled: !!user,
         staleTime: 1000 * 60 * 5,
     })
@@ -45,10 +47,8 @@ export const CourseSaveButton = ({ communitySlug, courseId, className, side, dis
             return { prev }
         },
         onSuccess: ({ saved }) => {
-            queryClient.setQueryData(queryKey, saved)
-            // Also invalidate the library list so /library page stays fresh
+            queryClient.setQueryData(queryKey, saved) // Also invalidate the library list so /library page stays fresh
             queryClient.invalidateQueries({ queryKey: ['library', user?.id] })
-            toast.success(saved ? "Saved to library" : "Removed from library")
         },
         onError: (error, _vars, ctx) => {
             // Revert optimistic update
@@ -68,8 +68,12 @@ export const CourseSaveButton = ({ communitySlug, courseId, className, side, dis
                         className
                     )}
                     disabled={disabled || !user || isChecking || mutation.isPending}
+                    aria-label={isSaved ? "Remove from library" : "Save to library"}
+                    onClick={() => mutation.mutate()}
                 >
-                    {isSaved ? (
+                    {isChecking ? (
+                        <Loader2 className="size-4 animate-spin" />
+                    ) : isSaved ? (
                         <BookmarkCheck className="size-4" />
                     ) : (
                         <Bookmark className="size-4 text-muted-foreground" />
