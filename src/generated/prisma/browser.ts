@@ -112,3 +112,8 @@ export type PostReaction = Prisma.PostReactionModel
  * 
  */
 export type SavedCourse = Prisma.SavedCourseModel
+/**
+ * Model SavedSession
+ * 
+ */
+export type SavedSession = Prisma.SavedSessionModel

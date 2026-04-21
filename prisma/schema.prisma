@@ -25,6 +25,7 @@ model User {
   postReactions     PostReaction[]
   postPollVotes     PostPollVote[]
   savedCourses      SavedCourse[]
+  savedSessions     SavedSession[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -164,10 +165,11 @@ model Lesson {
 
   video Video?
 
-  deletedAt         DateTime?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
   lessonCompletions LessonCompletion[]
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@unique([moduleId, index, deletedAt])
   @@unique([moduleId, slug])
@@ -190,6 +192,8 @@ model Session {
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
 
   recording Recording?
+
+  savedSessions SavedSession[]
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
@@ -380,6 +384,19 @@ model SavedCourse {
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([userId, courseId])
+  @@index([userId])
+}
+
+model SavedSession {
+  id        String   @id @default(cuid())
+  userId    String
+  sessionId String
+  savedAt   DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sessionId])
   @@index([userId])
 }
 

@@ -275,6 +275,7 @@ export type SessionWhereInput = {
   lesson?: Prisma.XOR<Prisma.LessonNullableScalarRelationFilter, Prisma.LessonWhereInput> | null
   community?: Prisma.XOR<Prisma.CommunityScalarRelationFilter, Prisma.CommunityWhereInput>
   recording?: Prisma.XOR<Prisma.RecordingNullableScalarRelationFilter, Prisma.RecordingWhereInput> | null
+  savedSessions?: Prisma.SavedSessionListRelationFilter
 }
 
 export type SessionOrderByWithRelationInput = {
@@ -293,6 +294,7 @@ export type SessionOrderByWithRelationInput = {
   lesson?: Prisma.LessonOrderByWithRelationInput
   community?: Prisma.CommunityOrderByWithRelationInput
   recording?: Prisma.RecordingOrderByWithRelationInput
+  savedSessions?: Prisma.SavedSessionOrderByRelationAggregateInput
 }
 
 export type SessionWhereUniqueInput = Prisma.AtLeast<{
@@ -314,6 +316,7 @@ export type SessionWhereUniqueInput = Prisma.AtLeast<{
   lesson?: Prisma.XOR<Prisma.LessonNullableScalarRelationFilter, Prisma.LessonWhereInput> | null
   community?: Prisma.XOR<Prisma.CommunityScalarRelationFilter, Prisma.CommunityWhereInput>
   recording?: Prisma.XOR<Prisma.RecordingNullableScalarRelationFilter, Prisma.RecordingWhereInput> | null
+  savedSessions?: Prisma.SavedSessionListRelationFilter
 }, "id">
 
 export type SessionOrderByWithAggregationInput = {
@@ -369,6 +372,7 @@ export type SessionCreateInput = {
   lesson?: Prisma.LessonCreateNestedOneWithoutSessionInput
   community: Prisma.CommunityCreateNestedOneWithoutSessionsInput
   recording?: Prisma.RecordingCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateInput = {
@@ -386,6 +390,7 @@ export type SessionUncheckedCreateInput = {
   updatedAt?: Date | string
   lesson?: Prisma.LessonUncheckedCreateNestedOneWithoutSessionInput
   recording?: Prisma.RecordingUncheckedCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUpdateInput = {
@@ -403,6 +408,7 @@ export type SessionUpdateInput = {
   lesson?: Prisma.LessonUpdateOneWithoutSessionNestedInput
   community?: Prisma.CommunityUpdateOneRequiredWithoutSessionsNestedInput
   recording?: Prisma.RecordingUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateInput = {
@@ -420,6 +426,7 @@ export type SessionUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUncheckedUpdateOneWithoutSessionNestedInput
   recording?: Prisma.RecordingUncheckedUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionCreateManyInput = {
@@ -615,6 +622,20 @@ export type SessionUpdateOneRequiredWithoutRecordingNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SessionUpdateToOneWithWhereWithoutRecordingInput, Prisma.SessionUpdateWithoutRecordingInput>, Prisma.SessionUncheckedUpdateWithoutRecordingInput>
 }
 
+export type SessionCreateNestedOneWithoutSavedSessionsInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutSavedSessionsInput, Prisma.SessionUncheckedCreateWithoutSavedSessionsInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutSavedSessionsInput
+  connect?: Prisma.SessionWhereUniqueInput
+}
+
+export type SessionUpdateOneRequiredWithoutSavedSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutSavedSessionsInput, Prisma.SessionUncheckedCreateWithoutSavedSessionsInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutSavedSessionsInput
+  upsert?: Prisma.SessionUpsertWithoutSavedSessionsInput
+  connect?: Prisma.SessionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionUpdateToOneWithWhereWithoutSavedSessionsInput, Prisma.SessionUpdateWithoutSavedSessionsInput>, Prisma.SessionUncheckedUpdateWithoutSavedSessionsInput>
+}
+
 export type SessionCreateWithoutCommunityInput = {
   id?: string
   title: string
@@ -629,6 +650,7 @@ export type SessionCreateWithoutCommunityInput = {
   updatedAt?: Date | string
   lesson?: Prisma.LessonCreateNestedOneWithoutSessionInput
   recording?: Prisma.RecordingCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateWithoutCommunityInput = {
@@ -645,6 +667,7 @@ export type SessionUncheckedCreateWithoutCommunityInput = {
   updatedAt?: Date | string
   lesson?: Prisma.LessonUncheckedCreateNestedOneWithoutSessionInput
   recording?: Prisma.RecordingUncheckedCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionCreateOrConnectWithoutCommunityInput = {
@@ -705,6 +728,7 @@ export type SessionCreateWithoutLessonInput = {
   updatedAt?: Date | string
   community: Prisma.CommunityCreateNestedOneWithoutSessionsInput
   recording?: Prisma.RecordingCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateWithoutLessonInput = {
@@ -721,6 +745,7 @@ export type SessionUncheckedCreateWithoutLessonInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   recording?: Prisma.RecordingUncheckedCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionCreateOrConnectWithoutLessonInput = {
@@ -753,6 +778,7 @@ export type SessionUpdateWithoutLessonInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   community?: Prisma.CommunityUpdateOneRequiredWithoutSessionsNestedInput
   recording?: Prisma.RecordingUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateWithoutLessonInput = {
@@ -769,6 +795,7 @@ export type SessionUncheckedUpdateWithoutLessonInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recording?: Prisma.RecordingUncheckedUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionCreateWithoutRecordingInput = {
@@ -785,6 +812,7 @@ export type SessionCreateWithoutRecordingInput = {
   updatedAt?: Date | string
   lesson?: Prisma.LessonCreateNestedOneWithoutSessionInput
   community: Prisma.CommunityCreateNestedOneWithoutSessionsInput
+  savedSessions?: Prisma.SavedSessionCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateWithoutRecordingInput = {
@@ -801,6 +829,7 @@ export type SessionUncheckedCreateWithoutRecordingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lesson?: Prisma.LessonUncheckedCreateNestedOneWithoutSessionInput
+  savedSessions?: Prisma.SavedSessionUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionCreateOrConnectWithoutRecordingInput = {
@@ -833,6 +862,7 @@ export type SessionUpdateWithoutRecordingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneWithoutSessionNestedInput
   community?: Prisma.CommunityUpdateOneRequiredWithoutSessionsNestedInput
+  savedSessions?: Prisma.SavedSessionUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateWithoutRecordingInput = {
@@ -849,6 +879,91 @@ export type SessionUncheckedUpdateWithoutRecordingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUncheckedUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUncheckedUpdateManyWithoutSessionNestedInput
+}
+
+export type SessionCreateWithoutSavedSessionsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  scheduledAt: Date | string
+  duration?: number | null
+  platformLink?: string | null
+  imageUrl?: string | null
+  status?: $Enums.SessionStatus
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lesson?: Prisma.LessonCreateNestedOneWithoutSessionInput
+  community: Prisma.CommunityCreateNestedOneWithoutSessionsInput
+  recording?: Prisma.RecordingCreateNestedOneWithoutSessionInput
+}
+
+export type SessionUncheckedCreateWithoutSavedSessionsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  scheduledAt: Date | string
+  duration?: number | null
+  platformLink?: string | null
+  imageUrl?: string | null
+  status?: $Enums.SessionStatus
+  communityId: string
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lesson?: Prisma.LessonUncheckedCreateNestedOneWithoutSessionInput
+  recording?: Prisma.RecordingUncheckedCreateNestedOneWithoutSessionInput
+}
+
+export type SessionCreateOrConnectWithoutSavedSessionsInput = {
+  where: Prisma.SessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SessionCreateWithoutSavedSessionsInput, Prisma.SessionUncheckedCreateWithoutSavedSessionsInput>
+}
+
+export type SessionUpsertWithoutSavedSessionsInput = {
+  update: Prisma.XOR<Prisma.SessionUpdateWithoutSavedSessionsInput, Prisma.SessionUncheckedUpdateWithoutSavedSessionsInput>
+  create: Prisma.XOR<Prisma.SessionCreateWithoutSavedSessionsInput, Prisma.SessionUncheckedCreateWithoutSavedSessionsInput>
+  where?: Prisma.SessionWhereInput
+}
+
+export type SessionUpdateToOneWithWhereWithoutSavedSessionsInput = {
+  where?: Prisma.SessionWhereInput
+  data: Prisma.XOR<Prisma.SessionUpdateWithoutSavedSessionsInput, Prisma.SessionUncheckedUpdateWithoutSavedSessionsInput>
+}
+
+export type SessionUpdateWithoutSavedSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lesson?: Prisma.LessonUpdateOneWithoutSessionNestedInput
+  community?: Prisma.CommunityUpdateOneRequiredWithoutSessionsNestedInput
+  recording?: Prisma.RecordingUpdateOneWithoutSessionNestedInput
+}
+
+export type SessionUncheckedUpdateWithoutSavedSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  platformLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumSessionStatusFieldUpdateOperationsInput | $Enums.SessionStatus
+  communityId?: Prisma.StringFieldUpdateOperationsInput | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lesson?: Prisma.LessonUncheckedUpdateOneWithoutSessionNestedInput
+  recording?: Prisma.RecordingUncheckedUpdateOneWithoutSessionNestedInput
 }
 
 export type SessionCreateManyCommunityInput = {
@@ -879,6 +994,7 @@ export type SessionUpdateWithoutCommunityInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUpdateOneWithoutSessionNestedInput
   recording?: Prisma.RecordingUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateWithoutCommunityInput = {
@@ -895,6 +1011,7 @@ export type SessionUncheckedUpdateWithoutCommunityInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lesson?: Prisma.LessonUncheckedUpdateOneWithoutSessionNestedInput
   recording?: Prisma.RecordingUncheckedUpdateOneWithoutSessionNestedInput
+  savedSessions?: Prisma.SavedSessionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateManyWithoutCommunityInput = {
@@ -911,6 +1028,35 @@ export type SessionUncheckedUpdateManyWithoutCommunityInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type SessionCountOutputType
+ */
+
+export type SessionCountOutputType = {
+  savedSessions: number
+}
+
+export type SessionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  savedSessions?: boolean | SessionCountOutputTypeCountSavedSessionsArgs
+}
+
+/**
+ * SessionCountOutputType without action
+ */
+export type SessionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SessionCountOutputType
+   */
+  select?: Prisma.SessionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SessionCountOutputType without action
+ */
+export type SessionCountOutputTypeCountSavedSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedSessionWhereInput
+}
 
 
 export type SessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -929,6 +1075,8 @@ export type SessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lesson?: boolean | Prisma.Session$lessonArgs<ExtArgs>
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
   recording?: boolean | Prisma.Session$recordingArgs<ExtArgs>
+  savedSessions?: boolean | Prisma.Session$savedSessionsArgs<ExtArgs>
+  _count?: boolean | Prisma.SessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["session"]>
 
 export type SessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -983,6 +1131,8 @@ export type SessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   lesson?: boolean | Prisma.Session$lessonArgs<ExtArgs>
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
   recording?: boolean | Prisma.Session$recordingArgs<ExtArgs>
+  savedSessions?: boolean | Prisma.Session$savedSessionsArgs<ExtArgs>
+  _count?: boolean | Prisma.SessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   community?: boolean | Prisma.CommunityDefaultArgs<ExtArgs>
@@ -997,6 +1147,7 @@ export type $SessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     lesson: Prisma.$LessonPayload<ExtArgs> | null
     community: Prisma.$CommunityPayload<ExtArgs>
     recording: Prisma.$RecordingPayload<ExtArgs> | null
+    savedSessions: Prisma.$SavedSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1408,6 +1559,7 @@ export interface Prisma__SessionClient<T, Null = never, ExtArgs extends runtime.
   lesson<T extends Prisma.Session$lessonArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Session$lessonArgs<ExtArgs>>): Prisma.Prisma__LessonClient<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   community<T extends Prisma.CommunityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommunityDefaultArgs<ExtArgs>>): Prisma.Prisma__CommunityClient<runtime.Types.Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   recording<T extends Prisma.Session$recordingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Session$recordingArgs<ExtArgs>>): Prisma.Prisma__RecordingClient<runtime.Types.Result.GetResult<Prisma.$RecordingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  savedSessions<T extends Prisma.Session$savedSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Session$savedSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1885,6 +2037,30 @@ export type Session$recordingArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.RecordingInclude<ExtArgs> | null
   where?: Prisma.RecordingWhereInput
+}
+
+/**
+ * Session.savedSessions
+ */
+export type Session$savedSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedSession
+   */
+  select?: Prisma.SavedSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedSession
+   */
+  omit?: Prisma.SavedSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedSessionInclude<ExtArgs> | null
+  where?: Prisma.SavedSessionWhereInput
+  orderBy?: Prisma.SavedSessionOrderByWithRelationInput | Prisma.SavedSessionOrderByWithRelationInput[]
+  cursor?: Prisma.SavedSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedSessionScalarFieldEnum | Prisma.SavedSessionScalarFieldEnum[]
 }
 
 /**

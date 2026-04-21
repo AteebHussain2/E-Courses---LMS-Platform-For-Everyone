@@ -402,7 +402,8 @@ export const ModelName = {
   PostPollOption: 'PostPollOption',
   PostPollVote: 'PostPollVote',
   PostReaction: 'PostReaction',
-  SavedCourse: 'SavedCourse'
+  SavedCourse: 'SavedCourse',
+  SavedSession: 'SavedSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userInfo" | "community" | "communityMember" | "communityInvite" | "course" | "module" | "lesson" | "session" | "video" | "recording" | "watchProgress" | "lessonCompletion" | "enrollment" | "post" | "postPollOption" | "postPollVote" | "postReaction" | "savedCourse"
+    modelProps: "user" | "userInfo" | "community" | "communityMember" | "communityInvite" | "course" | "module" | "lesson" | "session" | "video" | "recording" | "watchProgress" | "lessonCompletion" | "enrollment" | "post" | "postPollOption" | "postPollVote" | "postReaction" | "savedCourse" | "savedSession"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1828,6 +1829,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SavedSession: {
+      payload: Prisma.$SavedSessionPayload<ExtArgs>
+      fields: Prisma.SavedSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SavedSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SavedSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.SavedSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SavedSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        findMany: {
+          args: Prisma.SavedSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>[]
+        }
+        create: {
+          args: Prisma.SavedSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        createMany: {
+          args: Prisma.SavedSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SavedSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.SavedSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        update: {
+          args: Prisma.SavedSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SavedSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SavedSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SavedSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SavedSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.SavedSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSavedSession>
+        }
+        groupBy: {
+          args: Prisma.SavedSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SavedSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedSessionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2133,6 +2208,16 @@ export const SavedCourseScalarFieldEnum = {
 } as const
 
 export type SavedCourseScalarFieldEnum = (typeof SavedCourseScalarFieldEnum)[keyof typeof SavedCourseScalarFieldEnum]
+
+
+export const SavedSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  savedAt: 'savedAt'
+} as const
+
+export type SavedSessionScalarFieldEnum = (typeof SavedSessionScalarFieldEnum)[keyof typeof SavedSessionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2442,6 +2527,7 @@ export type GlobalOmitConfig = {
   postPollVote?: Prisma.PostPollVoteOmit
   postReaction?: Prisma.PostReactionOmit
   savedCourse?: Prisma.SavedCourseOmit
+  savedSession?: Prisma.SavedSessionOmit
 }
 
 /* Types for Logging */
