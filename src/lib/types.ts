@@ -71,7 +71,34 @@ export type CourseWithInstructorCountAndEnrollment = Prisma.CourseGetPayload<{
     }
 }>
 
+export type SavedCourseItem = Prisma.SavedCourseGetPayload<{
+    select: {
+        savedAt: true,
+        course: {
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                imageUrl: true,
+                community: { select: { id: true, slug: true } },
+            }
+        }
+    }
+}>
 
+export type SavedSessionItem = Prisma.SavedSessionGetPayload<{
+    select: {
+        savedAt: true,
+        session: {
+            select: {
+                id: true,
+                title: true,
+                imageUrl: true,
+                community: { select: { id: true, slug: true } },
+            }
+        }
+    }
+}>
 
 export type ModuleWithLessons = Prisma.ModuleGetPayload<{
     include: {
