@@ -22,7 +22,7 @@ const CourseEnrollNowButton = ({ courseSlug, communitySlug, className, disabled 
                 href={`/${communitySlug}/courses/${courseSlug}`}
                 className='w-full h-full items-center justify-center flex'
             >
-                Enroll Now
+                Visit Course
             </Link>
         </Button>
     )

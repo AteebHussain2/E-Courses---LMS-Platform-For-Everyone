@@ -30,6 +30,9 @@ const LibraryPage = async ({ params }: Props) => {
                 </p>
             </div>
 
+            <h2 className="text-xl @min-3xl:text-2xl font-semibold text-foreground font-heading">
+                Courses
+            </h2>
             {savedCourses.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-24 space-y-3">
                     <Bookmark className="size-8 text-muted/40" />
@@ -49,15 +52,18 @@ const LibraryPage = async ({ params }: Props) => {
                 </div>
             )}
 
+            <h2 className="text-xl @min-3xl:text-2xl font-semibold text-foreground font-heading">
+                Sessions
+            </h2>
             {savedCourses.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-24 space-y-3">
                     <Bookmark className="size-8 text-muted/40" />
-                    <p className="text-sm text-muted-foreground">No saved courses yet.</p>
+                    <p className="text-sm text-muted-foreground">No saved sessions yet.</p>
                     <Link
-                        href={`/${communitySlug}/courses`}
+                        href={`/${communitySlug}/sessions`}
                         className="text-sm text-primary hover:text-primary/80 font-medium transition-colors"
                     >
-                        Browse courses <ArrowRight className="size-4" />
+                        Browse sessions <ArrowRight className="size-4" />
                     </Link>
                 </div>
             ) : (

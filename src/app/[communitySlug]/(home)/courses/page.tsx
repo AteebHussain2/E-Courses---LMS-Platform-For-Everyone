@@ -12,13 +12,13 @@ const RECENT_LIMIT = 6 // show 6 on this page; "View More" goes to paginated /co
 const CoursesPage = async ({ params }: Props) => {
     const { communitySlug } = await params
 
-    const [featured, coursesData] = await Promise.all([
+    const [featured, recentCoursesData] = await Promise.all([
         getFeaturedAction(communitySlug).catch(() => null),
         getStudentCoursesAction(communitySlug, { sort: 'newest', offset: 0 }).catch(() => null),
     ])
 
-    const courses = coursesData?.courses ?? []
-    const hasMore = (coursesData?.total ?? 0) > RECENT_LIMIT
+    const recentCourses = recentCoursesData?.courses ?? []
+    const hasMoreRecentCourses = (recentCoursesData?.total ?? 0) > RECENT_LIMIT
 
     return (
         <div className="space-y-5">
@@ -26,8 +26,8 @@ const CoursesPage = async ({ params }: Props) => {
 
             <CourseSection
                 title="Recent Courses"
-                courses={courses}
-                hasMore={hasMore}
+                courses={recentCourses}
+                hasMore={hasMoreRecentCourses}
                 limit={RECENT_LIMIT}
                 communitySlug={communitySlug}
             />
