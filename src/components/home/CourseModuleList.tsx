@@ -43,7 +43,7 @@ export default function CourseModuleList({ modules, isEnrolled, communitySlug }:
                         index={index}
                         isEnrolled={isEnrolled}
                         communitySlug={communitySlug}
-                        defaultOpen={index === 0}
+                        defaultOpen={module.lessons.length > 0} // Open all non-empty modules by default
                     />
                 ))}
             </div>
@@ -162,7 +162,7 @@ function LessonRow({
                 <p className={cn(
                     "text-sm truncate transition-colors",
                     isEnrolled && isPublished
-                        ? "text-foreground group-hover:text-primary"
+                        ? "text-foreground group-hover:text-foreground"
                         : "text-muted-foreground"
                 )}>
                     {lesson.title}

@@ -60,7 +60,6 @@ const SaveButton = ({ isSession, courseId, sessionId, communitySlug }: SaveButto
             queryClient.setQueryData(queryKey, saved)
             // Also invalidate the library list so /library page stays fresh
             queryClient.invalidateQueries({ queryKey: ['library', user?.id] })
-            toast.success(saved ? "Saved to library" : "Removed from library")
         },
         onError: (error, _vars, ctx) => {
             // Revert optimistic update
