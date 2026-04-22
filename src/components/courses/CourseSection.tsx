@@ -8,10 +8,11 @@ type Props = {
     courses: CourseWithInstructorAndCount[]
     hasMore: boolean
     communitySlug: string
+    viewMoreHref: string
     limit: number
 }
 
-const CourseSection = ({ title, courses, hasMore, communitySlug, limit }: Props) => {
+const CourseSection = ({ title, courses, hasMore, communitySlug, limit, viewMoreHref }: Props) => {
     return (
         <section className="px-10 py-2 space-y-5">
             <div className="flex items-center justify-between">
@@ -20,7 +21,7 @@ const CourseSection = ({ title, courses, hasMore, communitySlug, limit }: Props)
                 </h2>
                 {!hasMore && (
                     <Link
-                        href={`/${communitySlug}/courses/all`}
+                        href={viewMoreHref}
                         className="flex items-center gap-1 text-sm text-status-info hover:text-status-info/80 transition-colors font-medium"
                     >
                         View More

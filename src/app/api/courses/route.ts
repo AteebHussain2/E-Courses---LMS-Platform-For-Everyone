@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
     const sort = searchParams.get('sort') ?? 'newest'
     const instructorId = searchParams.get('instructorId') ?? ''
     const offset = parseInt(searchParams.get('offset') ?? '0')
+    const userId = searchParams.get('userId') ?? ''
 
     if (!communitySlug) return NextResponse.json({ error: "communitySlug is required" }, { status: 400 })
 
@@ -52,6 +53,7 @@ export async function GET(req: NextRequest) {
             ...(time !== 'all' && { createdAt: getTimeFilter(time) }),
             ...(instructorId === 'unassigned' && { instructorId: null }),
             ...(instructorId && instructorId !== 'unassigned' && { instructorId }),
+            ...(userId && { enrollments: { some: { userId } } }),
         }
 
         const [courses, total] = await withCache(
