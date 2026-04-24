@@ -1,62 +1,53 @@
-// src/app/[communitySlug]/(home)/courses/page.tsx
-import { getStudentCoursesAction } from "@/actions/student/courses";
-import { getEnrolledCoursesAction } from "@/actions/enrollments";
-import CourseSection from "@/components/courses/CourseSection";
-import FeaturedBanner from "@/components/home/FeaturedBanner";
-import { getFeaturedAction } from "@/actions/home";
+import CourseNotFound from "@/components/courses/CourseNotFound";
+import { checkEnrollmentAction } from "@/actions/enrollments";
+import { getModulesActionWithSlug } from "@/actions/modules";
+import { getCourseActionWithSlug } from "@/actions/courses";
+import CourseDetails from "@/components/home/CourseDetails";
+import CourseBanner from "@/components/home/CourseBanner";
 import { auth } from "@clerk/nextjs/server";
 
 type Props = {
-    params: Promise<{ communitySlug: string }>
+    params: Promise<{ communitySlug: string; courseSlug: string }>
 }
 
-const RECENT_LIMIT = 6
-
-const CoursesPage = async ({ params }: Props) => {
-    const { communitySlug } = await params
+export default async function CourseDetailPage({ params }: Props) {
+    const { communitySlug, courseSlug } = await params
     const { userId } = await auth()
 
-    const [featured, recentCoursesData, enrolledCoursesData] = await Promise.all([
-        getFeaturedAction(communitySlug).catch(() => null),
-        getStudentCoursesAction(communitySlug, { sort: 'newest', offset: 0 })
-            .catch(() => { return { courses: [], total: 0, hasMore: false } }),
-
-        userId ? getEnrolledCoursesAction(userId, communitySlug, { sort: 'newest', offset: 0 })
-            .catch(() => { return { courses: [], total: 0, hasMore: false } })
-            : Promise.resolve({ courses: [], total: 0, hasMore: false }) // if no user, skip fetching enrolled courses
+    const [course, modules] = await Promise.all([
+        getCourseActionWithSlug(courseSlug, communitySlug).catch(() => null),
+        getModulesActionWithSlug(courseSlug, communitySlug).catch(() => []),
     ])
 
-    const recentCourses = recentCoursesData?.courses ?? []
-    const hasMoreRecentCourses = (recentCoursesData?.total ?? 0) > RECENT_LIMIT
+    if (!course) return (
+        <CourseNotFound
+            title="Course Not Found"
+            description="This course doesn't exist or isn't available yet."
+            communitySlug={communitySlug}
+            showSearch
+        />
+    )
 
-    const enrolledCourses = enrolledCoursesData?.courses ?? []
-    const hasMoreEnrolledCourses = (enrolledCoursesData?.total ?? 0) > RECENT_LIMIT
+    // Check if current user is enrolled (null for guests)
+    const enrollment = userId
+        ? await checkEnrollmentAction(userId, course.id).catch(() => null)
+        : null
+    const isEnrolled = !!enrollment
 
     return (
         <div className="space-y-5">
-            {featured && <FeaturedBanner communitySlug={communitySlug} featured={featured} />}
-
-            <CourseSection
-                title="Recent Courses"
-                courses={recentCourses}
-                hasMore={hasMoreRecentCourses}
-                limit={RECENT_LIMIT}
+            <CourseBanner
+                course={course}
                 communitySlug={communitySlug}
-                viewMoreHref={`/${communitySlug}/courses/all`}
+                isEnrolled={isEnrolled}
             />
 
-            {enrolledCourses?.length > 0 && (
-                <CourseSection
-                    title="Enrolled Courses"
-                    courses={enrolledCourses}
-                    hasMore={hasMoreEnrolledCourses}
-                    limit={RECENT_LIMIT}
-                    communitySlug={communitySlug}
-                    viewMoreHref={`/${communitySlug}/all`}
-                />
-            )}
+            <CourseDetails
+                course={course}
+                modules={modules}
+                isEnrolled={isEnrolled}
+                communitySlug={communitySlug}
+            />
         </div>
     )
 }
-
-export default CoursesPage
