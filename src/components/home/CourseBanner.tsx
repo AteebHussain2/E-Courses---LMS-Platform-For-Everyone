@@ -1,5 +1,6 @@
 "use client"
 
+import CourseContinueButton from "@/components/custom/buttons/CourseContinueButton";
 import CourseEnrollButton from "@/components/custom/buttons/CourseEnrollButton";
 import EnrollingBadge from "@/components/custom/badge/EnrollingBadge";
 import SaveButton from "@/components/custom/buttons/SaveButton";
@@ -49,10 +50,17 @@ export default function CourseBanner({ course, isEnrolled: initialEnrolled = fal
 
                 <div className="flex items-center gap-4 pt-1 w-7/8">
                     {enrolled ? (
-                        <div className="flex items-center gap-2 text-sm text-green-400 font-medium">
-                            <CheckCircle2 className="size-4" />
-                            You're enrolled
-                        </div>
+                        <>
+                            <CourseContinueButton
+                                communitySlug={communitySlug}
+                                courseId={course.id}
+                            />
+
+                            <div className="flex items-center gap-2 text-sm text-green-400 font-medium">
+                                <CheckCircle2 className="size-4" />
+                                You're enrolled
+                            </div>
+                        </>
                     ) : (
                         <>
                             <CourseEnrollButton
