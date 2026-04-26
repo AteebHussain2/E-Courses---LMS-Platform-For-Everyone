@@ -62,3 +62,27 @@ export async function getEnrolledCoursesAction(
         hasMore: boolean
     }
 }
+
+export type ResumeLesson = {
+    id: string
+    title: string
+    type: string
+    slug: string
+}
+
+export async function getResumeLessonAction(
+    userId: string,
+    courseId: string
+): Promise<{ lesson: ResumeLesson; source: 'progress' | 'first' } | null> {
+    const res = await fetch(
+        getUrl(`/api/enrollments/resume?userId=${userId}&courseId=${courseId}`),
+        {
+            headers: apiHeaders,
+            // short TTL — watch progress changes frequently
+            next: { revalidate: 30 }
+        }
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    return data as { lesson: ResumeLesson; source: 'progress' | 'first' }
+}
