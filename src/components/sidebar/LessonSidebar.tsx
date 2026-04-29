@@ -22,7 +22,6 @@ type Props = {
 
 export default function LessonSidebar({ modules, course, communitySlug }: Props) {
     const pathname = usePathname()
-    const [collapsed, setCollapsed] = useState(false)
 
     // Extract active lessonId from path: /course/[courseId]/lesson/[lessonId]
     const activeLessonId = pathname.split('/lesson/')[1]?.split('/')[0] ?? ''
@@ -73,28 +72,23 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                     <div className="flex items-center justify-between">
                         <p className="font-heading text-sm text-secondary font-semibold pb-1">Course Progress</p>
                         <p className="text-xs text-foreground font-medium">
-                            {Math.round((publishedLessons / totalLessons) * 100)}%
+                            {Math.round((publishedLessons / totalLessons) * 100)}% {/*TODO: replace published lessons with completed lessons*/}
                         </p>
                     </div>
-                    <Progress className="" value={(publishedLessons / totalLessons) * 100} /> {/*TODO: replace published lessons with completed lessons*/}
+                    <Progress value={(publishedLessons / totalLessons) * 100} /> {/*TODO: replace published lessons with completed lessons*/}
                     <p className="text-muted text-xs">Start watching to raise the bar!</p>
                 </SidebarMenuItem>
             </SidebarMenu>
 
-            <SidebarMenu className="hidden">
-                <SidebarMenuItem className="py-4 px-3.5!">
-                    <SidebarMenuButton
-                        asChild
-                        className="h-full py-3! pl-6! transition-colors rounded-full border border-border"
+            <SidebarMenu className="visible">
+                <SidebarMenuItem className="pb-6 pt-2 px-3.5!">
+                    <Link
+                        href={`/${communitySlug}/courses/${course.slug}`}
+                        className="transition-colors flex items-center gap-2 text-secondary font-normal hover:text-foreground cursor-pointer"
                     >
-                        <Link
-                            href={`/${communitySlug}/courses/${course.slug}`}
-                            className="flex items-center gap-3 text-foreground font-normal hover:text-foreground cursor-pointer"
-                        >
-                            <ArrowLeft className="size-3.5" />
-                            <span>Go back to course</span>
-                        </Link>
-                    </SidebarMenuButton>
+                        <ArrowLeft className="size-4! pt-0.5" />
+                        <span className="text-xs">Go back to course</span>
+                    </Link>
                 </SidebarMenuItem>
             </SidebarMenu>
 
@@ -121,21 +115,6 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                 </SidebarMenu>
             </SidebarFooter>
         </Sidebar>
-    )
-}
-
-// ─── Collapsed toggle button — floats when sidebar is hidden ─────────────────
-
-export function SidebarToggle({ onOpen }: { onOpen: () => void }) {
-    return (
-        <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={onOpen}
-            className="cursor-pointer border-border bg-input"
-        >
-            <PanelLeft className="size-4" />
-        </Button>
     )
 }
 
