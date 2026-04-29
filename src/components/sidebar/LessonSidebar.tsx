@@ -1,18 +1,17 @@
 "use client"
 
-import { ChevronDown, CheckCircle2, Circle, Radio, Video, Lock, BookOpen, X, PanelLeftClose, PanelLeft, ArrowLeft } from "lucide-react";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import { ModuleWithLessons, CourseWithInstructorAndCount } from "@/lib/types";
+import { ChevronDown, Radio, Video, Lock, ArrowLeft } from "lucide-react";
 import { LessonStatus, LessonType } from "@/generated/prisma/enums";
-import { Button } from "@/components/ui/button";
+import { SidebarUserItem } from "./SidebarItem";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Progress } from "../ui/progress";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
-import { SidebarUserItem } from "./SidebarItem";
-import { Progress } from "../ui/progress";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 
 type Props = {
     modules: ModuleWithLessons[]
@@ -216,15 +215,19 @@ function LessonRow({
 
     const inner = (
         <div className={cn(
-            "flex items-center gap-3 pl-8 pr-4 py-2.5 transition-colors",
+            "group/lesson flex items-center gap-3 pl-4 pr-4 py-2.5 transition-colors",
             isActive
-                ? "bg-primary/10 border-l-2 border-primary"
-                : "border-l-2 border-transparent hover:bg-sidebar-accent",
+                ? "bg-primary/0 border-l-3 border-primary"
+                : "border-l-2 border-transparent",
             !isPublished && "opacity-50 cursor-not-allowed"
         )}>
+            <span className="text-[10px] font-mono text-muted-foreground/40 shrink-0 tabular-nums">
+                {String(lessonIndex + 1).padStart(2, '0')}
+            </span>
+
             {/* Type / status icon */}
             <div className={cn(
-                "size-6 rounded-md shrink-0 flex items-center justify-center",
+                "size-6 rounded-md shrink-0 hidden items-center justify-center",
                 isActive
                     ? "bg-primary/20"
                     : isVideo ? "bg-primary/10" : "bg-instructor-bg"
@@ -239,16 +242,11 @@ function LessonRow({
 
             {/* Title */}
             <p className={cn(
-                "text-xs truncate flex-1 leading-snug",
-                isActive ? "text-primary font-medium" : "text-foreground/80"
+                "text-xs truncate leading-snug group-hover/lesson:pl-0.5 transition-all group-hover/lesson:font-medium",
+                isActive ? "text-primary! font-medium" : "text-secondary group-hover/lesson:text-foreground"
             )}>
                 {lesson.title}
             </p>
-
-            {/* Index */}
-            <span className="text-[10px] font-mono text-muted-foreground/40 shrink-0 tabular-nums">
-                {String(lessonIndex + 1).padStart(2, '0')}
-            </span>
         </div>
     )
 
