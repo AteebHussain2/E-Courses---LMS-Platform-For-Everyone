@@ -1,6 +1,7 @@
-import { Bell, Settings } from "lucide-react";
+import { ArrowLeft, Bell, Settings } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 export const TopbarUserButton = () => {
     return (
@@ -31,3 +32,21 @@ export const TopbarSettingsButton = () => {
         </Button>
     )
 };
+
+export const TopbarBackButton = ({ href, text }: { href: string, text: string }) => {
+    return (
+        <Button
+            variant='ghost'
+            asChild
+            className="py-4! px-5! transition-colors rounded-full border border-border"
+        >
+            <Link
+                href={href}
+                className="flex items-center gap-3 text-foreground font-normal hover:text-foreground cursor-pointer"
+            >
+                <ArrowLeft className="size-3.5" />
+                <span>{text}</span>
+            </Link>
+        </Button>
+    )
+}
