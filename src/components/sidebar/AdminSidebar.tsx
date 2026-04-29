@@ -19,7 +19,7 @@ const AdminSidebar = ({ slug, name, logo, role }: Props) => {
     const path = usePathname();
 
     return (
-        <Sidebar collapsible="icon" className="border-none! pt-4! px-1! gap-4.5! font-heading">
+        <Sidebar collapsible="icon" className="border-none! pt-4! pl-1! pr-4! gap-4.5! font-heading">
             <SidebarHeader className="flex! flex-row! items-center gap-0!">
                 {logo && <Image
                     width={28}
