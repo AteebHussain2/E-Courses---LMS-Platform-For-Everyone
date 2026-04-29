@@ -4,6 +4,7 @@ import { getModulesAction } from "@/actions/modules";
 import { getCourseAction } from "@/actions/courses";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import CourseTopbar from "@/components/topbar/CourseTopbar";
 
 type Props = {
     params: Promise<{ communitySlug: string; courseId: string }>
@@ -28,16 +29,19 @@ export default async function LessonLayout({ params, children }: Props) {
     if (!enrollment) redirect(`/${communitySlug}/course/${courseId}`)
 
     return (
-        <div className="flex h-[calc(100vh-4.5rem)] overflow-hidden">
+        <div className="max-h-screen flex flex-row flex-1 items-start justify-center">
             <LessonSidebar
                 modules={modules}
                 course={course}
                 communitySlug={communitySlug}
             />
 
-            <main className="flex-1 overflow-y-auto bg-background">
-                {children}
-            </main>
+            <div className="relative w-full max-h-screen mr-3">
+                <CourseTopbar communitySlug={communitySlug} courseSlug={course.slug} />
+                <main className="px-10 py-4 space-y-3 bg-background w-full min-h-[calc(100vh-84px)] h-full border-x border-border">
+                    {children}
+                </main>
+            </div>
         </div>
     )
 }

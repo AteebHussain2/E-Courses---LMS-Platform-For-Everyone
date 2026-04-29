@@ -33,7 +33,7 @@ export default async function RootLayout({ params, children }: Props) {
                 logo={seoData.community.logo}
                 role={Role.STUDENT}
             />
-            <div className="relative w-full max-h-screen mt-3 mx-3">
+            <div className="relative w-full max-h-screen mt-3 mr-3">
                 <main className="overflow-clip space-y-5 bg-background w-full min-h-[calc(100vh-12px)] h-full border-x border-t border-border rounded-t-[20px]">
                     {children}
                 </main>
