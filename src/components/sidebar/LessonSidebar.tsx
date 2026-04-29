@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronDown, CheckCircle2, Circle, Radio, Video, Lock, BookOpen, X, PanelLeftClose, PanelLeft } from "lucide-react";
+import { ChevronDown, CheckCircle2, Circle, Radio, Video, Lock, BookOpen, X, PanelLeftClose, PanelLeft, ArrowLeft } from "lucide-react";
 import { ModuleWithLessons, CourseWithInstructorAndCount } from "@/lib/types";
 import { LessonStatus, LessonType } from "@/generated/prisma/enums";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,10 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { SidebarUserItem } from "./SidebarItem";
+import { Progress } from "../ui/progress";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 
 type Props = {
     modules: ModuleWithLessons[]
@@ -45,41 +49,56 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
     )
 
     return (
-        <aside className={cn(
-            "flex flex-col border-r border-border bg-sidebar transition-[width] duration-200 ease-in-out overflow-hidden shrink-0",
-            collapsed ? "w-0 border-0" : "w-72 xl:w-80"
-        )}>
-            {/* Course header */}
-            <div className="flex items-center gap-3 px-4 py-4 border-b border-border shrink-0">
-                {course.imageUrl && (
-                    <Image
-                        src={course.imageUrl}
-                        alt={course.title}
-                        width={40}
-                        height={40}
-                        className="rounded-md size-10 object-cover shrink-0"
-                    />
-                )}
-                <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-foreground truncate leading-snug">
+        <Sidebar collapsible="icon" className="border-none! pt-6! gap-4.5 font-heading">
+            <SidebarHeader className="flex! flex-row! items-center gap-0! px-4.5!">
+                {course.imageUrl && <Image
+                    width={40}
+                    height={40}
+                    alt={course.title}
+                    src={course.imageUrl}
+                    className="mr-3 rounded-sm aspect-square object-cover"
+                />}
+                <div className="flex items-start flex-col">
+                    <p className="text-sm font-semibold text-foreground line-clamp-2 leading-snug">
                         {course.title}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                        {publishedLessons} / {totalLessons} lessons
+                    <p className="text-xs text-secondary line-clamp-2 leading-snug">
+                        {totalLessons} lesson{totalLessons !== 1 ? 's' : ''}
                     </p>
                 </div>
-                <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={() => setCollapsed(true)}
-                    className="shrink-0 cursor-pointer"
-                >
-                    <PanelLeftClose className="size-4" />
-                </Button>
-            </div>
+            </SidebarHeader>
 
-            {/* Module list */}
-            <div className="flex-1 overflow-y-auto py-2 no-scrollbar">
+            <SidebarMenu>
+                <SidebarMenuItem className="py-4 px-3.5! flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                        <p className="font-heading text-sm text-secondary font-semibold pb-1">Course Progress</p>
+                        <p className="text-xs text-foreground font-medium">
+                            {Math.round((publishedLessons / totalLessons) * 100)}%
+                        </p>
+                    </div>
+                    <Progress className="" value={(publishedLessons / totalLessons) * 100} /> {/*TODO: replace published lessons with completed lessons*/}
+                    <p className="text-muted text-xs">Start watching to raise the bar!</p>
+                </SidebarMenuItem>
+            </SidebarMenu>
+
+            <SidebarMenu className="hidden">
+                <SidebarMenuItem className="py-4 px-3.5!">
+                    <SidebarMenuButton
+                        asChild
+                        className="h-full py-3! pl-6! transition-colors rounded-full border border-border"
+                    >
+                        <Link
+                            href={`/${communitySlug}/courses/${course.slug}`}
+                            className="flex items-center gap-3 text-foreground font-normal hover:text-foreground cursor-pointer"
+                        >
+                            <ArrowLeft className="size-3.5" />
+                            <span>Go back to course</span>
+                        </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarMenu>
+
+            <SidebarContent className="p-0! gap-4.5!">
                 {modules.map((module, moduleIndex) => (
                     <ModuleRow
                         key={module.id}
@@ -94,19 +113,14 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                         courseId={course.id}
                     />
                 ))}
-            </div>
+            </SidebarContent>
 
-            {/* Back to course */}
-            <div className="px-4 py-3 border-t border-border shrink-0">
-                <Link
-                    href={`/${communitySlug}/course/${course.id}`}
-                    className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                >
-                    <BookOpen className="size-3.5" />
-                    Back to course
-                </Link>
-            </div>
-        </aside>
+            <SidebarFooter className="pl-4.5!">
+                <SidebarMenu>
+                    <SidebarUserItem path={pathname} />
+                </SidebarMenu>
+            </SidebarFooter>
+        </Sidebar>
     )
 }
 
@@ -148,56 +162,58 @@ function ModuleRow({
     const hasActiveLesson = module.lessons.some(l => l.id === activeLessonId)
 
     return (
-        <div>
-            {/* Module header */}
-            <button
-                type="button"
-                onClick={onToggle}
+        <Collapsible open={isOpen} onOpenChange={onToggle} className="group/collapsible px-2!">
+            <SidebarGroup
                 className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-sidebar-accent transition-colors",
-                    hasActiveLesson && !isOpen && "bg-primary/5"
+                    "p-0! flex border-border/40 group-data-[state=open]/collapsible:border-border border rounded-sm overflow-clip",
                 )}
             >
-                <span className={cn(
-                    "shrink-0 size-5 rounded-full text-[10px] font-mono font-semibold flex items-center justify-center",
-                    hasActiveLesson
-                        ? "bg-primary/20 text-primary"
-                        : "bg-muted text-muted-foreground"
-                )}>
-                    {String(moduleIndex + 1).padStart(2, '0')}
-                </span>
+                <SidebarGroupLabel
+                    asChild
+                    className={cn("py-2! px-3! flex-1 h-full hover:bg-sidebar-accent rounded-none transition-all group-data-[state=open]/collapsible:bg-sidebar-accent",
+                        hasActiveLesson && "bg-sidebar-accent"
+                    )}
+                >
+                    <CollapsibleTrigger className="gap-4 text-left">
+                        <span>
+                            {String(moduleIndex + 1).padStart(2, '0')}
+                        </span>
 
-                <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-foreground truncate">
-                        {module.title}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
-                        {module.lessons.length} lesson{module.lessons.length !== 1 ? 's' : ''}
-                    </p>
-                </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-xs font-medium text-foreground truncate">
+                                {module.title}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground mt-0.5">
+                                {module.lessons.length} lesson{module.lessons.length !== 1 ? 's' : ''}
+                            </p>
+                        </div>
 
-                <ChevronDown className={cn(
-                    "size-3.5 text-muted-foreground shrink-0 transition-transform duration-150",
-                    isOpen && "rotate-180"
-                )} />
-            </button>
+                        <p className={cn("text-xs font-medium", completedCount > 0 ? 'text-status-success' : 'text-muted')}>
+                            {module.lessons.length !== 0 ? Math.round((completedCount / module.lessons.length) * 100) : '0'}%
+                        </p>
 
-            {/* Lessons */}
-            {isOpen && (
-                <div className="pb-1">
-                    {module.lessons.map((lesson, lessonIndex) => (
-                        <LessonRow
-                            key={lesson.id}
-                            lesson={lesson}
-                            lessonIndex={lessonIndex}
-                            isActive={lesson.id === activeLessonId}
-                            communitySlug={communitySlug}
-                            courseId={courseId}
-                        />
-                    ))}
-                </div>
-            )}
-        </div>
+                        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                    </CollapsibleTrigger>
+                </SidebarGroupLabel>
+
+                <CollapsibleContent
+                    className={cn("border-t border-border")}
+                >
+                    <SidebarGroupContent>
+                        {module.lessons.map((lesson, lessonIndex) => (
+                            <LessonRow
+                                key={lesson.id}
+                                lesson={lesson}
+                                lessonIndex={lessonIndex}
+                                isActive={lesson.id === activeLessonId}
+                                communitySlug={communitySlug}
+                                courseId={courseId}
+                            />
+                        ))}
+                    </SidebarGroupContent>
+                </CollapsibleContent>
+            </SidebarGroup>
+        </Collapsible>
     )
 }
 
