@@ -3,7 +3,7 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import { ModuleWithLessons, CourseWithInstructorAndCount } from "@/lib/types";
-import { ChevronDown, Radio, Video, Lock, ArrowLeft } from "lucide-react";
+import { ChevronDown, Radio, Video, Lock, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { LessonStatus, LessonType } from "@/generated/prisma/enums";
 import { SidebarUserItem } from "./SidebarItem";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,7 @@ import { Progress } from "../ui/progress";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useProgress } from "@/hooks/use-progress";
 
 type Props = {
     modules: ModuleWithLessons[]
@@ -21,6 +22,7 @@ type Props = {
 
 export default function LessonSidebar({ modules, course, communitySlug }: Props) {
     const pathname = usePathname()
+    const { getLessonProgress, getModuleProgress } = useProgress(course.id)
 
     // Extract active lessonId from path: /course/[courseId]/lesson/[lessonId]
     const activeLessonId = pathname.split('/lesson/')[1]?.split('/')[0] ?? ''
@@ -45,6 +47,11 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
     const publishedLessons = modules.reduce(
         (acc, m) => acc + m.lessons.filter(l => l.status === LessonStatus.PUBLISHED).length, 0
     )
+
+    const totalCompleted = modules
+        .flatMap(m => m.lessons.map(l => l.id))
+        .filter(id => getLessonProgress(id).isComplete).length
+
 
     return (
         <Sidebar collapsible="icon" className="border-none! pt-6! gap-4.5 font-heading">
@@ -71,10 +78,10 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                     <div className="flex items-center justify-between">
                         <p className="font-heading text-sm text-secondary font-semibold pb-1">Course Progress</p>
                         <p className="text-xs text-foreground font-medium">
-                            {Math.round((publishedLessons / totalLessons) * 100)}% {/*TODO: replace published lessons with completed lessons*/}
+                            {totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}% {/*TODO: replace published lessons with completed lessons*/}
                         </p>
                     </div>
-                    <Progress value={(publishedLessons / totalLessons) * 100} /> {/*TODO: replace published lessons with completed lessons*/}
+                    <Progress value={totalLessons > 0 ? (totalCompleted / totalLessons) * 100 : 0} /> {/*TODO: replace published lessons with completed lessons*/}
                     <p className="text-muted text-xs">Start watching to raise the bar!</p>
                 </SidebarMenuItem>
             </SidebarMenu>
@@ -104,6 +111,8 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                         activeLessonId={activeLessonId}
                         communitySlug={communitySlug}
                         courseId={course.id}
+                        getLessonProgress={getLessonProgress}
+                        getModuleProgress={getModuleProgress}
                     />
                 ))}
             </SidebarContent>
@@ -127,6 +136,8 @@ function ModuleRow({
     activeLessonId,
     communitySlug,
     courseId,
+    getLessonProgress,
+    getModuleProgress,
 }: {
     module: ModuleWithLessons
     moduleIndex: number
@@ -135,8 +146,10 @@ function ModuleRow({
     activeLessonId: string
     communitySlug: string
     courseId: string
+    getLessonProgress: (id: string) => { percent: number; isComplete: boolean; completedAt: string | null }
+    getModuleProgress: (ids: string[]) => { completed: number; total: number; percent: number }
 }) {
-    const completedCount = 0  // TODO: wire up LessonCompletion once progress tracking is added
+    const { completed: completedCount } = getModuleProgress(module.lessons.map(l => l.id))
     const hasActiveLesson = module.lessons.some(l => l.id === activeLessonId)
 
     return (
@@ -184,6 +197,7 @@ function ModuleRow({
                                 lesson={lesson}
                                 lessonIndex={lessonIndex}
                                 isActive={lesson.id === activeLessonId}
+                                isComplete={getLessonProgress(lesson.id).isComplete}
                                 communitySlug={communitySlug}
                                 courseId={courseId}
                             />
@@ -203,12 +217,14 @@ function LessonRow({
     isActive,
     communitySlug,
     courseId,
+    isComplete,
 }: {
     lesson: ModuleWithLessons['lessons'][number]
     lessonIndex: number
     isActive: boolean
     communitySlug: string
     courseId: string
+    isComplete: boolean
 }) {
     const isPublished = lesson.status === LessonStatus.PUBLISHED
     const isVideo = lesson.type === LessonType.VIDEO
@@ -221,9 +237,14 @@ function LessonRow({
                 : "border-l-2 border-transparent",
             !isPublished && "opacity-50 cursor-not-allowed"
         )}>
-            <span className="text-[10px] font-mono text-muted-foreground/40 shrink-0 tabular-nums">
-                {String(lessonIndex + 1).padStart(2, '0')}
-            </span>
+            {isComplete ? (
+                <CheckCircle2 className="size-3.5 text-green-400 shrink-0" />
+            ) : (
+                <span className="text-[10px] font-mono text-muted-foreground/40 shrink-0 tabular-nums">
+                    {String(lessonIndex + 1).padStart(2, '0')}
+                </span>
+            )}
+
 
             {/* Type / status icon */}
             <div className={cn(
