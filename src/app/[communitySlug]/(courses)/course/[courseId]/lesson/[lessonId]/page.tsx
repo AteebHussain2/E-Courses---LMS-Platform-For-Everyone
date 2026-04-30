@@ -1,6 +1,5 @@
 import { BookOpen, Clock, Radio, Video } from "lucide-react";
-import SessionView from "@/components/learn/SessionView";
-import VideoPlayer from "@/components/learn/VideoPlayer";
+import LessonPlayer from "@/components/learn/LessonPlayer";
 import { LessonType } from "@/generated/prisma/enums";
 import { getLessonAction } from "@/actions/lessons";
 import { notFound } from "next/navigation";
@@ -47,51 +46,17 @@ export default async function LessonPage({ params }: Props) {
             </div>
 
             {/* Main content */}
-            {isVideo ? (
-                lesson.video?.videoUrl ? (
-                    <VideoPlayer
-                        videoUrl={lesson.video.videoUrl}
-                        title={lesson.title}
-                        thumbnailUrl={lesson.video.imageUrl}
-                    />
-                ) : (
-                    <div className="w-full aspect-video bg-muted/30 rounded-xl flex flex-col items-center justify-center gap-3 border border-dashed border-border">
-                        <Video className="size-10 text-muted/40" strokeWidth={1} />
-                        <p className="text-sm text-muted-foreground">Video not available yet</p>
-                    </div>
-                )
+            {lesson?.video ? (
+                <LessonPlayer
+                    lessonId={lesson.id}
+                    lessonTitle={lesson.title}
+                    courseId={courseId}
+                    video={lesson.video}
+                />
             ) : (
-                lesson.session ? (
-                    <SessionView session={{
-                        ...lesson.session,
-                        recording: null  // TODO: extend getLessonAction to include recording
-                    }} />
-                ) : (
-                    <div className="w-full aspect-video bg-muted/30 rounded-xl flex flex-col items-center justify-center gap-3 border border-dashed border-border">
-                        <Radio className="size-10 text-muted/40" strokeWidth={1} />
-                        <p className="text-sm text-muted-foreground">Session details not available yet</p>
-                    </div>
-                )
-            )}
-
-            {/* Description */}
-            {isVideo && lesson.video?.description && (
-                <div className="space-y-2 pt-2 border-t border-border">
-                    <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                        <BookOpen className="size-3.5" />
-                        About this lesson
-                    </h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                        {lesson.video.description}
-                    </p>
-                </div>
-            )}
-
-            {/* Duration */}
-            {isVideo && lesson.video?.duration && (
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <Clock className="size-3.5" />
-                    {lesson.video.duration} min
+                <div className="w-full aspect-video bg-muted/30 rounded-xl flex flex-col items-center justify-center gap-3 border border-dashed border-border">
+                    <Video className="size-10 text-muted/40" strokeWidth={1} />
+                    <p className="text-sm text-muted-foreground">Video not available yet</p>
                 </div>
             )}
         </div>
