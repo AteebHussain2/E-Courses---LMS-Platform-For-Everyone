@@ -48,7 +48,7 @@ export const CourseSaveButton = ({ communitySlug, courseId, className, side, dis
         },
         onSuccess: ({ saved }) => {
             queryClient.setQueryData(queryKey, saved) // Also invalidate the library list so /library page stays fresh
-            queryClient.invalidateQueries({ queryKey: ['library', user?.id] })
+            queryClient.invalidateQueries({ queryKey: ['library', courseId, user?.id] })
         },
         onError: (error, _vars, ctx) => {
             // Revert optimistic update

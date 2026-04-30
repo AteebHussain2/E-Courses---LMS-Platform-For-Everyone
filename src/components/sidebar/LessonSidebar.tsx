@@ -78,10 +78,10 @@ export default function LessonSidebar({ modules, course, communitySlug }: Props)
                     <div className="flex items-center justify-between">
                         <p className="font-heading text-sm text-secondary font-semibold pb-1">Course Progress</p>
                         <p className="text-xs text-foreground font-medium">
-                            {totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}% {/*TODO: replace published lessons with completed lessons*/}
+                            {totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}%
                         </p>
                     </div>
-                    <Progress value={totalLessons > 0 ? (totalCompleted / totalLessons) * 100 : 0} /> {/*TODO: replace published lessons with completed lessons*/}
+                    <Progress value={totalLessons > 0 ? (totalCompleted / totalLessons) * 100 : 0} />
                     <p className="text-muted text-xs">Start watching to raise the bar!</p>
                 </SidebarMenuItem>
             </SidebarMenu>

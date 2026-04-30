@@ -4,6 +4,7 @@ import CourseSection from "@/components/courses/CourseSection";
 import FeaturedBanner from "@/components/home/FeaturedBanner";
 import { getFeaturedAction } from "@/actions/home";
 import { auth } from "@clerk/nextjs/server";
+import { CourseType } from "@/lib/types";
 
 type Props = {
     params: Promise<{ communitySlug: string }>
@@ -37,6 +38,7 @@ const CoursesPage = async ({ params }: Props) => {
 
             <CourseSection
                 title="Recent Courses"
+                type={CourseType.RECENT}
                 courses={recentCourses}
                 hasMore={hasMoreRecentCourses}
                 limit={RECENT_LIMIT}
@@ -47,6 +49,7 @@ const CoursesPage = async ({ params }: Props) => {
             {enrolledCourses?.length > 0 && (
                 <CourseSection
                     title="Enrolled Courses"
+                    type={CourseType.ENROLLED}
                     courses={enrolledCourses}
                     hasMore={hasMoreEnrolledCourses}
                     limit={RECENT_LIMIT}

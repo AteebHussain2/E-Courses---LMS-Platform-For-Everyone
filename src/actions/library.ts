@@ -3,6 +3,7 @@
 import { SavedCourseItem, SavedSessionItem } from "@/lib/types";
 import { apiHeaders } from "@/lib/api";
 import { getUrl } from "@/lib/utils";
+import { bustCache } from "@/lib/cache";
 
 export type SavedData = {
     courses: SavedCourseItem[]
@@ -19,8 +20,11 @@ export async function toggleSaveAction(
         headers: apiHeaders,
         body: JSON.stringify({ userId, courseId, communitySlug })
     })
+
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || "Failed to update library")
+
+    await bustCache(['library', `library:${userId}`])
 
     return { saved: data.saved }
 }

@@ -1,6 +1,6 @@
-import CourseEnrollNowButton from "@/components/custom/buttons/CourseEnrollNowButton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { CourseSaveButton } from "@/components/custom/buttons/CourseSaveButton";
+import CourseVisitButton from "@/components/custom/buttons/CourseVisitButton";
 import { SavedSessionItem } from "@/lib/types";
 import Image from "next/image";
 
@@ -28,7 +28,7 @@ const SavedSessionCard = ({ session }: { session: SavedSessionItem['session'] })
 
             <CardFooter className="flex flex-1 items-center gap-2">
                 {/* TODO: add buttons to redirect to saved session/course page */}
-                <CourseEnrollNowButton courseSlug={session.id} communitySlug={session.community.slug} />
+                <CourseVisitButton courseSlug={session.id} communitySlug={session.community.slug} />
                 <CourseSaveButton courseId={session.id} communitySlug={session.community.slug} />
             </CardFooter>
         </Card>

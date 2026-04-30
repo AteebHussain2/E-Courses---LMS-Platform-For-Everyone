@@ -19,7 +19,7 @@ const SaveButton = ({ isSession, courseId, sessionId, communitySlug }: SaveButto
     const { user } = useUser()
     const queryClient = useQueryClient()
 
-    const queryKey = ['saved', courseId ?? sessionId ?? "error", user?.id]
+    const queryKey = ['saved', courseId ?? sessionId, user?.id]
 
     // Fetch current saved state
     const { data: isSaved = false, isLoading: isChecking } = useQuery({
@@ -59,7 +59,7 @@ const SaveButton = ({ isSession, courseId, sessionId, communitySlug }: SaveButto
         onSuccess: ({ saved }) => {
             queryClient.setQueryData(queryKey, saved)
             // Also invalidate the library list so /library page stays fresh
-            queryClient.invalidateQueries({ queryKey: ['library', user?.id] })
+            queryClient.invalidateQueries({ queryKey: ['library', courseId ?? sessionId, user?.id] })
         },
         onError: (error, _vars, ctx) => {
             // Revert optimistic update

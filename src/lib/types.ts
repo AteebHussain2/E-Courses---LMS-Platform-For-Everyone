@@ -124,3 +124,10 @@ export type LessonInModule = {
     index: number
     slug: string
 }
+
+export enum CourseType {
+    ENROLLED,
+    RECENT,
+    SAVED,
+    CONTINUE
+}

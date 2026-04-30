@@ -1,7 +1,9 @@
-import { CourseWithInstructorAndCount } from "@/lib/types";
+import { CourseType, CourseWithInstructorAndCount } from "@/lib/types";
 import StudentCourseCard from "./cards/StudentCourseCard";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import SavedCourseCard from "./cards/SavedCourseCard";
+import EnrolledCourseCard from "./cards/EnrolledCourseCard";
 
 type Props = {
     title: string
@@ -10,9 +12,23 @@ type Props = {
     communitySlug: string
     viewMoreHref: string
     limit: number
+    type: CourseType
 }
 
-const CourseSection = ({ title, courses, hasMore, communitySlug, limit, viewMoreHref }: Props) => {
+const CourseSection = ({ title, courses, hasMore, limit, viewMoreHref, type }: Props) => {
+    const getCourseCard = (type: CourseType, course: CourseWithInstructorAndCount) => {
+        switch (type) {
+            case CourseType.ENROLLED:
+                return <EnrolledCourseCard key={course.id} course={course} />
+            case CourseType.RECENT:
+                return <StudentCourseCard key={course.id} course={course} />
+            case CourseType.SAVED:
+                return <SavedCourseCard key={course.id} course={course} />
+            // case CourseType.CONTINUE:
+            //     return <ContinueCourseCard key={course.id} course={course} />
+        }
+    }
+
     return (
         <section className="px-10 py-2 space-y-5">
             <div className="flex items-center justify-between">
@@ -37,9 +53,7 @@ const CourseSection = ({ title, courses, hasMore, communitySlug, limit, viewMore
                 </div>
             ) : (
                 <div className="px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {courses.slice(0, limit).map(course => (
-                        <StudentCourseCard key={course.id} course={course} />
-                    ))}
+                    {courses.slice(0, limit).map(course => getCourseCard(type, course))}
                 </div>
             )}
         </section>

@@ -9,9 +9,7 @@ type EnrollButtonProps = {
     disabled?: boolean,
 }
 
-const CourseEnrollNowButton = ({ courseSlug, communitySlug, className, disabled = false }: EnrollButtonProps) => {
-    // TODO
-    // className="inline-flex flex-1 items-center justify-center gap-2 bg-primary hover:bg-primary/85 transition-colors text-white px-4 py-3 rounded-full text-sm font-medium"
+const CourseVisitButton = ({ courseSlug, communitySlug, className, disabled = false }: EnrollButtonProps) => {
     return (
         <Button
             variant='default'
@@ -28,4 +26,4 @@ const CourseEnrollNowButton = ({ courseSlug, communitySlug, className, disabled 
     )
 }
 
-export default CourseEnrollNowButton
+export default CourseVisitButton

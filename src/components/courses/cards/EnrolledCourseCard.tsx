@@ -1,6 +1,6 @@
+import CourseContinueButton from "@/components/custom/buttons/CourseContinueButton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { CourseSaveButton } from "@/components/custom/buttons/CourseSaveButton";
-import CourseVisitButton from "@/components/custom/buttons/CourseVisitButton";
 import { Book, Clock, GraduationCap, Users2 } from "lucide-react";
 import PriceBadge from "@/components/custom/badge/PriceBadge";
 import { CourseWithInstructorAndCount } from "@/lib/types";
@@ -9,7 +9,7 @@ import { Role } from "@/generated/prisma/enums";
 import { formatDate } from "date-fns";
 import Image from "next/image";
 
-const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount }) => {
+const EnrolledCourseCard = ({ course }: { course: CourseWithInstructorAndCount }) => {
     return (
         <Card className="w-full h-fit p-0! pb-3! gap-4!">
             <CardHeader className="p-0! relative">
@@ -57,11 +57,11 @@ const StudentCourseCard = ({ course }: { course: CourseWithInstructorAndCount })
             </CardContent>
 
             <CardFooter className="flex flex-1 items-center gap-2">
-                <CourseVisitButton courseSlug={course.slug} communitySlug={course.community.slug} />
+                <CourseContinueButton courseId={course.id} communitySlug={course.community.slug} />
                 <CourseSaveButton courseId={course.id} communitySlug={course.community.slug} />
             </CardFooter>
         </Card>
     )
 }
 
-export default StudentCourseCard;
+export default EnrolledCourseCard;
